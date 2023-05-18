@@ -1,0 +1,24 @@
+﻿@model IEnumerable<BeautySalon.Models.Catalog>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2 style="text-align:center">Beauty catalogs</h2>
+<div class="container text-center p-2">
+    <div class="row">
+    @foreach (var item in Model){
+            <div class="col-lg-4 col-md-6 col-sm-12 my-3">
+                <div class="card">
+                    <img src="~/images/beauty.png" title="catalog" alt="catalog" style="width:100%">
+                 <div> 
+                 <h4><b>@Html.DisplayFor(modelItem =>item.Title)</b></h4>
+                 <p>@Html.DisplayFor(modelItem =>item.Description)</p>
+                 <p>@Html.DisplayFor(modelItem =>item.Type)</p>
+                 </div>
+               </div>
+            </div>
+}
+            </div>
+</div>
