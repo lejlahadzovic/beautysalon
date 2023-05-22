@@ -22,5 +22,6 @@ namespace BeautySalon.Context
 
         public DbSet<Catalog> Catalogs { get; set; }
 
+   
     }
 }

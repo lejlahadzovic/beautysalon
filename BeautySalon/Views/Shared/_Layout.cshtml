@@ -13,14 +13,13 @@
     <link href="~/font-awesome/css/regular.min.css" rel="stylesheet" />
 </head>
 <body>
-    <div> @Html.Partial("_Header") </div>
-    
+    <div><partial name="_Header" /></div>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
-    <div> @Html.Partial("_Footer") </div>
+    <div><partial name="_Footer"/></div>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
