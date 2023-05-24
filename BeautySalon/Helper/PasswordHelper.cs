@@ -12,7 +12,6 @@ namespace BeautySalon.Helper
             var byteArray = new byte[16];
             provider.GetBytes(byteArray);
 
-
             return Convert.ToBase64String(byteArray);
         }
 
