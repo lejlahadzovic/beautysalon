@@ -15,7 +15,6 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 builder.Services.AddScoped<IBaseService<UserVM,User,UserVM, UserVM>, UserService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-//builder.Services.AddAutoMapper(typeof(IUserService));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
