@@ -1,4 +1,5 @@
-﻿@model BeautySalon.Contracts.UserVM
+﻿@using BeautySalon.Constants
+@model BeautySalon.Contracts.UserVM
 @{
     ViewBag.Title = "Register";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,14 +10,15 @@
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
-                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Sign Up</h3>
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.SIGN_UP</h3>
+
                         <form id="registration_form" action="@Url.Action("Register", "User")" method="post">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" id="firstName" name="FirstName" class="form-control form-control-lg" value="@Model.FirstName"/>
-                                        <label class="form-label" for="firstName">First Name</label>
+                                        <input type="text" id="firstName" name="FirstName" placeholder="First name" class="form-control form-control-lg" value="@Model.FirstName"/>
+                                        <label class="form-label" for="firstName">@Messages.FIRST_NAME_LABEL</label>
                                         <br />
                                          @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
                                     </div>
@@ -25,8 +27,8 @@
                                 <div class="col-md-6 mb-4">
 
                                     <div class="form-outline">
-                                        <input type="text" id="lastName" name="LastName" class="form-control form-control-lg" value="@Model.LastName"/>
-                                        <label class="form-label" for="lastName">Last Name</label>
+                                        <input type="text" id="lastName" name="LastName" placeholder="Last name" class="form-control form-control-lg" value="@Model.LastName" />
+                                        <label class="form-label" for="lastName">@Messages.LAST_NAME_LABEL</label>
                                         <br />
                                            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
                                     </div>
@@ -38,8 +40,8 @@
                                 <div class="col-md-6 mb-4 d-flex align-items-center">
                                    
                                    <div class="form-outline datepicker w-100">
-                                        <input type="date" name="BirthDate" class="form-control form-control-lg" id="birthdayDate" value="@Model.BirthDate"/>
-                                        <label for="birthdayDate" class="form-label">Birthday</label>
+                                        <input type="date" name="BirthDate" class="form-control form-control-lg" id="birthdayDate " value="@Model.BirthDate"/>
+                                        <label for="birthdayDate" class="form-label">@Messages.BIRTH_DATE_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.BirthDate, "", new { @class = "text-danger" })
                                    </div>
@@ -74,8 +76,8 @@
                                 <div class="col-md-6 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="text" id="emailAddress" name="Email" class="form-control form-control-lg" value="@Model.Email"/>
-                                        <label class="form-label" for="emailAddress">Email</label>
+                                        <input type="text" id="emailAddress" name="Email" placeholder="example@mail.com" class="form-control form-control-lg" value="@Model.Email" />
+                                        <label class="form-label" for="emailAddress">@Messages.EMAIL_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                                     </div>
@@ -83,8 +85,8 @@
                                 </div>
                                 <div class="col-md-6 mb-4 pb-2">
                                   <div class="form-outline">
-                                        <input type="password" id="password" name="Password" class="form-control form-control-lg" value="@Model.Password"/>
-                                        <label class="form-label" for="password">Password</label>
+                                        <input type="password" id="password" name="Password"  placeholder="Password" class="form-control form-control-lg" value="@Model.Password"/>
+                                        <label class="form-label" for="password">@Messages.PASSWORD_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                                     </div>
@@ -92,16 +94,16 @@
                                 <div class="col-md-6 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="tel" id="phoneNumber" name="PhoneNumber" class="form-control form-control-lg" value="@Model.PhoneNumber"/>
-                                        <label class="form-label" for="phoneNumber">Phone Number</label>
+                                        <input type="tel" id="phoneNumber" name="PhoneNumber" placeholder="000 000 000" class="form-control form-control-lg" value="@Model.PhoneNumber" />
+                                        <label class="form-label" for="phoneNumber">@Messages.PHONE_NUMBER_LABEL</label>
                                     </div>
 
                                 </div>
                                 <div class="col-md-6 mb-4 pb-2">
 
                                     <div class="form-outline">
-                                        <input type="password" id="confrimPassword" name="ConfirmPassword" class="form-control form-control-lg" value="@Model.ConfirmPassword"/>
-                                        <label class="form-label" for="confrimPassword">Confrim Password</label>
+                                        <input type="password" id="confrimPassword" name="ConfirmPassword" placeholder="Confirm password" class="form-control form-control-lg" value="@Model.ConfirmPassword" />
+                                        <label class="form-label" for="confrimPassword">@Messages.CONFRIM_PASWORD_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                                     </div>

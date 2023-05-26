@@ -1,11 +1,12 @@
-﻿<footer>
+﻿@using BeautySalon.Constants;
+<footer>
         <div class="container py-5 text-white">
             <div class="row py-4">
                 <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
                     <ul class="list-inline mt-4">
-                    <li class="mb-2">Contacts</li>
-                    <li class="mb-2">email@example.com</li>
-                    <li class="mb-2">000-000-000</li>
+                    <li class="mb-2">@Messages.CONTACT</li>
+                    <li class="mb-2">@Messages.EMAIL</li>
+                    <li class="mb-2">@Messages.PHONE_NUMBER</li>
                     <li class="list-inline-item mt-2">
                         <a href="https://www.instagram.com/" target=”_blank”>
                             <i class="fa-brands fa-instagram text-white"></i>
@@ -19,7 +20,7 @@
                 </div>
                
             <div class="col-lg-4 col-md-6 mb-lg-0 mt-4">
-                    <h6 class="text-uppercase font-weight-bold mb-4">Newsletter</h6>
+                    <h6 class="text-uppercase font-weight-bold mb-4">@Messages.NEWSLETTER</h6>
                     <div class="p-1 rounded border">
                         <div class="input-group">
                             <input type="email" placeholder="Enter your email address" aria-describedby="button-addon1" class="form-control border-0 shadow-0">
@@ -34,7 +35,7 @@
 
         <div class="bg-light py-4">
             <div class="container text-center">
-            <p class="text-muted mb-0 py-2">© 2023 - BeautySalon - All rights reserved.</p>
+            <p class="text-muted mb-0 py-2">@Messages.RIGHTS_RESERVED</p>
             </div>
         </div>
 </footer>

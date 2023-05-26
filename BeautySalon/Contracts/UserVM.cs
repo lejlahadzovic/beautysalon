@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using BeautySalon.Constants;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,7 +19,7 @@ namespace BeautySalon.Contracts
         public string LastName { get; set; }
 
         [Required]
-        [RegularExpressionAttribute(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", ErrorMessage = "Invalid Email Address")]
+        [RegularExpressionAttribute(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",ErrorMessage= Messages.EMAIL_INVALID_ERROR_MESSAGE)]
         public string Email { get; set; }
 
         public string PhoneNumber { get; set; }
@@ -31,12 +32,11 @@ namespace BeautySalon.Contracts
         public byte[]? Photo { get; set; }
 
         [Required]
-        [RegularExpressionAttribute(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage ="Password not strong enough")]
+        [RegularExpressionAttribute(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage =Messages.PASSWORD_ERROR_MESSAGE)]
         public string Password { get; set; }
 
-        [NotMapped]
         [Required]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "Password Not Matched")]
+        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = Messages.CONFRIM_PASSWORD_ERROR_MESSAGE)]
         public string ConfirmPassword { get; set; }
     }
 }

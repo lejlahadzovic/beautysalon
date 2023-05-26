@@ -1,20 +1,21 @@
-﻿using BeautySalon.Context;
+﻿using BeautySalon.Constants;
+using BeautySalon.Context;
 using BeautySalon.Contracts;
-using BeautySalon.Models;
-using Microsoft.AspNetCore.Mvc;
 using BeautySalon.Helper;
-using System.Security.Cryptography;
-using System.Text;
+using BeautySalon.Models;
+using BeautySalon.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Controllers
 {
     public class UserController : Controller
     {
         private readonly ApplicationDbContext _dbContext;
-
-        public UserController(ApplicationDbContext dbContext)
+        protected new readonly IBaseService<UserVM, User, UserVM, UserVM> _service;
+        public UserController(ApplicationDbContext dbContext, IBaseService<UserVM, User, UserVM, UserVM> service)
         {
             _dbContext = dbContext;
+            _service = service;
         }
 
         [HttpGet]
@@ -25,8 +26,8 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public ActionResult Register(UserVM newUser)
-        { 
+        public async Task<ActionResult> Register(UserVM newUser)
+        {
             if (!ModelState.IsValid)
             {
                 return View(newUser);
@@ -34,23 +35,18 @@ namespace BeautySalon.Controllers
             var isEmailAlreadyExists = _dbContext.Users.Any(x => x.Email == newUser.Email);
             if (isEmailAlreadyExists)
             {
-                ModelState.AddModelError("Email", "User with this email already exists");
+                ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
                 return View(newUser);
             }
-            User user = new User();
-            _dbContext.Add(user);
-            user.FirstName = newUser.FirstName;
-            user.LastName = newUser.LastName;
-            user.Email = newUser.Email;
-            user.PhoneNumber = newUser.PhoneNumber;
-            user.Gender = newUser.Gender;
-            user.BirthDate = newUser.BirthDate;
-            user.PasswordSalt = PasswordHelper.GenerateSalt();
-            user.PasswordHash = PasswordHelper.GenerateHash(user.PasswordSalt, newUser.Password);
-            _dbContext.SaveChanges();
-          
-            return Ok();
+
+            var user = await _service.Insert(newUser);
+            if(user != null)
+            {
+                return RedirectToAction("Index", "Catalog");  // TODO: Redirect to Login page
+            }
+
+            // TODO: Add message that user is not registered
+            return View(newUser);
         }
-  
     }
 }
