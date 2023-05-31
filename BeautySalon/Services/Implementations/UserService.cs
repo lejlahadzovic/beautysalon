@@ -4,14 +4,18 @@ using BeautySalon.Contracts;
 using BeautySalon.Helper;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace BeautySalon.Services.Implementations
 {
-    public class UserService:BaseService<UserVM,User,UserVM, UserVM> 
+    public class UserService : BaseService<UserVM, User, UserVM, UserVM>
     {
-
-        public UserService(ApplicationDbContext dbContext,IMapper mapper):base(dbContext, mapper)
+        private const string RoleName = "Customer";
+        public UserService(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
         }
         public override async Task<User> Insert(UserVM insert)
@@ -20,12 +24,30 @@ namespace BeautySalon.Services.Implementations
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
             entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, insert.Password);
-            entity.RoleId = 1;   // TODO : find id of role 'Customer' 
+            entity.RoleId = _dbContext.Roles.Where(x => x.Name.Contains(RoleName)).ToList().Select(x=>x.Id).First();
             set.Add(entity);
             await _dbContext.SaveChangesAsync();
 
             return entity;
         }
 
+        [HttpPost]
+        public async Task<User> Login(UserLoginVM loginUser)
+        {
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
+           
+            if (entity == null)
+            {
+                return null;
+            }
+            var hash = PasswordHelper.GenerateHash(entity.PasswordSalt, loginUser.Password);
+
+            if (entity == null || hash != entity.PasswordHash)
+            {
+                return null;
+            }
+            
+            return entity;
+        }
     }
 }

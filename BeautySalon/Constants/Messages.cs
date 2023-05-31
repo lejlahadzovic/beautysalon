@@ -11,6 +11,10 @@ namespace BeautySalon.Constants
 
         public const string LOG_IN = "LOG IN";
 
+        public const string INVALID_CREDIENTIAL = "Invalid Credential";
+
+        public const string LOG_OUT = "LOG OUT";
+
         public const string TITLE = "Beauty Salon";
 
         public const string CONTACT = "Contact";
