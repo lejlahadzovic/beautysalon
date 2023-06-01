@@ -21,11 +21,7 @@ namespace BeautySalon.Services.Implementations
         }
         public override async Task<User> Insert(UserVM insert)
         {
-            var isEmailAlreadyExists = _dbContext.Users.Any(x => x.Email == insert.Email);
-            if (isEmailAlreadyExists)
-            {
-                return null;
-            }
+         
             var set = _dbContext.Set<User>();
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
@@ -36,12 +32,18 @@ namespace BeautySalon.Services.Implementations
 
             return entity;
         }
+        public async Task<User> CheckEmail(UserVM loginUser)
+        {
+           var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
+
+            return entity;
+        }
 
         [HttpPost]
         public async Task<User> Login(UserLoginVM loginUser)
         {
             var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
-           
+
             if (entity == null)
             {
                 return null;

@@ -42,7 +42,12 @@ namespace BeautySalon.Controllers
             {  
                 return View(newUser);
             }
-       
+            var entity = await _userService.CheckEmail(newUser);
+            if(entity != null)
+            {
+                ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
+                return View(newUser);
+            }
             var user = await _service.Insert(newUser);
             if(user != null)
             {
