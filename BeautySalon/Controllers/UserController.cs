@@ -40,16 +40,9 @@ namespace BeautySalon.Controllers
         {
             if (!ModelState.IsValid)
             {  
-                TempData["message"] = "User is not registered successfully.";
                 return View(newUser);
             }
-            var isEmailAlreadyExists = _dbContext.Users.Any(x => x.Email == newUser.Email);
-            if (isEmailAlreadyExists)
-            {
-                ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
-                return View(newUser);
-            }
-
+       
             var user = await _service.Insert(newUser);
             if(user != null)
             {
@@ -64,27 +57,33 @@ namespace BeautySalon.Controllers
         public ActionResult Login()
         {
             UserLoginVM user = new UserLoginVM();
+        
             return View(user);
         }
 
         [HttpPost]
         public async Task<ActionResult> Login(UserLoginVM loginUser)
         {
-            var entity=await _userService.Login(loginUser);
-            
-            if (entity == null)
+            if (!ModelState.IsValid)
             {
-                ViewBag.Message =Messages.INVALID_CREDIENTIAL;
                 return View(loginUser);
             }
 
-            var claims = new List<Claim>
+            var entity=await _userService.Login(loginUser);
+
+            if (entity == null)
             {
-            new Claim(ClaimTypes.Name, entity.Email),
-            new Claim(ClaimTypes.Role, "Administrator"),
+                ViewBag.Message = Messages.INVALID_CREDIENTIAL;
+                return View(loginUser);
+            }
+         
+            var claims = new List<Claim>() {
+            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(entity.Id)),
+            new Claim(ClaimTypes.Email, entity.Email),
             };
+
             var claimsIdentity = new ClaimsIdentity(
-                claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(claimsIdentity);
             await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
@@ -92,8 +91,7 @@ namespace BeautySalon.Controllers
                 IsPersistent = loginUser.RememberLogin
             });
 
-            return RedirectToAction("Index", "Catalog");
-            
+            return RedirectToAction("Index","Catalog");
         }
 
         public async Task<ActionResult> LogOut()

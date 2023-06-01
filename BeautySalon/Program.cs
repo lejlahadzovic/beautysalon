@@ -14,13 +14,13 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Add services to the container.
 builder.Services.AddScoped<IBaseService<UserVM,User,UserVM, UserVM>, UserService>();
 builder.Services.AddScoped<UserService>();
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
-x.LoginPath="/account/login");
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-// Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
+x.LoginPath="/User/Login");
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -35,16 +35,16 @@ var cookiePolicyOptions = new CookiePolicyOptions
     MinimumSameSitePolicy = SameSiteMode.Strict,
 };
 app.UseCookiePolicy(cookiePolicyOptions);
-
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
+app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=User}/{action=Login}/{id?}");
-
+app.UseEndpoints(endpoints =>
+{
+    app.MapControllerRoute(
+        name: "default",
+        pattern: "{controller=User}/{action=Login}/{id?}");
+});
 app.Run();

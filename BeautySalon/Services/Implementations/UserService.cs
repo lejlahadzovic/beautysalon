@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
+using BeautySalon.Constants;
 
 namespace BeautySalon.Services.Implementations
 {
@@ -20,6 +21,11 @@ namespace BeautySalon.Services.Implementations
         }
         public override async Task<User> Insert(UserVM insert)
         {
+            var isEmailAlreadyExists = _dbContext.Users.Any(x => x.Email == insert.Email);
+            if (isEmailAlreadyExists)
+            {
+                return null;
+            }
             var set = _dbContext.Set<User>();
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
@@ -42,7 +48,7 @@ namespace BeautySalon.Services.Implementations
             }
             var hash = PasswordHelper.GenerateHash(entity.PasswordSalt, loginUser.Password);
 
-            if (entity == null || hash != entity.PasswordHash)
+            if (hash != entity.PasswordHash)
             {
                 return null;
             }

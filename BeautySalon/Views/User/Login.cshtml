@@ -26,10 +26,11 @@
                                 <br />
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
-                            <!-- Password input --> 
+                            <!-- Password input -->  
                             <div class="form-outline mb-4">
                                 <input type="password" id="loginPassword" name="Password" class="form-control" />
                                 <label class="form-label" for="form2Example2">Password</label>
+                                <br />
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>  
                             <!-- Remember login --> 

@@ -21,5 +21,7 @@ namespace BeautySalon.Controllers
         {
             return View(_dbContext.Catalogs);
         }
+
+
     }
 }
