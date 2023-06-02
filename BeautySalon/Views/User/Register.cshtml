@@ -11,7 +11,8 @@
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.SIGN_UP</h3>
-
+                        <h5 class="text-danger">@TempData["message"]</h5>
+                        <br />
                         <form id="registration_form" action="@Url.Action("Register", "User")" method="post">
                             <div class="row">
                                 <div class="col-md-6 mb-4">
@@ -40,7 +41,7 @@
                                 <div class="col-md-6 mb-4 d-flex align-items-center">
                                    
                                    <div class="form-outline datepicker w-100">
-                                        <input type="date" name="BirthDate" class="form-control form-control-lg" id="birthdayDate " value="@Model.BirthDate"/>
+                                        <input type="date" id="birthdayDate" name="BirthDate" class="form-control form-control-lg" value="@Model.BirthDate.ToString("yyyy-MM-dd")" />
                                         <label for="birthdayDate" class="form-label">@Messages.BIRTH_DATE_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.BirthDate, "", new { @class = "text-danger" })

@@ -19,7 +19,7 @@ namespace BeautySalon.Contracts
         public string LastName { get; set; }
 
         [Required]
-        [RegularExpressionAttribute(@"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",ErrorMessage= Messages.EMAIL_INVALID_ERROR_MESSAGE)]
+        [RegularExpression("^[a-zA-Z0-9_\\.-]+@([a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$", ErrorMessage = Messages.EMAIL_INVALID_ERROR_MESSAGE )]
         public string Email { get; set; }
 
         public string PhoneNumber { get; set; }

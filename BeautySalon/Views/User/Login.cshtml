@@ -1,0 +1,58 @@
+﻿@using BeautySalon.Constants
+@model BeautySalon.Contracts.UserLoginVM
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="vh-100 gradient-custom" style="margin-bottom:300px;">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-5">
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.LOG_IN</h3>
+                        @if (!string.IsNullOrEmpty(ViewBag.Message))
+                        {
+                            <span class="text-danger">
+                                @ViewBag.Message
+                            </span>
+                        }
+                        <br />
+                        <form id="login_form" action="@Url.Action("Login", "User")" method="post">
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                                <input type="email" id="loginEmail" name="Email" class="form-control" value="@Model.Email" />
+                                <label class="form-label" for="form2Example1">Email address</label>
+                                <br />
+                                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+                            </div>
+                            <!-- Password input -->  
+                            <div class="form-outline mb-4">
+                                <input type="password" id="loginPassword" name="Password" class="form-control" />
+                                <label class="form-label" for="form2Example2">Password</label>
+                                <br />
+                                @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
+                            </div>  
+                            <!-- Remember login --> 
+                            <div class="form-outline mb-4">
+                                <div class="checkbox">
+                                    <label>
+                                        <input asp-for="RememberLogin" /> @Html.DisplayNameFor(model => model.RememberLogin)
+                                    </label>
+                                </div>
+                            </div>
+                            <!-- Submit button -->
+                            <div class="mt-4 pt-2">
+                                <input class="btn btn-success" type="submit" value="Sign In" />
+                            </div>
+                            <!-- Register button -->
+                            <div class="text-center">
+                                <p>Not a member? <a href="@Url.Action("Register", "User")">Register</a></p>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
