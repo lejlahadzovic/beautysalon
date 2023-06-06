@@ -119,12 +119,7 @@ namespace BeautySalon.Controllers
             {
                 var user = await _userService.CheckEmail(forgotPassword.Email);
                
-                if (user == null)
-                {
-                    //If user does not exist or is not confirmed.
-                    return View("ForgotPassword");
-                }
-                else
+                if (user!= null)
                 {
                     var To = user.Email;
                     //Generate password token
@@ -133,8 +128,8 @@ namespace BeautySalon.Controllers
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
                     //HTML Template for Send email
                     string subject = "Your changed password";
-                    string body = "Hi,<br/>br/>We got request for reset your account password. Please click on the below link to reset your password" +
-                    "<br/><br/><a href='" + link + "'>Reset Password link</a>";
+                    string body = "Hi, We got request for reset your account password. Please click on the below link to reset your password" +
+                    " '" + link + "' Reset Password link";
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);
@@ -173,15 +168,8 @@ namespace BeautySalon.Controllers
                 {
                     return RedirectToAction("Login", "User");
                 }
-                else
-                {
-                    return View(model);
-                }
             }
-            else
-            {
                 return View(model);
-            }
         }
     }
 }

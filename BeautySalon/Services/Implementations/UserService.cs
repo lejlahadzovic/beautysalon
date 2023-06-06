@@ -39,14 +39,12 @@ namespace BeautySalon.Services.Implementations
 
         public virtual async Task<User> GetAll()
         {
-
             var list = await _dbContext.Users.ToListAsync();
 
             return _mapper.Map<User>(list);
         }
         public async Task<User> Insert(UserVM insert)
         {
-         
             var set = _dbContext.Users;
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
@@ -89,7 +87,6 @@ namespace BeautySalon.Services.Implementations
             _dbContext.SaveChanges();
         }
 
-        [HttpPost]
         public async Task<User> Login(UserLoginVM loginUser)
         {
             var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
