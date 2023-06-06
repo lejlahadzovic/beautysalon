@@ -32,6 +32,7 @@ namespace BeautySalon.Controllers
         {
             UserVM user = new UserVM();
             user.BirthDate = DateTime.Now;
+
             return View(user);
         }
 
@@ -124,17 +125,20 @@ namespace BeautySalon.Controllers
                     var To = user.Email;
                     //Generate password token
                     var resetCode = Guid.NewGuid().ToString();
+
                     //Create URL with an above token
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
                     //HTML Template for Send email
                     string subject = "Your changed password";
                     string body = "Hi, We got request for reset your account password. Please click on the below link to reset your password" +
                     " '" + link + "' Reset Password link";
+
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);
                 }  
             }
+
             return View();
         }
 
@@ -169,7 +173,8 @@ namespace BeautySalon.Controllers
                     return RedirectToAction("Login", "User");
                 }
             }
-                return View(model);
+
+            return View(model);
         }
     }
 }
