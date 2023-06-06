@@ -128,7 +128,6 @@ namespace BeautySalon.Controllers
                 {
                     var To = user.Email;
                     //Generate password token
-                   
                     var resetCode = Guid.NewGuid().ToString();
                     //Create URL with an above token
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
@@ -136,7 +135,6 @@ namespace BeautySalon.Controllers
                     string subject = "Your changed password";
                     string body = "Hi,<br/>br/>We got request for reset your account password. Please click on the below link to reset your password" +
                     "<br/><br/><a href='" + link + "'>Reset Password link</a>";
-
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);

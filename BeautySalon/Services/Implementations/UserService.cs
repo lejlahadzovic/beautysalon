@@ -32,7 +32,7 @@ namespace BeautySalon.Services.Implementations
 
         public virtual async Task<User> GetByID(int id)
         {
-            var entity = await _dbContext.Set<User>().FindAsync(id);
+            var entity = await _dbContext.Users.FindAsync(id);
 
             return _mapper.Map<User>(entity);
         }
@@ -40,14 +40,14 @@ namespace BeautySalon.Services.Implementations
         public virtual async Task<User> GetAll()
         {
 
-            var list = await _dbContext.Set<User>().ToListAsync();
+            var list = await _dbContext.Users.ToListAsync();
 
             return _mapper.Map<User>(list);
         }
         public async Task<User> Insert(UserVM insert)
         {
          
-            var set = _dbContext.Set<User>();
+            var set = _dbContext.Users;
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
             entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, insert.Password);
@@ -107,7 +107,5 @@ namespace BeautySalon.Services.Implementations
             
             return entity;
         }
-
-        
     }
 }
