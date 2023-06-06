@@ -21,8 +21,8 @@ namespace BeautySalon.Controllers
 {
     public class UserController : Controller
     {
-        protected new readonly UserService _userService;
-        public UserController(UserService userService)
+        protected new readonly IUserService _userService;
+        public UserController(IUserService userService)
         {
             _userService = userService;
         }
