@@ -13,7 +13,10 @@
                         {
                         <a class="nav-link text-white" asp-area="" asp-controller="Catalog" asp-action="Index">@Messages.CATALOG</a>
                         }
-                    </li>
+                        else
+                        { 
+                        <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Register">@Messages.SIGN_UP</a>
+                        }
                     <li class="nav-item">
                         @if (User.Identity.IsAuthenticated)
                         {
@@ -24,9 +27,7 @@
                         <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Login">@Messages.LOG_IN</a>
                         }
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Register">@Messages.SIGN_UP</a>
-                    </li>
+
                 </ul>
             </div>
         </div>

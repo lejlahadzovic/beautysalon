@@ -10,19 +10,42 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using BeautySalon.Constants;
+using Azure.Core;
+using System.Net.Mail;
+using System.Net;
+using System.IO;
+using System;
 
 namespace BeautySalon.Services.Implementations
 {
-    public class UserService : BaseService<UserVM, User, UserVM, UserVM>
+    public class UserService : IUserService
     {
+        protected ApplicationDbContext _dbContext;
+        protected IMapper _mapper { get; set; }
         private const string RoleName = "Customer";
-        public UserService(ApplicationDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
+       
+        public UserService(ApplicationDbContext dbContext, IMapper mapper)
         {
+            _dbContext = dbContext;
+            _mapper = mapper;
         }
-        public override async Task<User> Insert(UserVM insert)
+
+        public virtual async Task<User> GetByID(int id)
         {
-         
-            var set = _dbContext.Set<User>();
+            var entity = await _dbContext.Users.FindAsync(id);
+
+            return _mapper.Map<User>(entity);
+        }
+
+        public virtual async Task<User> GetAll()
+        {
+            var list = await _dbContext.Users.ToListAsync();
+
+            return _mapper.Map<User>(list);
+        }
+        public async Task<User> Insert(UserVM insert)
+        {
+            var set = _dbContext.Users;
             User entity = _mapper.Map<User>(insert);
             entity.PasswordSalt = PasswordHelper.GenerateSalt();
             entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, insert.Password);
@@ -32,14 +55,38 @@ namespace BeautySalon.Services.Implementations
 
             return entity;
         }
-        public async Task<User> CheckEmail(UserVM loginUser)
+        public async Task<User> ResetPassword(ResetPasswordVM model)
         {
-           var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
+            var entity = await CheckResetCode(model.ResetCode);
+            if (entity != null)
+            {
+                entity.PasswordSalt = PasswordHelper.GenerateSalt();
+                entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, model.NewPassword);
+                entity.ResetPasswordCode = "";
+                _dbContext.SaveChanges();
+            }
+
+            return entity;
+        }
+        public async Task<User> CheckEmail(string Email)
+        {
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == Email);
 
             return entity;
         }
 
-        [HttpPost]
+        public async Task<User> CheckResetCode(string code)
+        {
+            var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.ResetPasswordCode == code);
+
+            return entity;
+        }
+        public void ChangeResetPasswordCode(User user,string code)
+        {
+            user.ResetPasswordCode = code;
+            _dbContext.SaveChanges();
+        }
+
         public async Task<User> Login(UserLoginVM loginUser)
         {
             var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
