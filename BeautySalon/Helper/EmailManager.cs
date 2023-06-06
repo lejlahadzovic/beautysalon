@@ -9,8 +9,8 @@ namespace BeautySalon.Helper
         {
             if (To == "")
                 return;
-            String SendMailFrom = "neka.osobaa45@gmail.com";
 
+            String SendMailFrom = "neka.osobaa45@gmail.com";
             SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com", 587);
             SmtpServer.DeliveryMethod = SmtpDeliveryMethod.Network;
             MailMessage email = new MailMessage();
