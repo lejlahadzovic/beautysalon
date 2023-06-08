@@ -4,26 +4,28 @@
         <div class="container-fluid">
             @if (User.Identity.IsAuthenticated)
             {
-                <div class=""><partial name="Menu" /></div>
-            }
+                <div class="">
+                    <partial name="Menu"/>
+                </div>
+            }            
             <div class="ms-auto">
                 <ul class="nav">
-                    <li class="nav-item">
-                        @if (!User.Identity.IsAuthenticated)
-                        { 
-                            <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Register">@Messages.SIGN_UP</a>
-                        }     
-                    </li>
-                    <li class="nav-item">
-                        @if (User.Identity.IsAuthenticated)
-                        {
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Logout">@Messages.LOG_OUT</a>
-                        }
-                        else
-                        {
+                        </li>
+                    }
+                    else
+                    {
+                        <li class="nav-item">
                             <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Login">@Messages.LOG_IN</a>
-                        }
-                    </li>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link text-white" asp-area="" asp-controller="User" asp-action="Register">@Messages.SIGN_UP</a>
+                        </li>
+                    }
                 </ul>
             </div>
         </div>

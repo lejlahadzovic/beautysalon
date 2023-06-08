@@ -5,37 +5,38 @@ html {
     min-height: 100%;
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
 body {
     margin: 0;
-}
-
-.card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    transition: 0.3s;
-    border-radius: 5px; /* 5px rounded corners */
-   
-}
-
-.card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
 }
 
 img {
     border-radius: 5px 5px 0 0;
 }
 
-i{
+i {
     color:black;
+}
+
+header, footer {
+    background-color: #24292f;
 }
 
 .gradient-custom {
     background: linear-gradient(to bottom right)
+}
+
+.card {
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    transition: 0.3s;
+    border-radius: 5px;
+}
+
+    .card:hover {
+        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    }
+
+.card-registration .select-arrow {
+    top: 13px;
 }
 
 .card-registration .select-input.form-control[readonly]:not([disabled]) {
@@ -43,13 +44,6 @@ i{
     line-height: 2.15;
     padding-left: .75em;
     padding-right: .75em;
-}
-
-.card-registration .select-arrow {
-    top: 13px;
-}
-header, footer {
-    background-color: #24292f;
 }
 
 .sidenav {
@@ -90,6 +84,13 @@ header, footer {
     transition: margin-left .5s;
     padding: 16px;
 }
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
 @media screen and (max-height: 450px) {
     .sidenav {
         padding-top: 15px;
@@ -99,4 +100,3 @@ header, footer {
             font-size: 18px;
         }
 }
-
