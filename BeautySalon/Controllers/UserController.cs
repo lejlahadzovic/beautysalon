@@ -16,15 +16,20 @@ using System.Security.Claims;
 using System.Security.Principal;
 using Microsoft.AspNetCore.Identity;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using AutoMapper;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BeautySalon.Controllers
 {
     public class UserController : Controller
     {
         protected new readonly IUserService _userService;
-        public UserController(IUserService userService)
+        protected IMapper _mapper { get; set; }
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -91,6 +96,7 @@ namespace BeautySalon.Controllers
             var claimsIdentity = new ClaimsIdentity(
             claims, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(claimsIdentity);
+            Thread.CurrentPrincipal = principal;
             await HttpContext.SignInAsync(
             CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
             {
@@ -175,6 +181,34 @@ namespace BeautySalon.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Profile()
+        { 
+            var userWithClaims = (ClaimsPrincipal)User;
+            Claim CRole = userWithClaims.Claims.First(c => c.Type == ClaimTypes.Email);
+            var email = CRole.Value;
+            var entity= await _userService.CheckEmail(email);
+            UserUpdateVM user = _mapper.Map<User, UserUpdateVM>(entity);
+            return View(user);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Profile(UserUpdateVM editUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUser);
+            }
+           
+            var user = await _userService.Update(editUser.Email, editUser);
+            if (user != null)
+            {
+                return RedirectToAction("Index", "Catalog");
+            }
+
+            return View(editUser);
         }
     }
 }

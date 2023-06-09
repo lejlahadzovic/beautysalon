@@ -9,6 +9,8 @@ namespace BeautySalon
         public AutoMapperConfiguration()
         {
             CreateMap<UserVM, User>().ReverseMap();
+
+            CreateMap<UserUpdateVM, User>().ReverseMap();
         }
     }
 }

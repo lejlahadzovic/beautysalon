@@ -7,6 +7,7 @@ using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using BeautySalon.Constants;
@@ -15,6 +16,7 @@ using System.Net.Mail;
 using System.Net;
 using System.IO;
 using System;
+using System.Collections.Generic;
 
 namespace BeautySalon.Services.Implementations
 {
@@ -55,6 +57,20 @@ namespace BeautySalon.Services.Implementations
 
             return entity;
         }
+        public async Task<User> Update(string email, UserUpdateVM update)
+        {
+            var entity = await CheckEmail(email);
+            if (entity != null)
+            {
+                _mapper.Map(update, entity);
+                entity.PasswordSalt = PasswordHelper.GenerateSalt();
+                entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, update.Password);
+                _dbContext.Users.Update(entity);
+                await _dbContext.SaveChangesAsync(); 
+            }
+         
+            return entity;
+        }
         public async Task<User> ResetPassword(ResetPasswordVM model)
         {
             var entity = await CheckResetCode(model.ResetCode);
@@ -63,7 +79,7 @@ namespace BeautySalon.Services.Implementations
                 entity.PasswordSalt = PasswordHelper.GenerateSalt();
                 entity.PasswordHash = PasswordHelper.GenerateHash(entity.PasswordSalt, model.NewPassword);
                 entity.ResetPasswordCode = "";
-                _dbContext.SaveChanges();
+                await _dbContext.SaveChangesAsync();
             }
 
             return entity;
