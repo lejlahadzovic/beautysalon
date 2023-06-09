@@ -11,5 +11,6 @@
         public string Type { get; set; }
 
         public byte[]? Photo { get; set; }
+
     }
 }
