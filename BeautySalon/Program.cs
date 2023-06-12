@@ -20,6 +20,9 @@ builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IBaseService<UserVM,User,UserVM, UserVM>, UserService>();
 builder.Services.AddScoped<UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+
+
 builder.Services.AddControllersWithViews();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(x =>
 x.LoginPath="/User/Login");
