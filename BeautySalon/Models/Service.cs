@@ -11,6 +11,5 @@ namespace BeautySalon.Models
         public string Description { get; set; }
         public int CatalogId { get; set; }
         public Catalog Catalog { get; set; }
-
     }
 }
