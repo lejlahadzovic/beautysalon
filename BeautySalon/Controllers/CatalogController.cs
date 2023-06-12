@@ -14,6 +14,7 @@ namespace BeautySalon.Controllers
     public class CatalogController : Controller
     {
         protected new readonly ICatalogService _catalogService;
+        
         public CatalogController(ICatalogService catalogService)
         {
             _catalogService = catalogService;            
@@ -24,6 +25,5 @@ namespace BeautySalon.Controllers
             var catalogs = await _catalogService.GetAll();
             return View(catalogs);
         }
-
     }
 }

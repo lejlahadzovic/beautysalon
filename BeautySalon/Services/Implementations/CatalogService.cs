@@ -12,12 +12,9 @@ namespace BeautySalon.Services.Implementations
 {
     public class CatalogService : ICatalogService
     {
- 
-
         protected ApplicationDbContext _dbContext;
         protected IMapper _mapper { get; set; }
         
-    
         public CatalogService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
@@ -30,6 +27,5 @@ namespace BeautySalon.Services.Implementations
 
             return _mapper.Map<List<CatalogVM>>(list);
         }
-
     }
 }

@@ -11,8 +11,7 @@ namespace BeautySalon.Services.Implementations
     {
         protected ApplicationDbContext _dbContext;
         protected IMapper _mapper { get; set; }
-
-
+        
         public ServiceService(ApplicationDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
