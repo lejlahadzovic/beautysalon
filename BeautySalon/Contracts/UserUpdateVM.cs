@@ -25,13 +25,5 @@ namespace BeautySalon.Contracts
         public DateTime BirthDate { get; set; }
 
         public byte[]? Photo { get; set; }
-
-        [Required]
-        [RegularExpressionAttribute(@"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,15}$", ErrorMessage = Messages.PASSWORD_ERROR_MESSAGE)]
-        public string Password { get; set; }
-
-        [Required]
-        [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = Messages.CONFRIM_PASSWORD_ERROR_MESSAGE)]
-        public string ConfirmPassword { get; set; }
     }
 }

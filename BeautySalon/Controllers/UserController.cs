@@ -1,24 +1,13 @@
 ﻿using BeautySalon.Constants;
-using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Helper;
 using BeautySalon.Models;
-using BeautySalon.Services.Implementations;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Mail;
-using System.Net;
 using System.Security.Claims;
-using System.Security.Principal;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using AutoMapper;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BeautySalon.Controllers
 {
@@ -45,17 +34,17 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Register(UserVM newUser)
         {
             if (!ModelState.IsValid)
-            {  
+            {
                 return View(newUser);
             }
             var entity = await _userService.CheckEmail(newUser.Email);
-            if(entity != null)
+            if (entity != null)
             {
                 ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
                 return View(newUser);
             }
             var user = await _userService.Insert(newUser);
-            if(user != null)
+            if (user != null)
             {
                 return RedirectToAction("Login", "User");
             }
@@ -68,7 +57,7 @@ namespace BeautySalon.Controllers
         public ActionResult Login()
         {
             UserLoginVM user = new UserLoginVM();
-        
+
             return View(user);
         }
 
@@ -80,14 +69,14 @@ namespace BeautySalon.Controllers
                 return View(loginUser);
             }
 
-            var entity=await _userService.Login(loginUser);
+            var entity = await _userService.Login(loginUser);
 
             if (entity == null)
             {
                 ViewBag.Message = Messages.INVALID_CREDIENTIAL;
                 return View(loginUser);
             }
-         
+
             var claims = new List<Claim>() {
             new Claim(ClaimTypes.NameIdentifier, Convert.ToString(entity.Id)),
             new Claim(ClaimTypes.Email, entity.Email),
@@ -103,7 +92,7 @@ namespace BeautySalon.Controllers
                 IsPersistent = loginUser.RememberLogin
             });
 
-            return RedirectToAction("Index","Catalog");
+            return RedirectToAction("Index", "Catalog");
         }
 
         public async Task<ActionResult> LogOut()
@@ -112,7 +101,7 @@ namespace BeautySalon.Controllers
 
             return RedirectToAction("Login", "User");
         }
-
+        
         [HttpGet]
         public ActionResult ForgotPassword()
         {
@@ -125,8 +114,8 @@ namespace BeautySalon.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userService.CheckEmail(forgotPassword.Email);
-               
-                if (user!= null)
+
+                if (user != null)
                 {
                     var To = user.Email;
                     //Generate password token
@@ -142,10 +131,20 @@ namespace BeautySalon.Controllers
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);
-                }  
+                }
             }
 
             return View();
+        }
+
+        public async Task<User> GetCurrentRole()
+        {
+            var userWithClaims = (ClaimsPrincipal)User;
+            Claim CRole = userWithClaims.Claims.First(c => c.Type == ClaimTypes.Email);
+            var email = CRole.Value;
+            var entity = await _userService.CheckEmail(email);
+
+            return entity;
         }
 
         [HttpGet]
@@ -153,7 +152,7 @@ namespace BeautySalon.Controllers
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                return RedirectToAction("ForgotPassword","User");
+                return RedirectToAction("ForgotPassword", "User");
             }
             var user = await _userService.CheckResetCode(id);
             if (user != null)
@@ -185,12 +184,10 @@ namespace BeautySalon.Controllers
 
         [HttpGet]
         public async Task<ActionResult> Profile()
-        { 
-            var userWithClaims = (ClaimsPrincipal)User;
-            Claim CRole = userWithClaims.Claims.First(c => c.Type == ClaimTypes.Email);
-            var email = CRole.Value;
-            var entity= await _userService.CheckEmail(email);
+        {
+            var entity = await GetCurrentRole();
             UserUpdateVM user = _mapper.Map<User, UserUpdateVM>(entity);
+
             return View(user);
         }
 
@@ -201,11 +198,43 @@ namespace BeautySalon.Controllers
             {
                 return View(editUser);
             }
-           
-            var user = await _userService.Update(editUser.Email, editUser);
-            if (user != null)
+
+            var entity = await _userService.Update(editUser.Email, editUser);
+            if (entity != null)
             {
-                return RedirectToAction("Index", "Catalog");
+                ViewBag.Message = "You have successfully updated your profile.";
+                UserUpdateVM user=_mapper.Map<User, UserUpdateVM>(entity);
+                return View(user);
+            }
+
+            return View(editUser);
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordVM changePassword= new ChangePasswordVM();
+
+            return View(changePassword);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(ChangePasswordVM editUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUser);
+            }
+            
+            var entity = await GetCurrentRole();
+            if (entity != null)
+            {
+                var hash = PasswordHelper.GenerateHash(entity.PasswordSalt, editUser.OldPassword);
+                if (hash == entity.PasswordHash)
+                {
+                    _userService.ChangePassword(entity, editUser);
+                    return RedirectToAction("ChangePassword", "User");
+                }
             }
 
             return View(editUser);

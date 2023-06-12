@@ -13,6 +13,6 @@ namespace BeautySalon.Services.Interfaces
         Task<User> CheckEmail(string Email);
         Task<User> Login(UserLoginVM loginUser);
         void ChangeResetPasswordCode(User user, string code);
-
+        void ChangePassword(User entity, ChangePasswordVM model);
     }
 }
