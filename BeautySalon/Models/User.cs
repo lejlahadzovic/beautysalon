@@ -31,7 +31,6 @@ namespace BeautySalon.Models
 
         public Role Role { get; set; }
 
-
-
+        public string? ResetPasswordCode { get; set; }
     }
 }
