@@ -5,7 +5,7 @@ namespace BeautySalon.Services.Interfaces
 {
     public interface IServiceService
     {
-        Task<CatalogServiceVM> GetServicesByCatalogId(int catalogId);
-        Task<CatalogServiceVM> GetServicesByName(string name, int catalogId);
+        Task<CatalogServiceVM> GetServices(int catalogId, string name);
+
     }
 }

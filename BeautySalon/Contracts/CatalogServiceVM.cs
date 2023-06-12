@@ -7,7 +7,7 @@ namespace BeautySalon.Contracts
     {
         public string Title { get; set; }
         public int CatalogId { get; set; }
-        public List<Service> Services { get; set; }
+        public List<ServiceVM> Services { get; set; }
 
     }
 }

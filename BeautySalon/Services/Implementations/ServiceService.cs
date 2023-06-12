@@ -19,29 +19,19 @@ namespace BeautySalon.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<CatalogServiceVM> GetServicesByCatalogId(int catalogId)
+        public async Task<CatalogServiceVM> GetServices(int catalogId, string name)
         {   
-            List<Service> services =await _dbContext.Services.Where(s=>s.CatalogId == catalogId).ToListAsync();
+            List<Service> services =await _dbContext.Services.Where(s=>s.CatalogId == catalogId 
+            && (string.IsNullOrEmpty(name) 
+            || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
+            
             Catalog catalog =await _dbContext.Catalogs.FindAsync(catalogId);
 
             CatalogServiceVM catalogServiceVM = new CatalogServiceVM();
-            catalogServiceVM.Title = catalog.Title;
-            catalogServiceVM.Services = _mapper.Map<List<Service>>(services);
             catalogServiceVM.CatalogId = catalogId;
-
-            return catalogServiceVM;
-            
-        }
-        public async Task<CatalogServiceVM> GetServicesByName(string name, int catalogId)
-        {
-            List<Service> services = await _dbContext.Services.Where(s => s.CatalogId==catalogId).ToListAsync();
-            List<Service> servicesByName = services.Where(s => s.Name.ToLower().Contains(name.ToLower())).ToList();
-            Catalog catalog = await _dbContext.Catalogs.FindAsync(catalogId);
-
-            CatalogServiceVM catalogServiceVM = new CatalogServiceVM();
+            catalogServiceVM.Services = _mapper.Map<List<ServiceVM>>(services);
             catalogServiceVM.Title = catalog.Title;
-            catalogServiceVM.Services = _mapper.Map<List<Service>>(services);
-
+            
             return catalogServiceVM;
         }
     }

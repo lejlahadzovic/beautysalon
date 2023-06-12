@@ -12,19 +12,11 @@ namespace BeautySalon.Controllers
         {
             _serviceService= serviceService;
         }
-        public async Task<IActionResult> Index(int catalogId)
+        public async Task<IActionResult> Index(int catalogId, string name)
         {
-            var services = await _serviceService.GetServicesByCatalogId(catalogId); 
+            var services = await _serviceService.GetServices(catalogId, name); 
             
             return View(services);
         }
-
-        public async Task<IActionResult> Search(string name, int catalogId)
-        {
-            var services = await _serviceService.GetServicesByName(name,catalogId);
-
-            return View(services);
-        }
-
     }
 }
