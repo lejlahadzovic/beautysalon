@@ -7,11 +7,11 @@
 <div class="container text-center p-2">
     <h2 style="text-align:center">@Model.Title</h2>
  </div>
-@using (Html.BeginForm("Index", "Service", new { catalogId = Model.CatalogId }, FormMethod.Get))
- {
-    @Html.Hidden("catalogId") 
-    @Html.TextBox("name")<input type="submit" value="Search"/>
- }
+        @using (Html.BeginForm("Index", "Service", FormMethod.Get))
+        {
+            @Html.Hidden("catalogId") 
+            @Html.TextBox("name")<input type="submit" value="Search"/>
+        }
 <div class="column">
     @foreach(var item in Model.Services)
         {
@@ -31,4 +31,4 @@
                 </div>
             </div>
         }
-    </div>
+</div>

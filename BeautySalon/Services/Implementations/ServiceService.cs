@@ -21,11 +21,11 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<CatalogServiceVM> GetServices(int catalogId, string name)
         {   
+            Catalog catalog =await _dbContext.Catalogs.FindAsync(catalogId);
             List<Service> services =await _dbContext.Services.Where(s=>s.CatalogId == catalogId 
             && (string.IsNullOrEmpty(name) 
             || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
             
-            Catalog catalog =await _dbContext.Catalogs.FindAsync(catalogId);
 
             CatalogServiceVM catalogServiceVM = new CatalogServiceVM();
             catalogServiceVM.CatalogId = catalogId;

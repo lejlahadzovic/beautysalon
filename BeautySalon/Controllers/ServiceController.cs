@@ -15,7 +15,6 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Index(int catalogId, string name)
         {
             var services = await _serviceService.GetServices(catalogId, name); 
-            
             return View(services);
         }
     }
