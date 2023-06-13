@@ -27,6 +27,16 @@ namespace BeautySalon.Constants
 
         public const string PHONE_NUMBER = "000 000 000";
 
+        public const string REGISTER_NOT_SUCCESSFUL = "User is not registered successfully.";
+
+        public const string EMAIL_MESSAGE_SUBJECT = "Your changed password";
+
+        public const string EMAIL_MESSAGE_BODY_1 = "Hi, We got request for reset your account password. Please click on the below link to reset your password";
+
+        public const string EMAIL_MESSAGE_BODY_2 = "' Reset Password link";
+
+        public const string PROFILE_UPDATE_SUCCSESSFUL = "You have successfully updated your profile.";
+
 
         #region LABELS
 
@@ -58,6 +68,5 @@ namespace BeautySalon.Constants
         public const string CONFRIM_PASSWORD_ERROR_MESSAGE = "Password Not Matched";
 
         #endregion
-
     }
 }

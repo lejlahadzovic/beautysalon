@@ -2,8 +2,10 @@
 @model BeautySalon.Contracts.UserUpdateVM
 @{
     ViewBag.Title = "Profile";
-    Layout = "~/Views/Shared/_Layout.cshtml";
 }
+
+@Html.Hidden("message", (object)ViewBag.Message)
+
 <section class="vh-100 gradient-custom" style="margin-bottom:300px;">
     <div class="container py-5 h-100">
         <div class="row justify-content-center align-items-center h-100">
@@ -12,14 +14,6 @@
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Edit your profile</h3>
                         <form id="registration_form" action="@Url.Action("Profile", "User")" method="post">
-                            @if (ViewBag.Message != null)
-                            {
-                                <script type="text/javascript">
-                                    window.onload = function () {
-                                        alert("@ViewBag.Message");
-                                    };
-                                </script>
-                            }
                             <div class="row">
                                 <div class="mb-4">
 
@@ -103,7 +97,7 @@
                                 </div>
                             </div>
                             <div class="mt-4 pt-2">
-                                <input class="btn btn-success" type="submit" value="Save changes" />
+                                <input class="btn btn-success" type="submit" value="Save changes" onsubmit="required(input)" />
                             </div>
                         </form>
                     </div>
@@ -112,3 +106,13 @@
         </div>
     </div>
 </section>
+
+<script>
+    window.onload = function () {
+        var value = $("#message").val();
+        if (value)
+        {
+            alert(value);
+        }
+    };
+</script>
