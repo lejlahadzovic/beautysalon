@@ -37,8 +37,8 @@ namespace BeautySalon.Controllers
             {
                 return View(newUser);
             }
-            var _user = await _userService.CheckEmail(newUser.Email);
-            if (_user != null)
+            var existingUser = await _userService.CheckEmail(newUser.Email);
+            if (existingUser != null)
             {
                 ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
                 return View(newUser);
@@ -134,11 +134,11 @@ namespace BeautySalon.Controllers
             return user;
         }
 
-        public async void SetLoginData(User _user, UserLoginVM loginUser)
+        public async void SetLoginData(User existingUser, UserLoginVM loginUser)
         {
             var claims = new List<Claim>() {
-            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(_user.Id)),
-            new Claim(ClaimTypes.Email, _user.Email),
+            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(existingUser.Id)),
+            new Claim(ClaimTypes.Email, existingUser.Email),
             };
 
             var claimsIdentity = new ClaimsIdentity(
@@ -191,9 +191,9 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Profile()
         {
             var user = await GetCurrentUser();
-            UserUpdateVM userUpdate = _mapper.Map<User, UserUpdateVM>(user);
+            UserUpdateVM updateUser = _mapper.Map<User, UserUpdateVM>(user);
 
-            return View(userUpdate);
+            return View(updateUser);
         }
 
         [HttpPost]
@@ -204,11 +204,11 @@ namespace BeautySalon.Controllers
                 return View(editUser);
             }
 
-            var userUpdate = await _userService.Update(editUser.Email, editUser);
-            if (userUpdate != null)
+            var updateUser = await _userService.Update(editUser.Email, editUser);
+            if (updateUser != null)
             {
                 ViewBag.Message = Messages.PROFILE_UPDATE_SUCCSESSFUL;
-                UserUpdateVM user=_mapper.Map<User, UserUpdateVM>(userUpdate);
+                UserUpdateVM user=_mapper.Map<User, UserUpdateVM>(updateUser);
                 return View(user);
             }
 
