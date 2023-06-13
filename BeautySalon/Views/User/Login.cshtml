@@ -22,14 +22,14 @@
                             <!-- Email input -->
                             <div class="form-outline mb-4">
                                 <input type="email" id="loginEmail" name="Email" class="form-control" value="@Model.Email" />
-                                <label class="form-label" for="form2Example1">Email address</label>
+                                <label class="form-label" for="form2Example1">@Messages.EMAIL_LABEL</label>
                                 <br />
                                 @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
                             </div>
                             <!-- Password input -->  
                             <div class="form-outline mb-4">
                                 <input type="password" id="loginPassword" name="Password" class="form-control" />
-                                <label class="form-label" for="form2Example2">Password</label>
+                                <label class="form-label" for="form2Example2">@Messages.PASSWORD_LABEL</label>
                                 <br />
                                 @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
                             </div>  
@@ -47,11 +47,11 @@
                             </div>
                             <!-- Forgot Password -->
                             <div class="text-center">
-                                <a href="@Url.Action("ForgotPassword", "User")">Forgot Password? </a>
+                                <a href="@Url.Action("ForgotPassword", "User")">@Messages.FORGOT_PASSWORD_LABEL </a>
                             </div>
                             <!-- Register button -->
                             <div class="text-center">
-                                <p>Not a member? <a href="@Url.Action("Register", "User")">Register</a></p>
+                                <p>Not a member? <a href="@Url.Action("Register", "User")">@Messages.REGISTER_LABEL</a></p>
                             </div>
                         </form>
                     </div>

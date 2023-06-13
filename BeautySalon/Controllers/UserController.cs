@@ -55,7 +55,7 @@ namespace BeautySalon.Controllers
                 return RedirectToAction("Login", "User");
             }
 
-            TempData["message"] = "User is not registered successfully.";
+            TempData["message"] = $"{Messages.USER_NOT_REGISTERED_ERROR_MESSAGE}";
             return View(newUser);
         }
 
@@ -129,8 +129,8 @@ namespace BeautySalon.Controllers
                     //Create URL with an above token
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
                     //HTML Template for Send email
-                    string subject = "Your changed password";
-                    string body = "Hi, We got request for reset your account password. Please click on the below link to reset your password" +
+                    string subject = $"{Messages.PASSWORD_RESET_EMAIL_SUBJECT}";
+                    string body = $"{Messages.PASSWORD_RESET_EMAIL_BODY}" +
                     " '" + link + "' Reset Password link";
 
                     //Call send email methods.

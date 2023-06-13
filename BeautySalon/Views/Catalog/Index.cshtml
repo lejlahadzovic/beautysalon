@@ -1,11 +1,12 @@
-﻿@model IEnumerable<BeautySalon.Contracts.CatalogVM>
+﻿@using BeautySalon.Constants
+@model IEnumerable<BeautySalon.Contracts.CatalogVM>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="container text-center p-2">
-<h2 style="text-align:center">Beauty catalogs</h2>
+<h2 style="text-align:center">@Messages.BEAUTY_CATALOGS_LABEL</h2>
     <div class="row">
     @foreach (var item in Model)
     {
