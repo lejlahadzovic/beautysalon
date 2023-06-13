@@ -129,7 +129,7 @@ namespace BeautySalon.Controllers
                     //Create URL with an above token
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
                     //HTML Template for Send email
-                    string subject = $"{Messages.PASSWORD_RESET_EMAIL_SUBJECT}";
+                    string subject = Messages.PASSWORD_RESET_EMAIL_SUBJECT;
                     string body = $"{Messages.PASSWORD_RESET_EMAIL_BODY}" +
                     " '" + link + "' Reset Password link";
 

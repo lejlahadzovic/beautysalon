@@ -33,10 +33,7 @@ namespace BeautySalon.Constants
 
         public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
 
-        public const string ROLE_CUSTOMER = "Customer";
-
-        public const string ROLE_ADMINISTRATOR = "Administrator";
-
+        
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";

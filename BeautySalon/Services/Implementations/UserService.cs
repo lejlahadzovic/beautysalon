@@ -22,7 +22,7 @@ namespace BeautySalon.Services.Implementations
     {
         protected ApplicationDbContext _dbContext;
         protected IMapper _mapper { get; set; }
-        private const string RoleName = $"{Messages.ROLE_CUSTOMER}";
+        private const string RoleName = Roles.CUSTOMER;
        
         public UserService(ApplicationDbContext dbContext, IMapper mapper)
         {
