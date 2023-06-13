@@ -9,12 +9,17 @@
     <h2 style="text-align:center">@Model.Title</h2>
     <h3 style="text-align:center">@Messages.SERVICES_LABEL</h3>
  </div>
-        @using (Html.BeginForm("Index", "Service", FormMethod.Get))
-        {
-            @Html.Hidden("catalogId") 
-            @Html.TextBox("name")<input type="submit" value="Search"/>
-        }
+
 <div class="column">
+    <div class="container d-flex justify-content-center mb-3">
+            @using (Html.BeginForm("Index", "Service", FormMethod.Get))
+            {
+                @Html.Hidden("catalogId")
+                @Html.TextBox("name")
+
+                <input type="submit" value="Search" />
+            }
+    </div>
     @foreach(var item in Model.Services)
         {
            <div class="card mb-3 mx-auto" style="max-width: 600px">
