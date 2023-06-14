@@ -1,30 +1,24 @@
 ﻿using BeautySalon.Constants;
-using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Helper;
 using BeautySalon.Models;
-using BeautySalon.Services.Implementations;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Net.Mail;
-using System.Net;
 using System.Security.Claims;
-using System.Security.Principal;
-using Microsoft.AspNetCore.Identity;
-using System.Collections.Generic;
+using AutoMapper;
 
 namespace BeautySalon.Controllers
 {
     public class UserController : Controller
     {
         protected new readonly IUserService _userService;
-        public UserController(IUserService userService)
+        protected IMapper _mapper { get; set; }
+        public UserController(IUserService userService, IMapper mapper)
         {
             _userService = userService;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -40,22 +34,22 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Register(UserVM newUser)
         {
             if (!ModelState.IsValid)
-            {  
+            {
                 return View(newUser);
             }
-            var entity = await _userService.CheckEmail(newUser.Email);
-            if(entity != null)
+            var existingUser = await _userService.CheckEmail(newUser.Email);
+            if (existingUser != null)
             {
                 ModelState.AddModelError("Email", Messages.EMAIL_EXISTS_ERROR_MESSAGE);
                 return View(newUser);
             }
             var user = await _userService.Insert(newUser);
-            if(user != null)
+            if (user != null)
             {
                 return RedirectToAction("Login", "User");
             }
 
-            TempData["message"] = $"{Messages.USER_NOT_REGISTERED_ERROR_MESSAGE}";
+            TempData["message"] = Messages.REGISTER_NOT_SUCCESSFUL;
             return View(newUser);
         }
 
@@ -63,7 +57,7 @@ namespace BeautySalon.Controllers
         public ActionResult Login()
         {
             UserLoginVM user = new UserLoginVM();
-        
+
             return View(user);
         }
 
@@ -75,29 +69,17 @@ namespace BeautySalon.Controllers
                 return View(loginUser);
             }
 
-            var entity=await _userService.Login(loginUser);
+            var user = await _userService.Login(loginUser);
 
-            if (entity == null)
+            if (user == null)
             {
                 ViewBag.Message = Messages.INVALID_CREDIENTIAL;
                 return View(loginUser);
             }
-         
-            var claims = new List<Claim>() {
-            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(entity.Id)),
-            new Claim(ClaimTypes.Email, entity.Email),
-            };
 
-            var claimsIdentity = new ClaimsIdentity(
-            claims, CookieAuthenticationDefaults.AuthenticationScheme);
-            var principal = new ClaimsPrincipal(claimsIdentity);
-            await HttpContext.SignInAsync(
-            CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
-            {
-                IsPersistent = loginUser.RememberLogin
-            });
-
-            return RedirectToAction("Index","Catalog");
+            SetLoginData(user, loginUser);
+            
+            return RedirectToAction("Index", "Catalog");
         }
 
         public async Task<ActionResult> LogOut()
@@ -106,7 +88,7 @@ namespace BeautySalon.Controllers
 
             return RedirectToAction("Login", "User");
         }
-
+        
         [HttpGet]
         public ActionResult ForgotPassword()
         {
@@ -119,8 +101,8 @@ namespace BeautySalon.Controllers
             if (ModelState.IsValid)
             {
                 var user = await _userService.CheckEmail(forgotPassword.Email);
-               
-                if (user!= null)
+
+                if (user != null)
                 {
                     var To = user.Email;
                     //Generate password token
@@ -129,17 +111,45 @@ namespace BeautySalon.Controllers
                     //Create URL with an above token
                     var link = Url.Action("ResetPassword", "User", new { id = resetCode }, "https");
                     //HTML Template for Send email
-                    string subject = Messages.PASSWORD_RESET_EMAIL_SUBJECT;
-                    string body = $"{Messages.PASSWORD_RESET_EMAIL_BODY}" +
-                    " '" + link + "' Reset Password link";
+                    string subject =Messages.EMAIL_MESSAGE_SUBJECT;
+                    string body = Messages.EMAIL_MESSAGE_BODY_1 +
+                    " '" + link + Messages.EMAIL_MESSAGE_BODY_2;
 
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);
-                }  
+                }
             }
 
             return View();
+        }
+
+        public async Task<User> GetCurrentUser()
+        {
+            var userWithClaims = (ClaimsPrincipal)User;
+            Claim CUser = userWithClaims.Claims.First(c => c.Type == ClaimTypes.Email);
+            var email = CUser.Value;
+            var user = await _userService.CheckEmail(email);
+
+            return user;
+        }
+
+        public async void SetLoginData(User existingUser, UserLoginVM loginUser)
+        {
+            var claims = new List<Claim>() {
+            new Claim(ClaimTypes.NameIdentifier, Convert.ToString(existingUser.Id)),
+            new Claim(ClaimTypes.Email, existingUser.Email),
+            };
+
+            var claimsIdentity = new ClaimsIdentity(
+            claims, CookieAuthenticationDefaults.AuthenticationScheme);
+            var principal = new ClaimsPrincipal(claimsIdentity);
+            Thread.CurrentPrincipal = principal;
+            await HttpContext.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme, principal, new AuthenticationProperties()
+            {
+                IsPersistent = loginUser.RememberLogin
+            });
         }
 
         [HttpGet]
@@ -147,7 +157,7 @@ namespace BeautySalon.Controllers
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                return RedirectToAction("ForgotPassword","User");
+                return RedirectToAction("ForgotPassword", "User");
             }
             var user = await _userService.CheckResetCode(id);
             if (user != null)
@@ -175,6 +185,66 @@ namespace BeautySalon.Controllers
             }
 
             return View(model);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Profile()
+        {
+            var user = await GetCurrentUser();
+            UserUpdateVM updateUser = _mapper.Map<User, UserUpdateVM>(user);
+
+            return View(updateUser);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Profile(UserUpdateVM editUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUser);
+            }
+
+            var updateUser = await _userService.Update(editUser.Email, editUser);
+            if (updateUser != null)
+            {
+                ViewBag.Message = Messages.PROFILE_UPDATE_SUCCSESSFUL;
+                UserUpdateVM user=_mapper.Map<User, UserUpdateVM>(updateUser);
+                return View(user);
+            }
+
+            return View(editUser);
+        }
+
+        [HttpGet]
+        public ActionResult ChangePassword()
+        {
+            ChangePasswordVM changePassword= new ChangePasswordVM();
+
+            return View(changePassword);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ChangePassword(ChangePasswordVM editUser)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(editUser);
+            }
+            
+            var user = await GetCurrentUser();
+            if (user != null)
+            {
+                var hash = PasswordHelper.GenerateHash(user.PasswordSalt, editUser.OldPassword);
+                if (hash == user.PasswordHash)
+                {
+                    _userService.ChangePassword(user, editUser);
+                    await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+                    return RedirectToAction("Login", "User");
+                }
+            }
+
+            return View(editUser);
         }
     }
 }
