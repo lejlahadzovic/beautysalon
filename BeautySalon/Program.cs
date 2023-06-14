@@ -15,6 +15,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
+builder.Services.AddScoped<ICatalogService, CatalogService>();
+builder.Services.AddScoped<IServiceService, ServiceService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllersWithViews();
