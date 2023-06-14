@@ -1,0 +1,25 @@
+﻿@model IEnumerable<BeautySalon.Contracts.CatalogVM>
+@using BeautySalon.Constants
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div><b>@Messages.CATALOGS_LABEL</b><br /></div>
+<table class="table table-bordered table-responsive table-hover">
+    <tr>
+        <th>ID </th>
+        <th>Catalog Title </th>
+        <th>Catalog Type</th>
+        <th>Catalog Description </th>
+    </tr>
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.Id</td>
+            <td>@d.Title</td>
+            <td>@d.Type</td>
+            <td>@d.Description</td>
+        </tr>
+    }
+</table>

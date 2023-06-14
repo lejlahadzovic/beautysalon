@@ -1,21 +1,12 @@
-﻿using BeautySalon.Context;
-using BeautySalon.Contracts;
-using BeautySalon.Models;
-using BeautySalon.Services.Implementations;
-using BeautySalon.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
+﻿using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using System;
-using System.Data.Common;
 
 namespace BeautySalon.Controllers
 {
-
-    public class CatalogController : Controller
+    public class CatalogManagementController : Controller
     {
         protected new readonly ICatalogService _catalogService;
-
-        public CatalogController(ICatalogService catalogService)
+        public CatalogManagementController(ICatalogService catalogService)
         {
             _catalogService = catalogService;
         }
