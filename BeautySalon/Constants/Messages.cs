@@ -84,6 +84,8 @@ namespace BeautySalon.Constants
 
         public const string SEARCH_LABEL = "Search";
 
+        public const string MY_PROFILE_LABEL = "My profile";
+
         #endregion
 
 
@@ -96,8 +98,6 @@ namespace BeautySalon.Constants
         public const string PASSWORD_ERROR_MESSAGE = "Password not strong enough";
 
         public const string CONFRIM_PASSWORD_ERROR_MESSAGE = "Password Not Matched";
-
-        public const string USER_NOT_REGISTERED_ERROR_MESSAGE = "The user is not registered sucessfully.";
 
         #endregion
     }
