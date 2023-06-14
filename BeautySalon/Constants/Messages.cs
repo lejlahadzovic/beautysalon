@@ -72,6 +72,8 @@ namespace BeautySalon.Constants
 
         public const string CATALOGS_LABEL = "Catalogs";
 
+        public const string SEARCH_LABEL = "Search";
+
         #endregion
 
 

@@ -10,16 +10,17 @@
     <h3 style="text-align:center">@Messages.SERVICES_LABEL</h3>
  </div>
 
-<div class="column">
-    <div class="container d-flex justify-content-center mb-3">
-            @using (Html.BeginForm("Index", "Service", FormMethod.Get))
+    <div class="mb-3 mx-auto">
+            @using (Html.BeginForm("Index", "Service", FormMethod.Get, new {@class="w-50 mx-auto"}))
             {
                 @Html.Hidden("catalogId")
-                @Html.TextBox("name")
-
-                <input type="submit" value="Search" />
+                <div class="input-group w-100">
+            @Html.TextBox("name", null, new {@style="width:75%; border:none; background-color:lightgray;"})
+                 <input type="submit" class="form-control" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
+                </div>
             }
     </div>
+<div class="column">
     @foreach(var item in Model.Services)
         {
            <div class="card mb-3 mx-auto" style="max-width: 600px">
