@@ -1,0 +1,24 @@
+﻿@using BeautySalon.Constants
+@model IEnumerable<BeautySalon.Contracts.ServiceVM>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Price</th>
+            <th scope="col">Duration</th>
+            <th scope="col">Description</th>
+            <th scope="col">Catalog</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td>@Html.DisplayFor(modelItem =>item.Name)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Price)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Duration)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Description)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Catalog.Title)</td>
+        </tr>
+    }
+    </tbody>
+</table>

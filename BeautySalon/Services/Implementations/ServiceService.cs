@@ -33,5 +33,12 @@ namespace BeautySalon.Services.Implementations
             
             return catalogServiceVM;
         }
+
+        public async Task<List<ServiceVM>> GetAll()
+        {
+            var list = await _dbContext.Services.ToListAsync();
+
+            return _mapper.Map<List<ServiceVM>>(list);
+        }
     }
 }
