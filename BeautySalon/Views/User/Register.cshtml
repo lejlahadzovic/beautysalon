@@ -55,19 +55,19 @@
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="Gender" id="femaleGender"
                                                value="Female" checked value="@Model.Gender"/>
-                                        <label class="form-check-label" for="femaleGender">Female</label>
+                                        <label class="form-check-label" for="femaleGender">@Messages.FEMALE_GENDER_LABEL</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="Gender" id="maleGender"
                                                value="Male" value="@Model.Gender" />
-                                        <label class="form-check-label" for="maleGender">Male</label>
+                                        <label class="form-check-label" for="maleGender">@Messages.MALE_GENDER_LABEL</label>
                                     </div>
 
                                     <div class="form-check form-check-inline">
                                         <input class="form-check-input" type="radio" name="Gender" id="otherGender"
                                                value="Other" value="@Model.Gender" />
-                                        <label class="form-check-label" for="otherGender">Other</label>
+                                        <label class="form-check-label" for="otherGender">@Messages.OTHER_GENDER_LABEL</label>
                                     </div>
 
                                 </div>
@@ -104,7 +104,7 @@
 
                                     <div class="form-outline">
                                         <input type="password" id="confrimPassword" name="ConfirmPassword" placeholder="Confirm password" class="form-control form-control-lg" value="@Model.ConfirmPassword" />
-                                        <label class="form-label" for="confrimPassword">@Messages.CONFRIM_PASWORD_LABEL</label>
+                                        <label class="form-label" for="confrimPassword">@Messages.CONFIRM_PASWORD_LABEL</label>
                                         <br />
                                         @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "text-danger" })
                                     </div>

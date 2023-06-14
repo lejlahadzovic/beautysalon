@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using BeautySalon.Constants;
 using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Helper;
@@ -13,7 +14,7 @@ namespace BeautySalon.Services.Implementations
     {
         protected ApplicationDbContext _dbContext;
         protected IMapper _mapper { get; set; }
-        private const string RoleName = "Customer";
+        private const string RoleName = Roles.CUSTOMER;
        
         public UserService(ApplicationDbContext dbContext, IMapper mapper)
         {
