@@ -1,12 +1,10 @@
 ﻿@using BeautySalon.Constants
-@using Microsoft.AspNetCore.Authorization
-@inject IAuthorizationService AuthorizationService
 
 <div id="mySidenav" class="sidenav">
     <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
     <a class="menuLinks" asp-controller="Catalog" asp-action="Index">@Messages.CATALOGS_LABEL</a>
     <a class="menuLinks" asp-controller="User" asp-action="Profile">@Messages.MY_PROFILE_LABEL</a>
-    <a class="menuLinks" asp-controller="CatalogManagement" asp-action="Index">Create/Edit Catalog</a>
+    <a class="menuLinks" asp-controller="CatalogManagement" asp-action="Index">@Messages.MANAGE_CATALOGS_LABEL</a>
 </div>
 <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
 

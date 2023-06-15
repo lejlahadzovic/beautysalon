@@ -39,10 +39,10 @@ namespace BeautySalon.Constants
         public const string EMAIL_MESSAGE_BODY_2 = "' Reset Password link";
 
         public const string PROFILE_UPDATE_SUCCSESSFUL = "You have successfully updated your profile.";
-
-
+        
         public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
 
+        public const string CATALOG_EDIT_SUCCESSFUL = "You have sucessfully edited the catalog.";
         
         #region LABELS
 
@@ -85,6 +85,8 @@ namespace BeautySalon.Constants
         public const string SEARCH_LABEL = "Search";
 
         public const string MY_PROFILE_LABEL = "My profile";
+        
+        public const string MANAGE_CATALOGS_LABEL = "Manage Catalogs";
 
         #endregion
 

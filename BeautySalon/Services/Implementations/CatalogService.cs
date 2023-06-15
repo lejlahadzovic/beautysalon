@@ -27,5 +27,23 @@ namespace BeautySalon.Services.Implementations
 
             return _mapper.Map<List<CatalogVM>>(list);
         }
+        
+        public async Task<Catalog> Update(int catalogId, CatalogVM catalog)
+        {
+            var entity =await CheckId(catalogId);
+            if(entity!=null)
+            {
+                _mapper.Map(catalog, entity);
+                _dbContext.Catalogs.Update(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+            return entity;
+        }
+
+        public async Task<Catalog> CheckId(int catalogId)
+        {
+            var catalog = _dbContext.Catalogs.FirstOrDefault(c=>c.Id==catalogId);
+            return catalog;
+        }
     }
 }

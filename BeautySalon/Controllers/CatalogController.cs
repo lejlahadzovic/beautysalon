@@ -19,6 +19,7 @@ namespace BeautySalon.Controllers
         {
             _catalogService = catalogService;
         }
+
         public async Task<IActionResult> Index()
         {
             var catalogs = await _catalogService.GetAll();

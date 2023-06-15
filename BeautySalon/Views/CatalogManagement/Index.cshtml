@@ -4,22 +4,32 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div><b>@Messages.CATALOGS_LABEL</b><br /></div>
+<br />
+<div>
+  <b>@Messages.CATALOGS_LABEL</b>
+   <div class="vr" style="height:5px"> 
+   </div>
+    <input type="button" class="btn btn-primary" value="New" onclick="location.href='@Url.Action("Edit","CatalogManagement")'" />
+</div>
+<br />
 <table class="table table-bordered table-responsive table-hover">
     <tr>
         <th>ID </th>
         <th>Catalog Title </th>
         <th>Catalog Type</th>
         <th>Catalog Description </th>
+        <th>Management</th>
     </tr>
-    @foreach (var d in Model)
+    @foreach (var item in Model)
     {
         <tr>
-            <td>@d.Id</td>
-            <td>@d.Title</td>
-            <td>@d.Type</td>
-            <td>@d.Description</td>
+            <td>@item.Id</td>
+            <td>@item.Title</td>
+            <td>@item.Type</td>
+            <td>@item.Description</td>
+            <td>
+                <input type="button" class="btn btn-success" value="Edit" onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'"/>
+            </td>
         </tr>
     }
 </table>

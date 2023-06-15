@@ -28,7 +28,7 @@
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem =>item.Name) - @Html.DisplayFor(modelItem =>item.Price)$</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem=>item.Duration) min</p>
-                    <p class="card-text"><small>@Html.DisplayFor(modelItem =>item.Description)</small></p>
+                    <p class="card-text text-truncate"><small>@Html.DisplayFor(modelItem =>item.Description)</small></p>
                 </div>
             </div>
         }
