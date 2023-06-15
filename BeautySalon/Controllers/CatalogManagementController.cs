@@ -23,12 +23,25 @@ namespace BeautySalon.Controllers
             var catalogs = await _catalogService.GetAll();
             return View(catalogs);
         }
+
+        public async Task<IActionResult> Search(string catalogTitle)
+        {
+            IEnumerable<Catalog> catalogs;
+            if (!string.IsNullOrEmpty(catalogTitle))
+            {
+                catalogs = await _catalogService.SearchByName(catalogTitle);
+            }
+            else
+            {
+                catalogs = await _catalogService.GetAll();
+            }
+            return View("~/Views/CatalogManagement/Index.cshtml", catalogs);
+        }
         
         [HttpGet]
         public async Task<IActionResult> Edit(int catalogId)
         {
-            var catalog = await _catalogService.CheckId(catalogId);
-            CatalogVM catalogEdit = _mapper.Map<Catalog,CatalogVM>(catalog);
+            var catalog = await _catalogService.GetById(catalogId);
             return View(catalog);
         }
 

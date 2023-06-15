@@ -1,35 +1,42 @@
-﻿@model IEnumerable<BeautySalon.Contracts.CatalogVM>
+﻿@model IEnumerable<BeautySalon.Models.Catalog>
 @using BeautySalon.Constants
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<br />
-<div>
-  <b>@Messages.CATALOGS_LABEL</b>
-   <div class="vr" style="height:5px"> 
-   </div>
-    <input type="button" class="btn btn-primary" value="New" onclick="location.href='@Url.Action("Edit","CatalogManagement")'" />
+    <div class="container text-left p-2">
+        <h3 style="text-align:left">@Messages.MANAGE_CATALOGS_LABEL</h3>
+    </div>
+<div class="row mb-3">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Search", "CatalogManagement", FormMethod.Get, new { @class = "w-100" }))
+        {
+            <div class="input-group">
+                <input type="text" name="catalogTitle" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-8 text-right d-flex justify-content-end">
+        <input type="button" class="btn btn-primary" value="New" onclick="location.href='@Url.Action("Edit","CatalogManagement")'" />
+    </div>
 </div>
-<br />
-<table class="table table-bordered table-responsive table-hover">
+<table id="dtDynamicVerticalScroll" class="table table-bordered table-responsive table-hover tabel-sm" cellspaceing="0">
     <tr>
         <th>ID </th>
-        <th>Catalog Title </th>
+        <th >Catalog Title </th>
         <th>Catalog Type</th>
         <th>Catalog Description </th>
-        <th>Management</th>
     </tr>
     @foreach (var item in Model)
     {
         <tr>
             <td>@item.Id</td>
-            <td>@item.Title</td>
+            <td onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'">@item.Title</td>
             <td>@item.Type</td>
-            <td>@item.Description</td>
-            <td>
-                <input type="button" class="btn btn-success" value="Edit" onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'"/>
-            </td>
+            <td class="text-truncate">@item.Description</td>
         </tr>
     }
 </table>

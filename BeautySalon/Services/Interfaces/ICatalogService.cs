@@ -5,8 +5,9 @@ namespace BeautySalon.Services.Interfaces
 {
     public interface ICatalogService
     {
-        Task<List<CatalogVM>> GetAll();
-        Task<Catalog> CheckId(int catalogId);
+        Task<List<Catalog>> GetAll();
+        Task<Catalog> GetById(int catalogId);
         Task<Catalog> Update(int catalogId, CatalogVM update);
+        Task<List<Catalog>> SearchByName(string catalogName);
     }
 }
