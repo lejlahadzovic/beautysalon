@@ -43,6 +43,12 @@ namespace BeautySalon.Constants
         public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
 
         public const string CATALOG_EDIT_SUCCESSFUL = "You have sucessfully edited the catalog.";
+
+        public const string SAVE_CHANGES = "Save changes";
+
+        public const string DELETE = "Delete";
+
+        public const string CONFIRM_DELETION = "Are you sure you want to proceed with this action?";
         
         #region LABELS
 
@@ -87,6 +93,14 @@ namespace BeautySalon.Constants
         public const string MY_PROFILE_LABEL = "My profile";
         
         public const string MANAGE_CATALOGS_LABEL = "Manage Catalogs";
+
+        public const string SELECT_CATALOG_LABEL = "Select a Catalog to edit";
+
+        public const string CATALOG_TITLE_LABEL = "Catalog Title";
+
+        public const string CATALOG_TYPE_LABEL = "Catalog Type";
+        
+        public const string CATALOG_DESCRIPTION_LABEL = "Catalog Description";
 
         #endregion
 

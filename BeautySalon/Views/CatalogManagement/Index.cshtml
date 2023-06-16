@@ -1,4 +1,4 @@
-﻿@model IEnumerable<BeautySalon.Models.Catalog>
+﻿@model IEnumerable<BeautySalon.Contracts.CatalogVM>
 @using BeautySalon.Constants
 @{
     ViewBag.Title = "Index";
@@ -19,11 +19,12 @@
             </div>
         }
     </div>
-    <div class="col-md-8 text-right d-flex justify-content-end">
-        <input type="button" class="btn btn-primary" value="New" onclick="location.href='@Url.Action("Edit","CatalogManagement")'" />
+    <div class="col-md 8 d-flex justify-content-end mt-1">
+        <input type="button" class="btn btn-primary btn-sm" value="New Catalog" onclick="location.href='@Url.Action("Edit","CatalogManagement")'" />
     </div>
 </div>
-<table id="dtDynamicVerticalScroll" class="table table-bordered table-responsive table-hover tabel-sm" cellspaceing="0">
+<table class="table table-bordered table-responsive table-hover tabel-sm" cellspaceing="0">
+    <caption>@Messages.SELECT_CATALOG_LABEL</caption>
     <tr>
         <th>ID </th>
         <th >Catalog Title </th>
@@ -32,9 +33,9 @@
     </tr>
     @foreach (var item in Model)
     {
-        <tr>
+        <tr onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'">
             <td>@item.Id</td>
-            <td onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'">@item.Title</td>
+            <td>@item.Title</td>
             <td>@item.Type</td>
             <td class="text-truncate">@item.Description</td>
         </tr>

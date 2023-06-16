@@ -21,29 +21,35 @@ namespace BeautySalon.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<List<Catalog>> GetAll()
+        public async Task<List<Catalog>> GetAllCatalogs()
         {
             var list = await _dbContext.Catalogs.ToListAsync();
-
             return list;
         }
-        
-        public async Task<Catalog> Update(int catalogId, CatalogVM catalog)
+
+        public async Task<List<CatalogVM>> GetAll()
         {
-            var entity =await GetById(catalogId);
-            if(entity!=null)
+            var list = await _dbContext.Catalogs.ToListAsync();
+            var catalogs = _mapper.Map<List<CatalogVM>>(list);
+            return catalogs;
+        }
+        
+        public async Task<CatalogVM> Update(int catalogId, CatalogVM catalog)
+        {
+            Catalog catalogToEdit = _dbContext.Catalogs.FindAsync(catalogId);
+            if(catalog!=null)
             {
-                _mapper.Map(catalog, entity);
-                _dbContext.Catalogs.Update(entity);
+                catalog1.Update(catalog1);
                 await _dbContext.SaveChangesAsync();
             }
-            return entity;
+            return catalog;
         }
 
-        public async Task<Catalog> GetById(int catalogId)
+        public async Task<CatalogVM> GetById(int catalogId)
         {
             var catalog = _dbContext.Catalogs.FirstOrDefault(c=>c.Id==catalogId);
-            return catalog;
+            CatalogVM entity = _mapper.Map<CatalogVM>(catalog);
+            return entity;
         }
 
         public async Task<List<Catalog>> SearchByName(string catalogName)

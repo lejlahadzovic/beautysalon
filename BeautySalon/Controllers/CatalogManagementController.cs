@@ -3,6 +3,7 @@ using BeautySalon.Constants;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Controllers
@@ -33,7 +34,7 @@ namespace BeautySalon.Controllers
             }
             else
             {
-                catalogs = await _catalogService.GetAll();
+                catalogs = await _catalogService.GetAllCatalogs();
             }
             return View("~/Views/CatalogManagement/Index.cshtml", catalogs);
         }
@@ -48,16 +49,11 @@ namespace BeautySalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CatalogVM catalogEdit)
         {
-            if(!ModelState.IsValid)
-            {
-                return View(catalogEdit);
-            }
             var updateCatalog =await _catalogService.Update(catalogEdit.Id, catalogEdit);
             if(updateCatalog != null) 
             {
                 ViewBag.Message = Messages.CATALOG_EDIT_SUCCESSFUL;
-                CatalogVM editedCatalog = _mapper.Map<Catalog, CatalogVM>(updateCatalog);
-                return View(editedCatalog);
+                return View(updateCatalog);
             }
             return View(catalogEdit);
         }

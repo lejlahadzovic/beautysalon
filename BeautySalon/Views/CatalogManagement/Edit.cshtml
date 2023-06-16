@@ -1,8 +1,9 @@
 ﻿@using BeautySalon.Constants
-@model BeautySalon.Models.Catalog
+@model BeautySalon.Contracts.CatalogVM
 @{
     ViewBag.Title = "Edit";
 }
+@Html.Hidden("message", (object)ViewBag.Message)
 
 <section class="vh-100 gradient-custom" style="margin-bottom:300px;">
     <div class="container py-5 h-100">
@@ -14,10 +15,47 @@
                         <form id="registration_form" action="@Url.Action("Edit", "CatalogManagement")" method="post">
                             <div class="row">
                                 <div class="mb-4">
-                                
-                                
-                                
+
+                                    <div class="form-outline">
+                                        <input type="text" id="Title" name="Title" placeholder="Title" class="form-control form-control-lg" value="@Model.Title" />
+                                        <label class="form-label" for="title">@Messages.CATALOG_TITLE_LABEL</label>
+                                        <br />
+                                    </div>
+
                                 </div>
+                                <div class="mb-4">
+
+                                    <div class="form-outline">
+                                        <input type="text" id="Type" name="type" placeholder="Type" class="form-control form-control-lg" value="@Model.Type" />
+                                        <label class="form-label" for="type">@Messages.CATALOG_TYPE_LABEL</label>
+                                        <br />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="mb-4 pb-2">
+
+                                    <div class="form-outline">
+                                        <textarea id="description" name="Description" placeholder="Description" class="form-control form-control-lg">@Model.Description</textarea>
+                                        <label class="form-label" for="description">@Messages.CATALOG_DESCRIPTION_LABEL</label>
+                                        <br />
+                                    </div>
+
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div>
+                                    <input class="btn btn-success" type="submit" value="@Messages.SAVE_CHANGES" onsubmit="required(input)" />
+                                </div>
+                                <div class="mt-3">
+                                    @using (Html.BeginForm("Delete", "CatalogManagement", new {catalogId=Model.Id}))
+                                    {
+                                    <input class="btn btn-danger" type="submit" value="@Messages.DELETE" />                                       
+                                    }
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
@@ -25,3 +63,13 @@
         </div>
     </div>
 </section>
+
+<script>
+    window.onload = function () {
+        var value = $("#message").val();
+        if (value)
+        {
+            alert(value);
+        }
+    };
+</script>
