@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BeautySalon.Context;
 using BeautySalon.Contracts;
+using BeautySalon.Helper;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
@@ -34,11 +35,49 @@ namespace BeautySalon.Services.Implementations
             return catalogServiceVM;
         }
 
-        public async Task<List<ServiceVM>> GetAll()
+        public async Task<Service> GetServicesById(int id)
         {
-            var list = await _dbContext.Services.ToListAsync();
+            var service = await _dbContext.Services.FindAsync(id);
+            
+            return service;
+        }
+
+        public async Task<List<ServiceVM>> GetAll(string name)
+        {
+            var list =new List<Service>();
+            if (!string.IsNullOrEmpty(name))
+            {
+                list=await _dbContext.Services.Include(c => c.Catalog).Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
+            }
+            else
+            {
+                list=await _dbContext.Services.Include(c => c.Catalog).ToListAsync();
+            }
 
             return _mapper.Map<List<ServiceVM>>(list);
+        }
+
+        public async Task<Service> Insert(ServiceVM insert)
+        {
+            var set = _dbContext.Services;
+            Service entity = _mapper.Map<Service>(insert);
+            set.Add(entity);
+            await _dbContext.SaveChangesAsync();
+
+            return entity;
+        }
+
+        public async Task<Service> Update(int id, ServiceVM update)
+        {
+            var entity = await GetServicesById(id);
+            if (entity != null)
+            {
+                _mapper.Map(update, entity);
+                _dbContext.Services.Update(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return entity;
         }
     }
 }
