@@ -1,9 +1,9 @@
-﻿@using BeautySalon.Constants
-@model BeautySalon.Contracts.CatalogVM
+﻿@model BeautySalon.Contracts.CatalogVM
+@using BeautySalon.Constants
 @{
-    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string action = Model?.Id != 0 ? "Edit" : "Create";
 }
-@Html.Hidden("message", (object)ViewBag.Message)
 
 <section class="vh-100 gradient-custom" style="margin-bottom:300px;">
     <div class="container py-5 h-100">
@@ -11,50 +11,48 @@
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
-                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Edit Catalog</h3>
-                        <form id="registration_form" action="@Url.Action("Edit", "CatalogManagement")" method="post">
-                            <div class="row">
-                                <div class="mb-4">
-
-                                    <div class="form-outline">
-                                        <input type="text" id="Title" name="Title" placeholder="Title" class="form-control form-control-lg" value="@Model.Title" />
-                                        <label class="form-label" for="title">@Messages.CATALOG_TITLE_LABEL</label>
-                                        <br />
-                                    </div>
-
-                                </div>
-                                <div class="mb-4">
-
-                                    <div class="form-outline">
-                                        <input type="text" id="Type" name="type" placeholder="Type" class="form-control form-control-lg" value="@Model.Type" />
-                                        <label class="form-label" for="type">@Messages.CATALOG_TYPE_LABEL</label>
-                                        <br />
-                                    </div>
-
-                                </div>
+                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.MANAGE_CATALOGS_LABEL</h3>
+                        <br />
+                        <form id="edit_service_form" action="@Url.Action(action, "CatalogManagement")" method="post">
+                            <div class="mb-4" hidden>
+                               
+                                    <input type="text" id="catalogId" name="Id" placeholder="Id" class="form-control form-control-lg" value="@Model.Id" /> 
+                                    
                             </div>
+                            <div class="mb-4">
 
-                            <div class="row">
-                                <div class="mb-4 pb-2">
-
-                                    <div class="form-outline">
-                                        <textarea id="description" name="Description" placeholder="Description" class="form-control form-control-lg">@Model.Description</textarea>
-                                        <label class="form-label" for="description">@Messages.CATALOG_DESCRIPTION_LABEL</label>
-                                        <br />
-                                    </div>
-
+                                <div class="form-outline">
+                                    <input type="text" id="catalogTitle" name="Title" placeholder="Title" class="form-control form-control-lg" value="@Model.Title" />
+                                    <label class="form-label" for="Title">@Messages.CATALOG_TITLE_LABEL</label>
                                 </div>
+
                             </div>
-                            <div class="row mb-3">
-                                <div>
-                                    <input class="btn btn-success" type="submit" value="@Messages.SAVE_CHANGES" onsubmit="required(input)" />
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <input type="text" id="catalogType" name="Type" placeholder="Type" class="form-control form-control-lg" value="@Model.Type" />
+                                    <label class="form-label" for="Type">@Messages.CATALOG_TYPE_LABEL</label>
                                 </div>
-                                <div class="mt-3">
-                                    @using (Html.BeginForm("Delete", "CatalogManagement", new {catalogId=Model.Id}))
-                                    {
-                                    <input class="btn btn-danger" type="submit" value="@Messages.DELETE" />                                       
-                                    }
+
+                            </div>
+                            <div class="mb-4">
+                                
+                                <div class="form-outline">
+                                    <textarea id="catalogDescription" name="Description" placeholder="Description" class="form-control form-control-lg">@Model.Description</textarea>
+                                    <label class="form-label" for="catalogDescription">@Messages.CATALOG_DESCRIPTION_LABEL</label>
                                 </div>
+
+                            </div>
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <input type="file" id="catalogPhoto" name="Photo" placeholder="Photo" class="form-control form-control-lg" value="@Model.Photo" />
+                                    <label class="form-label" for="Photo">@Messages.CATALOG_PHOTO_LABEL</label>
+                                </div>
+
+                            </div>
+                            <div class="mt-4 pt-2">
+                                <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
                             </div>
                         </form>
                     </div>
@@ -64,12 +62,4 @@
     </div>
 </section>
 
-<script>
-    window.onload = function () {
-        var value = $("#message").val();
-        if (value)
-        {
-            alert(value);
-        }
-    };
-</script>
+

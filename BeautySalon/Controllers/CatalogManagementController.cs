@@ -25,37 +25,55 @@ namespace BeautySalon.Controllers
             return View(catalogs);
         }
 
+        [HttpGet]
+        public ActionResult Create()
+        {
+            CatalogVM catalog = new CatalogVM();
+            return View("Edit", catalog);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CatalogVM newCatalog)
+        {
+            var catalog = await _catalogService.Insert(newCatalog);
+            if(catalog != null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View("Edit", newCatalog);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int catalogId)
+        {
+            var existingCatalog = await _catalogService.GetById(catalogId);
+            var catalog = _mapper.Map<CatalogVM>(existingCatalog);
+            return View(catalog);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(CatalogVM editedCatalog)
+        {
+            var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
+            if(catalog!=null)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(editedCatalog);
+        }
+
         public async Task<IActionResult> Search(string catalogTitle)
         {
-            IEnumerable<Catalog> catalogs;
+            IEnumerable<CatalogVM> catalogs;
             if (!string.IsNullOrEmpty(catalogTitle))
             {
                 catalogs = await _catalogService.SearchByName(catalogTitle);
             }
             else
             {
-                catalogs = await _catalogService.GetAllCatalogs();
+                catalogs = await _catalogService.GetAll();
             }
             return View("~/Views/CatalogManagement/Index.cshtml", catalogs);
-        }
-        
-        [HttpGet]
-        public async Task<IActionResult> Edit(int catalogId)
-        {
-            var catalog = await _catalogService.GetById(catalogId);
-            return View(catalog);
-        }
-
-        [HttpPost]
-        public async Task<IActionResult> Edit(CatalogVM catalogEdit)
-        {
-            var updateCatalog =await _catalogService.Update(catalogEdit.Id, catalogEdit);
-            if(updateCatalog != null) 
-            {
-                ViewBag.Message = Messages.CATALOG_EDIT_SUCCESSFUL;
-                return View(updateCatalog);
-            }
-            return View(catalogEdit);
         }
     }
 }

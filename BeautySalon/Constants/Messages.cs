@@ -49,6 +49,12 @@ namespace BeautySalon.Constants
         public const string DELETE = "Delete";
 
         public const string CONFIRM_DELETION = "Are you sure you want to proceed with this action?";
+
+        public const string CREATE = "Create";
+
+        public const string BACK = "Back";
+
+        public const string SAVE = "Save";
         
         #region LABELS
 
@@ -99,6 +105,8 @@ namespace BeautySalon.Constants
         public const string CATALOG_TITLE_LABEL = "Catalog Title";
 
         public const string CATALOG_TYPE_LABEL = "Catalog Type";
+
+        public const string CATALOG_PHOTO_LABEL = "Catalog Photo";
         
         public const string CATALOG_DESCRIPTION_LABEL = "Catalog Description";
 
@@ -114,6 +122,12 @@ namespace BeautySalon.Constants
         public const string PASSWORD_ERROR_MESSAGE = "Password not strong enough";
 
         public const string CONFRIM_PASSWORD_ERROR_MESSAGE = "Password Not Matched";
+
+        public const string TITLE_ERROR_MESSAGE = "You must enter the title of this catalog";
+
+        public const string TYPE_ERROR_MESSAGE = "You must enter the type of this catalog";
+
+        public const string DESCRIPTION_ERROR_MESSAGE = "You must enter the description of this catalog";
 
         #endregion
     }
