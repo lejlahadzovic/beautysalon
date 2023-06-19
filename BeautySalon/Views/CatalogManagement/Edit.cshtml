@@ -24,6 +24,7 @@
                                 <div class="form-outline">
                                     <input type="text" id="catalogTitle" name="Title" placeholder="Title" class="form-control form-control-lg" value="@Model.Title" />
                                     <label class="form-label" for="Title">@Messages.CATALOG_TITLE_LABEL</label>
+                                    <span asp-validation-for="Title" class="text-danger"></span>
                                 </div>
 
                             </div>
@@ -32,14 +33,16 @@
                                 <div class="form-outline">
                                     <input type="text" id="catalogType" name="Type" placeholder="Type" class="form-control form-control-lg" value="@Model.Type" />
                                     <label class="form-label" for="Type">@Messages.CATALOG_TYPE_LABEL</label>
+                                    <span asp-validation-for="Type" class="text-danger"></span>
                                 </div>
 
                             </div>
                             <div class="mb-4">
                                 
                                 <div class="form-outline">
-                                    <textarea id="catalogDescription" name="Description" placeholder="Description" class="form-control form-control-lg">@Model.Description</textarea>
+                                    <textarea id="catalogDescription" name="Description" placeholder="Description" class="form-control form-control-lg" rows="5">@Model.Description</textarea>
                                     <label class="form-label" for="catalogDescription">@Messages.CATALOG_DESCRIPTION_LABEL</label>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
                                 </div>
 
                             </div>
@@ -53,6 +56,16 @@
                             </div>
                             <div class="mt-4 pt-2">
                                 <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
+                                @if(action=="Edit")
+                                {
+                                    <input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
+                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" />
+                                    <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
+                                }
+                                else
+                                {
+                                    <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
+                                }
                             </div>
                         </form>
                     </div>
@@ -63,3 +76,7 @@
 </section>
 
 
+@section Scripts
+{
+    <partial name="_ValidationScriptsPartial" />
+}

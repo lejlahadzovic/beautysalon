@@ -11,9 +11,8 @@
         <div class="col-md-4">
             @using (Html.BeginForm("Search", "CatalogManagement", FormMethod.Get, new { @class = "w-100" }))
             {
-                @Html.Hidden("catalogName")
                 <div class="input-group">
-                    <input type="text" name="catalogTitle" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                    <input type="text" name="catalogName" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <div class="input-group-append">
                         <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
                     </div>
@@ -21,23 +20,19 @@
             }
         </div>
         <div class="col-md 8 d-flex justify-content-end mt-1">
-            <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">New Catalog</a>
+            <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">@Messages.NEW_CATALOG_LABEL</a>
         </div>
     </div>
-    <table class="table table-hover">
-        <caption>@Messages.SELECT_CATALOG_LABEL</caption>
-        <thead class="table-dark">
+    <caption>@Messages.SELECT_CATALOG_LABEL</caption>
+    <table class="table table-responsive table-hover">
         <tr>
-            <th>ID </th>
-            <th >Catalog Title </th>
-            <th>Catalog Type</th>
-            <th>Catalog Description </th>
+            <th>@Messages.CATALOG_TITLE_LABEL </th>
+            <th>@Messages.CATALOG_TYPE_LABEL</th>
+            <th>@Messages.CATALOG_DESCRIPTION_LABEL</th>
         </tr>
-        </thead>
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.Id</td>
                 <td><a href="@Url.Action("Edit", "CatalogManagement",new{catalogId=item.Id})">@item.Title</a></td>
                 <td>@item.Type</td>
                 <td class="text-truncate" style="max-width: 50px; text-overflow:ellipsis;">@item.Description</td>

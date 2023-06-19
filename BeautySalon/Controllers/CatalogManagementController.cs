@@ -46,9 +46,13 @@ namespace BeautySalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int catalogId)
         {
-            var existingCatalog = await _catalogService.GetById(catalogId);
-            var catalog = _mapper.Map<CatalogVM>(existingCatalog);
-            return View(catalog);
+            if(catalogId!=0)
+            {
+                var existingCatalog = await _catalogService.GetById(catalogId);
+                var catalog = _mapper.Map<CatalogVM>(existingCatalog);
+                return View(catalog);
+            }
+            return NotFound();
         }
 
         [HttpPost]
@@ -62,12 +66,23 @@ namespace BeautySalon.Controllers
             return View(editedCatalog);
         }
 
-        public async Task<IActionResult> Search(string catalogTitle)
+        [HttpPost]
+        public async Task<IActionResult> Delete(Catalog catalog)
+        {
+            if(catalog!=null)
+            {
+                await _catalogService.Remove(catalog);
+                return RedirectToAction("Index");
+            }
+            return NotFound();
+        }
+
+        public async Task<IActionResult> Search(string catalogName)
         {
             IEnumerable<CatalogVM> catalogs;
-            if (!string.IsNullOrEmpty(catalogTitle))
+            if (!string.IsNullOrEmpty(catalogName))
             {
-                catalogs = await _catalogService.SearchByName(catalogTitle);
+                catalogs = await _catalogService.SearchByName(catalogName);
             }
             else
             {

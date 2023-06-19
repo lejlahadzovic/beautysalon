@@ -8,6 +8,7 @@ using BeautySalon.Services.Implementations;
 using Microsoft.Extensions.FileSystemGlobbing.Internal.Patterns;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

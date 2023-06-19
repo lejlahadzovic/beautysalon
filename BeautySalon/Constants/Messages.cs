@@ -110,6 +110,8 @@ namespace BeautySalon.Constants
         
         public const string CATALOG_DESCRIPTION_LABEL = "Catalog Description";
 
+        public const string NEW_CATALOG_LABEL = "New Catalog";
+
         #endregion
 
 

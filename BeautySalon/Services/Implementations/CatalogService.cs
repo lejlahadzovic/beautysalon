@@ -63,5 +63,11 @@ namespace BeautySalon.Services.Implementations
             }
             return entity;
         }
+
+        public async Task Remove(Catalog remove)
+        {
+            _dbContext.Catalogs.Remove(remove);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace BeautySalon.Services.Interfaces
         Task<Catalog> GetById(int catalogId);
         Task<Catalog> Insert(CatalogVM insert);
         Task<Catalog> Update(int id, CatalogVM update);
+        Task Remove(Catalog remove);
         Task<List<CatalogVM>> SearchByName(string catalogName);
     }
 }
