@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Controllers
 {
+    [Authorize(Roles=Roles.ADMIN)]
     public class CatalogManagementController : Controller
     {
         protected new readonly ICatalogService _catalogService;

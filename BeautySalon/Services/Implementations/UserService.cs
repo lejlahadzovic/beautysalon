@@ -106,7 +106,7 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<User> Login(UserLoginVM loginUser)
         {
-            var entity = await _dbContext.Users.FirstOrDefaultAsync(x => x.Email == loginUser.Email);
+            var entity = await _dbContext.Users.Include(u=>u.Role).FirstOrDefaultAsync(x => x.Email == loginUser.Email);
             if (entity == null)
             {
                 return null;
