@@ -6,6 +6,8 @@ using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Hosting.Internal;
 
 namespace BeautySalon.Controllers
 {
@@ -14,11 +16,13 @@ namespace BeautySalon.Controllers
     {
         protected new readonly ICatalogService _catalogService;
         protected IMapper _mapper { get; set; }
+        protected new readonly IWebHostEnvironment _hostEnvironment;
 
-        public CatalogManagementController(ICatalogService catalogService, IMapper mapper)
+        public CatalogManagementController(ICatalogService catalogService, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _catalogService = catalogService;
             _mapper = mapper;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<IActionResult> Index()
@@ -35,8 +39,23 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CatalogVM newCatalog)
+        public async Task<IActionResult> Create(CatalogVM newCatalog, IFormFile imgfile)
         {
+            if (imgfile != null && imgfile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                string imageFileName = $"{Guid.NewGuid()}{Path.GetExtension(imgfile.FileName)}";
+                string filePath = Path.Combine(uploadsFolder, imageFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgfile.CopyToAsync(fileStream);
+                }
+                newCatalog.ImageFileString = imageFileName;
+            }
             var catalog = await _catalogService.Insert(newCatalog);
             if(catalog != null)
             {
@@ -58,8 +77,23 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CatalogVM editedCatalog)
+        public async Task<IActionResult> Edit(CatalogVM editedCatalog, IFormFile imgfile)
         {
+            if (imgfile != null && imgfile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                string imageFileName = $"{Guid.NewGuid()}{Path.GetExtension(imgfile.FileName)}";
+                string filePath = Path.Combine(uploadsFolder, imageFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgfile.CopyToAsync(fileStream);
+                }
+                editedCatalog.ImageFileString = imageFileName;
+            }
             var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
             if(catalog != null)
             {

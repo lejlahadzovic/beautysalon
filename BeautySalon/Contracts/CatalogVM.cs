@@ -11,5 +11,6 @@ namespace BeautySalon.Contracts
         public string Description { get; set; }
         public string Type { get; set; }
         public byte[]? Photo { get; set; }
+        public string? ImageFileString { get; set; }
     }
 }

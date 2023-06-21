@@ -55,6 +55,10 @@ namespace BeautySalon.Constants
         public const string BACK = "Back";
 
         public const string SAVE = "Save";
+
+        public const string DELETE_CONFIRMATION_CATALOG = "Are you sure you want to delete this catalog?";
+
+        public const string CANCEL = "Cancel";
         
         #region LABELS
 

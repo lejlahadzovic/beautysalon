@@ -12,11 +12,11 @@
     {
             <div class="col-lg-4 col-md-6 col-sm-12 my-3" onclick="location.href='@Url.Action("Index","Service", new {catalogId=item.Id})'">
                 <div class="card">
-                    <img src="~/images/beauty.png" title="catalog" alt="catalog" style="width:100%">
+                    <img src="~/images/@item.ImageFileString" title="catalog" alt="catalog" style="width:100%">
                  <div> 
-                 <h4><b>@Html.DisplayFor(modelItem =>item.Title)</b></h4>
-                 <p class="text-truncate" style="text-overflow:ellipsis;">@Html.DisplayFor(modelItem =>item.Description)</p>
-                 <p>@Html.DisplayFor(modelItem =>item.Type)</p>
+                    <h4><b>@Html.DisplayFor(modelItem =>item.Title)</b></h4>
+                    <p class="text-truncate" style="text-overflow:ellipsis;">@Html.DisplayFor(modelItem =>item.Description)</p>
+                     <p>@Html.DisplayFor(modelItem =>item.Type)</p>
                  </div>
                </div>
             </div>

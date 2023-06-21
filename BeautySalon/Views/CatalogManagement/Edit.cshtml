@@ -13,7 +13,7 @@
                     <div class="card-body p-4 p-md-5">
                         <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.MANAGE_CATALOGS_LABEL</h3>
                         <br />
-                        <form id="edit_service_form" action="@Url.Action(action, "CatalogManagement")" method="post">
+                        <form id="edit_service_form" action="@Url.Action(action, "CatalogManagement")" method="post" enctype="multipart/form-data">
                             <div class="mb-4" hidden>
                                
                                     <input type="text" id="catalogId" name="Id" placeholder="Id" class="form-control form-control-lg" value="@Model.Id" /> 
@@ -47,18 +47,16 @@
 
                             </div>
                             <div class="mb-4">
-
                                 <div class="form-outline">
                                     <input type="file" id="imgfile" name="imgfile" class="form-control form-control-lg" />
                                     <label class="form-label">@Messages.CATALOG_PHOTO_LABEL</label>
                                 </div>
-
                             </div>
                             <div class="mt-4 pt-2">
                                 <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
                                 @if(action=="Edit")
                                 {
-                                    <input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
+                                    <input class="btn btn-danger" id="deleteBtn" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
                                     asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" />
                                     <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
                                 }
@@ -75,8 +73,8 @@
     </div>
 </section>
 
-
 @section Scripts
-{
+    {
     <partial name="_ValidationScriptsPartial" />
+
 }
