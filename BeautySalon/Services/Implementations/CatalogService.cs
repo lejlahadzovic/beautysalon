@@ -47,6 +47,7 @@ namespace BeautySalon.Services.Implementations
         {
             var set = _dbContext.Catalogs;
             Catalog entity = _mapper.Map<Catalog>(insert);
+
             set.Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;

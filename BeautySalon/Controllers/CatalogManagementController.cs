@@ -4,6 +4,7 @@ using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Controllers
@@ -60,7 +61,7 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Edit(CatalogVM editedCatalog)
         {
             var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
-            if(catalog!=null)
+            if(catalog != null)
             {
                 return RedirectToAction("Index");
             }
