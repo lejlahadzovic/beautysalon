@@ -14,7 +14,7 @@
                 <div class="input-group">
                     <input type="text" name="catalogName" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
                     <div class="input-group-append">
-                        <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
+                        <button type="submit" class="btn btn-dark">@Messages.SEARCH_LABEL</button>
                     </div>
                 </div>
             }
@@ -25,11 +25,13 @@
     </div>
     <caption>@Messages.SELECT_CATALOG_LABEL</caption>
     <table class="table table-responsive table-hover">
+        <thead class="table-dark">
         <tr>
             <th>@Messages.CATALOG_TITLE_LABEL </th>
             <th>@Messages.CATALOG_TYPE_LABEL</th>
             <th>@Messages.CATALOG_DESCRIPTION_LABEL</th>
         </tr>
+        </thead>
         @foreach (var item in Model)
         {
             <tr>
