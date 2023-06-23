@@ -6,6 +6,7 @@ using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Hosting;
 using System.Collections;
 using System.Runtime.CompilerServices;
 
@@ -47,7 +48,6 @@ namespace BeautySalon.Services.Implementations
         {
             var set = _dbContext.Catalogs;
             Catalog entity = _mapper.Map<Catalog>(insert);
-
             set.Add(entity);
             await _dbContext.SaveChangesAsync();
             return entity;

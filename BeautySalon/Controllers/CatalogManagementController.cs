@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BeautySalon.Constants;
+using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
@@ -48,7 +49,8 @@ namespace BeautySalon.Controllers
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
-                string imageFileName = $"{Guid.NewGuid()}{Path.GetExtension(imgfile.FileName)}";
+                string imageFileName = $"{Path.GetFileNameWithoutExtension(imgfile.FileName)}{newCatalog.Title}" +
+                   $"{Path.GetExtension(imgfile.FileName)}";
                 string filePath = Path.Combine(uploadsFolder, imageFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -79,6 +81,7 @@ namespace BeautySalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CatalogVM editedCatalog, IFormFile imgfile)
         {
+            var existingCatalog = await _catalogService.GetById(editedCatalog.Id);
             if (imgfile != null && imgfile.Length > 0)
             {
                 string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
@@ -86,7 +89,25 @@ namespace BeautySalon.Controllers
                 {
                     Directory.CreateDirectory(uploadsFolder);
                 }
-                string imageFileName = $"{Guid.NewGuid()}{Path.GetExtension(imgfile.FileName)}";
+                string imageFileName = $"{Path.GetFileNameWithoutExtension(imgfile.FileName)}{editedCatalog.Title}" +
+                    $"{Path.GetExtension(imgfile.FileName)}";
+                var imgFileFromExistingCatalog = existingCatalog.ImageFileString;
+                if (imgFileFromExistingCatalog == imageFileName)
+                {
+                    var fullPath = uploadsFolder +"\\"+ imageFileName;
+                    if(System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+                else
+                {
+                    var existingImage = uploadsFolder + "\\" + existingCatalog.ImageFileString;
+                    if(System.IO.File.Exists(existingImage))
+                    {
+                        System.IO.File.Delete(existingImage);
+                    }
+                }
                 string filePath = Path.Combine(uploadsFolder, imageFileName);
                 using (var fileStream = new FileStream(filePath, FileMode.Create))
                 {
@@ -102,10 +123,23 @@ namespace BeautySalon.Controllers
             return View(editedCatalog);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Delete(int catalogId)
+        {
+
+        }
+        
         [HttpPost]
         public async Task<IActionResult> Delete(Catalog catalog)
         {
-            if(catalog!=null)
+            string uploadFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+            string imagesToDelete = $"*{catalog.Title}*";
+            string[] imagesList = System.IO.Directory.GetFiles(uploadFolder, imagesToDelete);
+            foreach(string image in imagesList)
+            {
+                System.IO.File.Delete(image);
+            }
+            if (catalog!=null)
             {
                 await _catalogService.Remove(catalog);
                 return RedirectToAction("Index");
