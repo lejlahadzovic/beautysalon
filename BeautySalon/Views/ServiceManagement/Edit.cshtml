@@ -1,21 +1,29 @@
 ﻿@using BeautySalon.Constants
 @model BeautySalon.Contracts.ServiceVM
 @{
-    ViewBag.Title = "Register";
+    ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
     string action = Model.Id != 0 ? "Edit" : "Create";
 }
 <section class="vh-100 gradient-custom" style="margin-bottom:300px;">
-    <div class="container py-5 h-100">
-        <div class="row justify-content-center align-items-center h-100">
-            <div class="col-12 col-lg-9 col-xl-7">
-                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+ 
+       <div class="row justify-content-center align-items-center h-100">
+          <div class="card shadow-2-strong card-registration mt-4" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-5">
-                        <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">@Messages.MANAGE_SERVICES_TITLE</h3>
-                        <h5 class="text-danger">@TempData["message"]</h5>
-                        <br />
                         <form id="edit_service_form" action="@Url.Action(action, "ServiceManagement")" method="post">
-                                <div class="mb-4">
+                            <div class="row mb-3 mt-3">
+                                
+                                <div class="col-md-2 ms-auto">
+                                <input class="btn btn-success m-3" type="submit" value="Save"/>
+                                    @if (Model.Id!=0)
+                                    {
+                                       <input class="btn btn-danger" type="submit"  value="Delete" formaction="/servicemanagement/delete/@Model.Id" onclick="return confirm ('Are you sure to delete record?');"/>
+                                    } 
+                                </div>
+                                <h3>@Messages.MANAGE_SERVICES_TITLE</h3>
+                            </div>
+                            
+                            <div class="mb-4">
 
                                     <div class="form-outline">
                                         <input type="text" id="serviceName" name="Name" placeholder="Name" class="form-control form-control-lg" value="@Model.Name" />
@@ -24,52 +32,47 @@
                                         @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                                     </div>
 
+                            </div>
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <input type="text" id="Price" name="Price" placeholder="Last name" class="form-control form-control-lg" value="@Model.Price" />
+                                    <label class="form-label" for="Price">@Messages.MANAGE_SERVICES_PRICE</label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="mb-4">
 
-                                    <div class="form-outline">
-                                        <input type="text" id="lastName" name="LastName" placeholder="Last name" class="form-control form-control-lg" value="@Model.Price" />
-                                        <label class="form-label" for="Price">@Messages.MANAGE_SERVICES_PRICE</label>
-                                        <br />
-                                        @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
-                                    </div>
+                            </div>
+                            <div class="mb-4 d-flex align-items-center">
 
+                                <div class="form-outline datepicker w-100">
+                                    <input type="text" id="duration" name="Duration" class="form-control form-control-lg" value="@Model.Duration" />
+                                    <label for="Duration" class="form-label">@Messages.MANAGE_SERVICES_DURATION</label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="mb-4 d-flex align-items-center">
 
-                                    <div class="form-outline datepicker w-100">
-                                        <input type="text" id="duration" name="Duration" class="form-control form-control-lg" value="@Model.Duration" />
-                                        <label for="Duration" class="form-label">@Messages.MANAGE_SERVICES_DURATION</label>
-                                        <br />
-                                        @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "text-danger" })
-                                    </div>
+                            </div>
+                            <div class="mb-4 pb-2">
 
+                                <div class="form-outline">
+                                    <input type="text" id="description" name="Description" class="form-control form-control-lg" value="@Model.Description" />
+                                    <label class="form-label" for="description">@Messages.MANAGE_SERVICES_DECRIPTION</label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="mb-4 pb-2">
 
-                                    <div class="form-outline">
-                                        <input type="text" id="description" name="Description" class="form-control form-control-lg" value="@Model.Description" />
-                                        <label class="form-label" for="description">@Messages.MANAGE_SERVICES_DECRIPTION</label>
-                                        <br />
-                                        @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
-                                    </div>
-
+                            </div>
+                            <div class="mb-4 pb-2">
+                                <div class="form-outline">
+                                    <input type="text" id="catalog" name="CatalogId" class="form-control form-control-lg" value="@Model.CatalogId" />
+                                    <label class="form-label" for="catalog">@Messages.MANAGE_SERVICES_CATALOG</label>
+                                    <br />
+                                    @Html.ValidationMessageFor(m => m.CatalogId, "", new { @class = "text-danger" })
                                 </div>
-                                <div class="mb-4 pb-2">
-                                    <div class="form-outline">
-                                        <input type="text" id="catalog" name="CatalogId" class="form-control form-control-lg" value="@Model.CatalogId" />
-                                        <label class="form-label" for="catalog">@Messages.MANAGE_SERVICES_CATALOG</label>
-                                        <br />
-                                        @Html.ValidationMessageFor(m => m.Catalog.Title, "", new { @class = "text-danger" })
-                                    </div>
-                                </div>
-                            <div class="mt-4 pt-2">
-                                <input class="btn btn-success" type="submit" value="Submit" />
                             </div>
                         </form>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
+          </div>
+       </div>
 </section>

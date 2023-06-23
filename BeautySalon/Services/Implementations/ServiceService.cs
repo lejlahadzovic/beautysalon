@@ -26,7 +26,6 @@ namespace BeautySalon.Services.Implementations
             && (string.IsNullOrEmpty(name) 
             || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
             
-
             CatalogServiceVM catalogServiceVM = new CatalogServiceVM();
             catalogServiceVM.CatalogId = catalogId;
             catalogServiceVM.Services = _mapper.Map<List<ServiceVM>>(services);
@@ -61,6 +60,7 @@ namespace BeautySalon.Services.Implementations
         {
             var set = _dbContext.Services;
             Service entity = _mapper.Map<Service>(insert);
+            entity.Catalog = (Catalog)_dbContext.Catalogs.Where(x => x.Id.Equals(insert.CatalogId));
             set.Add(entity);
             await _dbContext.SaveChangesAsync();
 
@@ -74,6 +74,17 @@ namespace BeautySalon.Services.Implementations
             {
                 _mapper.Map(update, entity);
                 _dbContext.Services.Update(entity);
+                await _dbContext.SaveChangesAsync();
+            }
+
+            return entity;
+        }
+
+        public async Task<Service> Delete(int id)
+        {
+            var entity = _dbContext.Services.FirstOrDefault(x => x.Id == id);
+            if (entity != null) {
+                _dbContext.Services.Remove(entity);
                 await _dbContext.SaveChangesAsync();
             }
 

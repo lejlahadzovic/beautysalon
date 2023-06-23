@@ -2,9 +2,9 @@
 using BeautySalon.Constants;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
-using BeautySalon.Services.Implementations;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace BeautySalon.Controllers
 {
@@ -20,7 +20,7 @@ namespace BeautySalon.Controllers
         }
 
         public async Task<IActionResult> Index(string name)
-        {
+        { 
             var services = await _serviceService.GetAll(name);
             return View(services);
         }
@@ -69,10 +69,28 @@ namespace BeautySalon.Controllers
             var service = await _serviceService.Update(newService.Id,newService);
             if (service != null)
             {
-                return View();
+                return View(newService);
             }
 
             return View(newService);
+        }
+        public ActionResult Delete()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Delete(int id)
+        {
+            try
+            {
+                var service = _serviceService.Delete(id);
+                return RedirectToAction("Index");
+            }
+            catch
+            {
+                return View();
+            }
         }
     }
 }

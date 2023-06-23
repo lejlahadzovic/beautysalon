@@ -10,5 +10,6 @@ namespace BeautySalon.Services.Interfaces
         Task<Service> GetServicesById(int id);
         Task<Service> Insert(ServiceVM insert);
         Task<Service> Update(int id, ServiceVM update);
+        Task<Service> Delete(int id);
     }
 }
