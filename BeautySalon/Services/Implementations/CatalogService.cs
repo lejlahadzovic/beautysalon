@@ -16,11 +16,13 @@ namespace BeautySalon.Services.Implementations
     {
         protected ApplicationDbContext _dbContext;
         protected IMapper _mapper { get; set; }
-        
-        public CatalogService(ApplicationDbContext dbContext, IMapper mapper)
+        protected readonly IWebHostEnvironment _hostEnvironment;
+
+        public CatalogService(ApplicationDbContext dbContext, IMapper mapper, IWebHostEnvironment hostEnvironment)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _hostEnvironment = hostEnvironment;
         }
 
         public async Task<List<CatalogVM>> GetAll()
@@ -44,8 +46,24 @@ namespace BeautySalon.Services.Implementations
             return catalog;
         }
 
-        public async Task<Catalog> Insert(CatalogVM insert)
+        public async Task<Catalog> Insert(CatalogVM insert, IFormFile imgfile)
         {
+            if (imgfile != null && imgfile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                string imageFileName = $"{Path.GetFileNameWithoutExtension(imgfile.FileName)}{insert.Title}" +
+                   $"{Path.GetExtension(imgfile.FileName)}";
+                string filePath = Path.Combine(uploadsFolder, imageFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgfile.CopyToAsync(fileStream);
+                }
+                insert.ImageFileString = imageFileName;
+            }
             var set = _dbContext.Catalogs;
             Catalog entity = _mapper.Map<Catalog>(insert);
             set.Add(entity);
@@ -53,10 +71,43 @@ namespace BeautySalon.Services.Implementations
             return entity;
         }
         
-        public async Task<Catalog> Update(int catalogId, CatalogVM update)
+        public async Task<Catalog> Update(int catalogId, CatalogVM update, IFormFile imgfile)
         {
             var entity = await GetById(catalogId);
-            if(entity!=null)
+            if (imgfile != null && imgfile.Length > 0)
+            {
+                string uploadsFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+                string imageFileName = $"{Path.GetFileNameWithoutExtension(imgfile.FileName)}{update.Title}" +
+                    $"{Path.GetExtension(imgfile.FileName)}";
+                var imgFileFromExistingCatalog = entity.ImageFileString;
+                if (imgFileFromExistingCatalog == imageFileName)
+                {
+                    var fullPath = uploadsFolder + "\\" + imageFileName;
+                    if (System.IO.File.Exists(fullPath))
+                    {
+                        System.IO.File.Delete(fullPath);
+                    }
+                }
+                else
+                {
+                    var existingImage = uploadsFolder + "\\" + entity.ImageFileString;
+                    if (System.IO.File.Exists(existingImage))
+                    {
+                        System.IO.File.Delete(existingImage);
+                    }
+                }
+                string filePath = Path.Combine(uploadsFolder, imageFileName);
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await imgfile.CopyToAsync(fileStream);
+                }
+                update.ImageFileString = imageFileName;
+            }
+            if (entity!=null)
             {
                 _mapper.Map(update, entity);
                 _dbContext.Catalogs.Update(entity);
@@ -67,6 +118,13 @@ namespace BeautySalon.Services.Implementations
 
         public async Task Remove(Catalog remove)
         {
+            string uploadFolder = Path.Combine(_hostEnvironment.WebRootPath, "images");
+            string imagesToDelete = $"*{remove.Title}*";
+            string[] imagesList = System.IO.Directory.GetFiles(uploadFolder, imagesToDelete);
+            foreach (string image in imagesList)
+            {
+                System.IO.File.Delete(image);
+            }
             _dbContext.Catalogs.Remove(remove);
             await _dbContext.SaveChangesAsync();
         }

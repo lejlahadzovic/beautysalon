@@ -7,8 +7,8 @@ namespace BeautySalon.Services.Interfaces
     {
         Task<List<CatalogVM>> GetAll();
         Task<Catalog> GetById(int catalogId);
-        Task<Catalog> Insert(CatalogVM insert);
-        Task<Catalog> Update(int id, CatalogVM update);
+        Task<Catalog> Insert(CatalogVM insert, IFormFile imgfile);
+        Task<Catalog> Update(int id, CatalogVM update, IFormFile imgfile);
         Task Remove(Catalog remove);
         Task<List<CatalogVM>> SearchByName(string catalogName);
     }

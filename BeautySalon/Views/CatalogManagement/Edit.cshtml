@@ -56,8 +56,8 @@
                                 <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
                                 @if(action=="Edit")
                                 {
-                                    <input class="btn btn-danger" id="deleteBtn" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
-                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" />
+                                    <input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
+                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" onclick="return confirm ('@Messages.CONFIRM_DELETION');"/>
                                     <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
                                 }
                                 else
@@ -77,5 +77,3 @@
 {
     <partial name="_ValidationScriptsPartial" />
 }
-
-
