@@ -3,11 +3,14 @@ using BeautySalon.Constants;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Data;
 
 namespace BeautySalon.Controllers
 {
+    [Authorize(Roles = Roles.ADMIN)]
     public class ServiceManagementController : Controller
     {
         protected new readonly IServiceService _serviceService;
