@@ -56,8 +56,10 @@
                                 <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
                                 @if(action=="Edit")
                                 {
-                                    <input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
-                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" onclick="return confirm ('@Messages.CONFIRM_DELETION');"/>
+                                    @*<input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
+                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" onclick="return confirm ('@Messages.CONFIRM_DELETION');"/>*@
+                                    <button class="btn btn-danger" type="button" id="deleteItem" data-target="#modalDelete" data-toggle="modal"
+                                    data-path="@Url.Action("Delete", "CatalogManagement", new {catalogId = Model.Id})">@Messages.DELETE</button>
                                     <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
                                 }
                                 else
@@ -76,4 +78,39 @@
 @section Scripts
 {
     <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script type="text/javascript">
+        var pathToDelete;
+        
+        $('#deleteItem').on('click', function(e){
+            $('#modalDelete').modal('show');
+            pathToDelete = $(this).data('path');
+        });
+        $('#closeBtn').on('click', function(){
+            $('#modalDelete').modal('toggle');
+        }); 
+        $('#cancelBtn').on('click', function () {
+            $('#modalDelete').modal('toggle');
+        });
+        $("#btnContinueToDelete").click(function(){
+            window.location = pathToDelete;
+        });
+    </script>
 }
+
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:black; color:white;">
+                <h5 class="modal-title" id="exampleModalLongTitle">@Messages.DELETE_CONFIRMATION_CATALOG</h5>
+                <button type="button" id="closeBtn" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="submit" id="btnContinueToDelete" class="btn btn-danger">@Messages.DELETE</button>
+                <button type="button" id="cancelBtn" class="btn btn-secondary" data-dismiss="modal">@Messages.CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>

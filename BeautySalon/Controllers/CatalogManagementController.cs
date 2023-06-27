@@ -1,15 +1,10 @@
 ﻿using AutoMapper;
 using BeautySalon.Constants;
-using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Hosting.Internal;
-
 namespace BeautySalon.Controllers
 {
     [Authorize(Roles=Roles.ADMIN)]
@@ -40,12 +35,20 @@ namespace BeautySalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Create(CatalogVM newCatalog, IFormFile imgfile)
         {
+            ModelState.Remove("imgfile");
+            if(!ModelState.IsValid)
+            {
+                return PartialView("Edit", newCatalog);
+            }
             var catalog = await _catalogService.Insert(newCatalog, imgfile);
             if(catalog != null)
             {
                 return RedirectToAction("Index");
             }
-            return View("Edit", newCatalog);
+            else
+            {
+                return View("Edit");
+            }
         }
 
         [HttpGet]
@@ -63,17 +66,25 @@ namespace BeautySalon.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(CatalogVM editedCatalog, IFormFile imgfile)
         {
+            ModelState.Remove("imgfile");
+            if(!ModelState.IsValid)
+            {
+                return PartialView(editedCatalog);
+            }
             var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog, imgfile);
             if(catalog != null)
             {
                 return RedirectToAction("Index");
             }
-            return View(editedCatalog);
+            else
+            {
+                return View();
+            }
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Delete(Catalog catalog)
+        public async Task<IActionResult> Delete(int catalogId)
         {
+            var catalog = await _catalogService.GetById(catalogId);
             if (catalog!=null)
             {
                 await _catalogService.Remove(catalog);
@@ -93,7 +104,7 @@ namespace BeautySalon.Controllers
             {
                 catalogs = await _catalogService.GetAll();
             }
-            return View("~/Views/CatalogManagement/Index.cshtml", catalogs);
+            return View("Index", catalogs);
         }
     }
 }
