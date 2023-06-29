@@ -33,14 +33,14 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CatalogVM newCatalog, IFormFile imgfile)
+        public async Task<IActionResult> Create(CatalogVM newCatalog)
         {
             ModelState.Remove("imgfile");
             if(!ModelState.IsValid)
             {
                 return PartialView("Edit", newCatalog);
             }
-            var catalog = await _catalogService.Insert(newCatalog, imgfile);
+            var catalog = await _catalogService.Insert(newCatalog);
             if(catalog != null)
             {
                 return RedirectToAction("Index");
@@ -64,14 +64,14 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(CatalogVM editedCatalog, IFormFile imgfile)
+        public async Task<IActionResult> Edit(CatalogVM editedCatalog)
         {
             ModelState.Remove("imgfile");
             if(!ModelState.IsValid)
             {
                 return PartialView(editedCatalog);
             }
-            var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog, imgfile);
+            var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
             if(catalog != null)
             {
                 return RedirectToAction("Index");

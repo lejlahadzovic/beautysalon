@@ -18,5 +18,6 @@ namespace BeautySalon.Contracts
         public string Type { get; set; }
         public byte[]? Photo { get; set; }
         public string? ImageFileString { get; set; }
+        public IFormFile? UploadFile { get; set; }
     }
 }

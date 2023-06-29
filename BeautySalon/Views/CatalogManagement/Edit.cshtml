@@ -48,7 +48,7 @@
                             </div>
                             <div class="mb-4">
                                 <div class="form-outline">
-                                    <input type="file" id="imgfile" name="imgfile" class="form-control form-control-lg" />
+                                    <input type="file" id="uploadFile" name="UploadFile" placeholder="UploadFile" class="form-control form-control-lg" />
                                     <label class="form-label">@Messages.CATALOG_PHOTO_LABEL</label>
                                 </div>
                             </div>
@@ -56,8 +56,6 @@
                                 <input class="btn btn-success" type="submit" value="@Messages.SAVE" />
                                 @if(action=="Edit")
                                 {
-                                    @*<input class="btn btn-danger" type="submit" asp-controller="CatalogManagement" asp-action="Delete" 
-                                    asp-for="Id" asp-route-id="@Model.Id" value="@Messages.DELETE" onclick="return confirm ('@Messages.CONFIRM_DELETION');"/>*@
                                     <button class="btn btn-danger" type="button" id="deleteItem" data-target="#modalDelete" data-toggle="modal"
                                     data-path="@Url.Action("Delete", "CatalogManagement", new {catalogId = Model.Id})">@Messages.DELETE</button>
                                     <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
