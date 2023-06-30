@@ -5,6 +5,7 @@ using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 namespace BeautySalon.Controllers
 {
     [Authorize(Roles=Roles.ADMIN)]
@@ -19,10 +20,11 @@ namespace BeautySalon.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg=1)
         {
             var catalogs = await _catalogService.GetAll();
-            return View(catalogs);
+            var pagination = Pagination(pg, catalogs);
+            return View(pagination);
         }
 
         [HttpGet]
@@ -93,9 +95,9 @@ namespace BeautySalon.Controllers
             return NotFound();
         }
 
-        public async Task<IActionResult> Search(string catalogName)
+        public async Task<IActionResult> Search(string catalogName, int pg=1)
         {
-            IEnumerable<CatalogVM> catalogs;
+            List<CatalogVM> catalogs;
             if (!string.IsNullOrEmpty(catalogName))
             {
                 catalogs = await _catalogService.SearchByName(catalogName);
@@ -104,7 +106,20 @@ namespace BeautySalon.Controllers
             {
                 catalogs = await _catalogService.GetAll();
             }
+            var pagination = Pagination(pg, catalogs);
             return View("Index", catalogs);
+        }
+
+        private List<CatalogVM> Pagination(int pg, List<CatalogVM> catalogs)
+        {
+            const int pageSize = 8;
+            if (pg < 1) { pg = 1; }
+            int recsCount = catalogs.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+            var data = catalogs.Skip(recSkip).Take(pager.PageSize).ToList();
+            this.ViewBag.Pager = pager;
+            return data;
         }
     }
 }

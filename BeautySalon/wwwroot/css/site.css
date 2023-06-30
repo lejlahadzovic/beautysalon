@@ -100,3 +100,7 @@ header, footer {
             font-size: 18px;
         }
 }
+
+.pagination .page-item.active .page-link {
+    background-color: #000;
+}
