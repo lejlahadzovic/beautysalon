@@ -21,41 +21,51 @@ namespace BeautySalon.Controllers
             _serviceService = serviceService;
             _mapper = mapper;
         }
-
-        public async Task<IActionResult> Index(string name)
-        { 
-            var services = await _serviceService.GetAll(name);
+        
+        public async Task<IActionResult> Index(string name, int catalogId)
+        {
+            List<Catalog> catalogsList = _serviceService.GetCatalogs();
+            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
+            var services = await _serviceService.GetAll(name, catalogId);
             return View(services);
         }
 
         [HttpGet]
         public ActionResult Create()
         {
+            List<Catalog> catalogsList = _serviceService.GetCatalogs();
+
+            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             ServiceVM service = new ServiceVM();
 
             return View("Edit",service);
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(ServiceVM newService)
+        public async Task<ActionResult> Create(ServiceVM newService, IFormCollection form)
         {
             if (!ModelState.IsValid)
             {
                 return View("Edit", newService);
             }
-            var service = await _serviceService.Insert(newService);
+            int selectedId = Convert.ToInt32(form["Catalogs"]);
+            var service = await _serviceService.Insert(newService, selectedId);
+            List<Catalog> catalogsList = _serviceService.GetCatalogs();
+            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             if (service != null)
             {
-                return RedirectToAction("Index", "Service");        
+                RedirectToAction("Index");
             }
 
-            return View("Edit",newService);
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public async Task<IActionResult> Edit(int id)
         {
-           
+            List<Catalog> catalogsList = _serviceService.GetCatalogs();
+
+            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             var existingService = await _serviceService.GetServicesById(id);
             var service =_mapper.Map<Service,ServiceVM>(existingService);
 
@@ -63,20 +73,25 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(ServiceVM newService)
+        public async Task<ActionResult> Edit(ServiceVM newService, IFormCollection form)
         {
             if (!ModelState.IsValid)
             {
                 return View(newService);
             }
-            var service = await _serviceService.Update(newService.Id,newService);
+
+            int selectedId = Convert.ToInt32(form["Catalogs"]);
+            var service = await _serviceService.Update(newService.Id,newService,selectedId);
             if (service != null)
             {
+                List<Catalog> catalogsList = _serviceService.GetCatalogs();
+                ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
                 return View(newService);
             }
 
             return View(newService);
         }
+
         public ActionResult Delete()
         {
             return View();
