@@ -16,7 +16,6 @@ namespace BeautySalon.Contracts
         [Required(AllowEmptyStrings = false, ErrorMessage = Messages.TYPE_ERROR_MESSAGE)]
         [StringLength(50)]
         public string Type { get; set; }
-        public byte[]? Photo { get; set; }
         public string? ImageFileString { get; set; }
         public IFormFile? UploadFile { get; set; }
     }

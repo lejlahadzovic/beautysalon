@@ -103,4 +103,6 @@ header, footer {
 
 .pagination .page-item.active .page-link {
     background-color: #000;
+    border: 1px solid #f1f1f1;
+    
 }

@@ -32,15 +32,15 @@ namespace BeautySalon.Services.Implementations
             list = await _dbContext.Catalogs.ToListAsync();
             return _mapper.Map<List<CatalogVM>>(list);
         }
-        
+
         public async Task<List<CatalogVM>> SearchByName(string catalogName)
         {
-            var catalogs = await _dbContext.Catalogs.Where(c => c.Title.ToLower().Contains(catalogName.ToLower()) 
+            var catalogs = await _dbContext.Catalogs.Where(c => c.Title.ToLower().Contains(catalogName.ToLower())
             || string.IsNullOrEmpty(catalogName)).ToListAsync();
             var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
             return catalogMap;
         }
-        
+
         public async Task<Catalog> GetById(int catalogId)
         {
             var catalog = await _dbContext.Catalogs.FindAsync(catalogId);
@@ -49,7 +49,7 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<Catalog> Insert(CatalogVM insert)
         {
-            if(insert.UploadFile!= null)
+            if (insert.UploadFile != null)
             {
                 insert.ImageFileString = UploadFile(insert.UploadFile);
             }
@@ -59,17 +59,24 @@ namespace BeautySalon.Services.Implementations
             await _dbContext.SaveChangesAsync();
             return entity;
         }
-        
+
         public async Task<Catalog> Update(int catalogId, CatalogVM update)
         {
             var entity = await GetById(catalogId);
-            if(entity.ImageFileString != null)
+            if(update.UploadFile!=null)
             {
-                string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", entity.ImageFileString);
-                System.IO.File.Delete(existingImageFile);
+                if (entity.ImageFileString != null)
+                {
+                    string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", entity.ImageFileString);
+                    System.IO.File.Delete(existingImageFile);
+                }
+                update.ImageFileString = UploadFile(update.UploadFile);
             }
-            update.ImageFileString = UploadFile(update.UploadFile);
-            if (entity!=null)
+            else
+            {
+                update.ImageFileString = entity.ImageFileString;
+            }
+            if (entity != null)
             {
                 _mapper.Map(update, entity);
                 _dbContext.Catalogs.Update(entity);

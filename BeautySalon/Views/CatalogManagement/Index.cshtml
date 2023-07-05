@@ -3,62 +3,84 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-
     Pager pager = new Pager();
     int pageNo = 0;
-    if(ViewBag.Pager!=null)
+    if (ViewBag.Pager != null)
     {
         pager = ViewBag.Pager;
         pageNo = pager.CurrentPage;
     }
 }
-    <div class="container text-left p-2">
-        <h3 style="text-align:left">@Messages.MANAGE_CATALOGS_LABEL</h3>
-    </div>
-    <div class="row mb-3">
-        <div class="col-md-4">
-            @using (Html.BeginForm("Search", "CatalogManagement", FormMethod.Get, new { @class = "w-100" }))
-            {
-                <div class="input-group">
-                    <input type="text" name="catalogName" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                    <div class="input-group-append">
-                        <button type="submit" class="btn btn-dark">@Messages.SEARCH_LABEL</button>
-                    </div>
+
+<div class="container text-left p-2">
+    <h3 style="text-align:left">@Messages.MANAGE_CATALOGS_LABEL</h3>
+</div>
+<div class="row">
+    <div class="col-md-4">
+        @using (Html.BeginForm("Search", "CatalogManagement", FormMethod.Get, new { @class = "w-100" }))
+        {
+            <div class="input-group">
+                <input type="text" name="catalogName" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-dark">@Messages.SEARCH_LABEL</button>
                 </div>
-            }
-        </div>
-        <div class="col-md 8 d-flex justify-content-end mt-1">
-            <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">@Messages.NEW_CATALOG_LABEL</a>
-        </div>
+            </div>
+        }
     </div>
-    <caption>@Messages.SELECT_CATALOG_LABEL</caption>
-    <table class="table table-responsive table-hover">
-        <thead class="table-dark">
+</div>
+<div class="d-flex justify-content-end mt-1 mb-2" style="width:50%; float:right;">
+    <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">@Messages.NEW_CATALOG_LABEL</a>
+</div>
+<div class="container mt-3" style="width:50%; float:left;">
+<p>@Messages.SELECT_CATALOG_LABEL</p>
+</div>
+<table class="table table-responsive table-hover">
+    <thead class="table-dark">
         <tr>
             <th>@Messages.CATALOG_TITLE_LABEL </th>
+            <th>@Messages.CATALOG_PHOTO_LABEL</th>
             <th>@Messages.CATALOG_TYPE_LABEL</th>
             <th>@Messages.CATALOG_DESCRIPTION_LABEL</th>
         </tr>
-        </thead>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td><a href="@Url.Action("Edit", "CatalogManagement",new{catalogId=item.Id})">@item.Title</a></td>
-                <td>@item.Type</td>
-                <td class="text-truncate" style="max-width: 50px; text-overflow:ellipsis;">@item.Description</td>
-            </tr>
-        }
-    </table>
+    </thead>
+    @foreach (var item in Model)
+    {
+        string source = string.IsNullOrEmpty(item.ImageFileString) ? "/beauty.png" : $"/{item.ImageFileString}";
+        <tr>
+            <td onclick="location.href='@Url.Action("Edit","CatalogManagement", new {catalogId = item.Id})'"><i class="fa-regular fa-pen-to-square" style="color:black"></i>@item.Title</td>
+            <td><img src="~/images/@source" style="max-width:30px; max-height:30px;" /></td>
+            <td>@item.Type</td>
+            <td class="text-truncate" style="max-width: 50px; text-overflow:ellipsis;">@item.Description</td>
+        </tr>
+    }
+</table>
+@if (pager.TotalItems == 1)
+{
+    <p class="text-muted">There is @pager.TotalItems Catalog in total</p>
+}
+else if (pager.TotalItems == 0)
+{
+    <p class="text-muted">There are no Catalogs in total</p>
+}
+else if (pager.TotalItems > 1)
+{
+    <p class="text-muted">There are @pager.TotalItems Catalogs in total</p>
+}
 <div class="container">
-    @if(pager.TotalPages>0)
+    @if (pager.TotalPages > 0)
     {
         <ul class="pagination justify-content-end">
-            @for(var pge= pager.StartPage; pge<=pager.EndPage; pge++)
+            @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
             {
                 <li class="page-item @(pge==pager.CurrentPage ? "active" : "")">
                     <a class="page-link" asp-controller="CatalogManagement" asp-action="Index" asp-route-pg="@pge">@pge</a>
                 </li>
-                }
+            }
         </ul>
     }
 </div>
+
+@section Scripts
+    {
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+}

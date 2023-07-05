@@ -1,4 +1,6 @@
-﻿namespace BeautySalon.Models
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+
+namespace BeautySalon.Models
 {
     public class Pager
     {
@@ -14,21 +16,22 @@
         public Pager()
         {
         }
-        public Pager(int totalItems, int page, int pageSize=10)
+
+        public Pager(int totalItems, int page, int pageSize = 10)
         {
-            this.TotalItems= totalItems;
+            this.TotalItems = totalItems;
             this.CurrentPage = page;
             this.PageSize = pageSize;
-            
-            int totalPages = (int)Math.Ceiling((decimal)totalItems/(decimal)pageSize);
+
+            int totalPages = (int)Math.Ceiling((decimal)totalItems / (decimal)pageSize);
             int startPage = page - 5;
             int endPage = page + 4;
-            if(startPage<=0) 
-            { 
-                endPage=endPage-(startPage-1);
+            if (startPage <= 0)
+            {
+                endPage = endPage - (startPage - 1);
                 startPage = 1;
             }
-            if(endPage>totalPages) 
+            if (endPage > totalPages)
             {
                 endPage = totalPages;
                 if (endPage > 10)
@@ -39,7 +42,7 @@
             StartRecord = (CurrentPage - 1) * PageSize + 1;
             EndRecord = StartRecord - 1 + PageSize;
             if (EndRecord > TotalItems) { EndRecord = TotalItems; }
-            if(TotalItems==0)
+            if (TotalItems == 0)
             {
                 StartPage = 0;
                 StartRecord = 0;

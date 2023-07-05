@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BeautySalon.Controllers
 {
-    [Authorize(Roles=Roles.ADMIN)]
+    [Authorize(Roles = Roles.ADMIN)]
     public class CatalogManagementController : Controller
     {
         protected readonly ICatalogService _catalogService;
@@ -20,7 +20,7 @@ namespace BeautySalon.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(int pg=1)
+        public async Task<IActionResult> Index(int pg = 1)
         {
             var catalogs = await _catalogService.GetAll();
             var pagination = Pagination(pg, catalogs);
@@ -38,12 +38,12 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Create(CatalogVM newCatalog)
         {
             ModelState.Remove("imgfile");
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return PartialView("Edit", newCatalog);
             }
             var catalog = await _catalogService.Insert(newCatalog);
-            if(catalog != null)
+            if (catalog != null)
             {
                 return RedirectToAction("Index");
             }
@@ -56,7 +56,7 @@ namespace BeautySalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int catalogId)
         {
-            if(catalogId!=0)
+            if (catalogId != 0)
             {
                 var existingCatalog = await _catalogService.GetById(catalogId);
                 var catalog = _mapper.Map<CatalogVM>(existingCatalog);
@@ -69,12 +69,12 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Edit(CatalogVM editedCatalog)
         {
             ModelState.Remove("imgfile");
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return PartialView(editedCatalog);
             }
             var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
-            if(catalog != null)
+            if (catalog != null)
             {
                 return RedirectToAction("Index");
             }
@@ -87,7 +87,7 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Delete(int catalogId)
         {
             var catalog = await _catalogService.GetById(catalogId);
-            if (catalog!=null)
+            if (catalog != null)
             {
                 await _catalogService.Remove(catalog);
                 return RedirectToAction("Index");
@@ -95,7 +95,7 @@ namespace BeautySalon.Controllers
             return NotFound();
         }
 
-        public async Task<IActionResult> Search(string catalogName, int pg=1)
+        public async Task<IActionResult> Search(string catalogName, int pg = 1)
         {
             List<CatalogVM> catalogs;
             if (!string.IsNullOrEmpty(catalogName))
@@ -112,7 +112,7 @@ namespace BeautySalon.Controllers
 
         private List<CatalogVM> Pagination(int pg, List<CatalogVM> catalogs)
         {
-            const int pageSize = 8;
+            const int pageSize = 10;
             if (pg < 1) { pg = 1; }
             int recsCount = catalogs.Count();
             var pager = new Pager(recsCount, pg, pageSize);
