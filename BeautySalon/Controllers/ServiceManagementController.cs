@@ -56,11 +56,11 @@ namespace BeautySalon.Controllers
             List<Catalog> catalogsList = await _catalogService.GetCatalogs();
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             
-            return RedirectToAction("Edit", service);
+            return RedirectToAction("Edit", new { id = service.Id });
 		}
 
         [HttpGet]
-        public async Task<IActionResult> Edit(int id)
+        public async Task<ActionResult> Edit(int id)
         {
             List<Catalog> catalogsList = await _catalogService.GetCatalogs();
 
