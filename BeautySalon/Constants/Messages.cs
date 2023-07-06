@@ -55,7 +55,9 @@ namespace BeautySalon.Constants
 
         public const string MANAGE_SERVICES_CATALOG = "Catalog";
 
-        public const string MANAGE_SERVICES_TITLE = "Edit service";
+        public const string MANAGE_SERVICES_EDIT = "Edit service";
+
+        public const string MANAGE_SERVICES_CREATE = "Create service";
 
         #region LABELS
 

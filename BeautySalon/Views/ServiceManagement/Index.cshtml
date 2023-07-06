@@ -4,17 +4,27 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <div class="row mb-3 mt-3">
-    <div class="col-md-4 form-outline">
+    <div class="col-md-6 form-outline">
         @using (Html.BeginForm("Index", "ServiceManagement", FormMethod.Get, new { @class = "w-100" }))
         {
             @Html.Hidden("serviceId")
-            <div class="input-group w-100">
-                @Html.TextBox("name", null, new {@class="border-1",@style="width:75%;"})
-                <input id="filter_by_name" type="submit" name="submit" class="form-control btn-dark" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
-            </div>
-            <div class="input-group w-100 mt-3">
-                @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Please select", new { @class = "form-select",@style="width:65%;" })
-                <input id="filter_by_catalog" class="btn btn-dark" type="submit" name="submit">
+            <div class="row">
+                <div class="col-md-6 mb-4">
+
+                    <div class="form-outline input-group w-100">
+                        @Html.TextBox("name", null, new {@class="border-1",@style="width:75%;"})
+                        <input id="filter_by_name" type="submit" name="submit" class="form-control btn-dark" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
+                    </div>
+
+                </div>
+                <div class="col-md-6 mb-4">
+
+                    <div class="form-outline input-group w-100">
+                        @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Please select", new { @class = "form-select",@style="width:65%;" })
+                        <input id="filter_by_catalog" class="btn btn-dark" type="submit" name="submit">
+                    </div>
+
+                </div>
             </div>
         }
     </div>
