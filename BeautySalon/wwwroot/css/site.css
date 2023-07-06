@@ -106,3 +106,9 @@ header, footer {
     border: 1px solid #f1f1f1;
     
 }
+
+.img-thumbnail {
+    max-width:250px;
+    height:250px;
+    object-fit:cover;
+}

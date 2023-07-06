@@ -4,34 +4,35 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int catalogId = Model.CatalogId;
 }
 <div class="container text-center p-2">
     <h2 style="text-align:center">@Model.Title</h2>
     <h3 style="text-align:center">@Messages.SERVICES_LABEL</h3>
- </div>
+</div>
 
-    <div class="mb-3 mx-auto">
-            @using (Html.BeginForm("Index", "Service", FormMethod.Get, new {@class="w-50 mx-auto"}))
-            {
-                @Html.Hidden("catalogId")
-            <div class="input-group">
-                <input type="text" name="name" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
-                <div class="input-group-append">
-                    <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
-                 </div>
-             </div>
-            }
-    </div>
-<div class="column">
-    @foreach(var item in Model.Services)
-        {
-           <div class="card mb-3 mx-auto" style="max-width: 600px">
-                    <img src="~/images/service.png" class="card-img-top" alt="card-img-top" style="max-height:100px">
-                <div class="card-body">
-                    <h5 class="card-title">@Html.DisplayFor(modelItem =>item.Name) - @Html.DisplayFor(modelItem =>item.Price)$</h5>
-                    <p class="card-text">@Html.DisplayFor(modelItem=>item.Duration) min</p>
-                    <p class="card-text text-truncate"><small>@Html.DisplayFor(modelItem =>item.Description)</small></p>
-                </div>
+<div class="mb-3 mx-auto">
+    @using (Html.BeginForm("Index", "Service", FormMethod.Get, new { @class = "w-50 mx-auto" }))
+    {
+        @Html.Hidden("catalogId")
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
             </div>
-        }
+        </div>
+    }
+</div>
+<div class="column">
+    @foreach (var item in Model.Services)
+    {
+        <div class="card mb-3 mx-auto" style="max-width: 600px">
+            <img src="~/images/service.png" class="card-img-top" alt="card-img-top" style="max-height:100px">
+            <div class="card-body">
+                <h5 class="card-title">@Html.DisplayFor(modelItem =>item.Name) - @Html.DisplayFor(modelItem =>item.Price)$</h5>
+                <p class="card-text">@Html.DisplayFor(modelItem=>item.Duration) min</p>
+                <p class="card-text text-truncate"><small>@Html.DisplayFor(modelItem =>item.Description)</small></p>
+            </div>
+        </div>
+    }
 </div>

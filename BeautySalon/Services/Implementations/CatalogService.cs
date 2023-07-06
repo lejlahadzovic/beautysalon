@@ -26,19 +26,20 @@ namespace BeautySalon.Services.Implementations
             _hostEnvironment = hostEnvironment;
         }
 
-        public async Task<List<CatalogVM>> GetAll()
+        public async Task<List<CatalogVM>> GetCatalogs(string catalogName = "")
         {
-            var list = new List<Catalog>();
-            list = await _dbContext.Catalogs.ToListAsync();
-            return _mapper.Map<List<CatalogVM>>(list);
-        }
-
-        public async Task<List<CatalogVM>> SearchByName(string catalogName)
-        {
-            var catalogs = await _dbContext.Catalogs.Where(c => c.Title.ToLower().Contains(catalogName.ToLower())
-            || string.IsNullOrEmpty(catalogName)).ToListAsync();
-            var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
-            return catalogMap;
+            if (!string.IsNullOrEmpty(catalogName))
+            {
+                List<Catalog> catalogs = await _dbContext.Catalogs.Where(c => c.Title.ToLower().Contains(catalogName.ToLower())).ToListAsync();
+                var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
+                return catalogMap;
+            }
+            else
+            {
+                List<Catalog> catalogs = await _dbContext.Catalogs.ToListAsync();
+                var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
+                return catalogMap;
+            }
         }
 
         public async Task<Catalog> GetById(int catalogId)
@@ -63,7 +64,7 @@ namespace BeautySalon.Services.Implementations
         public async Task<Catalog> Update(int catalogId, CatalogVM update)
         {
             var entity = await GetById(catalogId);
-            if(update.UploadFile!=null)
+            if (update.UploadFile != null)
             {
                 if (entity.ImageFileString != null)
                 {

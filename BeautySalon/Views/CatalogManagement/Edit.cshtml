@@ -30,17 +30,12 @@
                                             data-path="@Url.Action("Delete", "CatalogManagement", new {catalogId = Model.Id})">
                                         @Messages.DELETE
                                     </button>
-                                    <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
                                 }
-                                else
-                                {
-                                    <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
-                                }
+                                <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
                             </div>
                             <div class="mb-2">
                                 <center>
-                                    <img src="~/images/@source" id="imgViewer" alt="Catalog Image" class="img-thumbnail mx-auto"
-                                         style="width:400px; height:400px; object-fit:cover;" />
+                                    <img src="~/images/@source" id="imgViewer" alt="Catalog Image" class="img-thumbnail mx-auto responsive" />
                                 </center>
                             </div>
                             <div class="mb-4">

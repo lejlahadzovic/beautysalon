@@ -20,9 +20,9 @@ namespace BeautySalon.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(int pg = 1)
+        public async Task<IActionResult> Index(string catalogName, int pg = 1)
         {
-            var catalogs = await _catalogService.GetAll();
+            var catalogs = await _catalogService.GetCatalogs(catalogName);
             var pagination = Pagination(pg, catalogs);
             return View(pagination);
         }
@@ -40,16 +40,17 @@ namespace BeautySalon.Controllers
             ModelState.Remove("imgfile");
             if (!ModelState.IsValid)
             {
-                return PartialView("Edit", newCatalog);
+                return View("Edit", newCatalog);
             }
             var catalog = await _catalogService.Insert(newCatalog);
+            newCatalog.Id = catalog.Id;
             if (catalog != null)
             {
-                return RedirectToAction("Index");
+                return View("Edit", newCatalog);
             }
             else
             {
-                return View("Edit");
+                return View();
             }
         }
 
@@ -71,12 +72,12 @@ namespace BeautySalon.Controllers
             ModelState.Remove("imgfile");
             if (!ModelState.IsValid)
             {
-                return PartialView(editedCatalog);
+                return View(editedCatalog);
             }
             var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
             if (catalog != null)
             {
-                return RedirectToAction("Index");
+                return View(editedCatalog);
             }
             else
             {
@@ -98,16 +99,9 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Search(string catalogName, int pg = 1)
         {
             List<CatalogVM> catalogs;
-            if (!string.IsNullOrEmpty(catalogName))
-            {
-                catalogs = await _catalogService.SearchByName(catalogName);
-            }
-            else
-            {
-                catalogs = await _catalogService.GetAll();
-            }
+            catalogs = await _catalogService.GetCatalogs(catalogName);
             var pagination = Pagination(pg, catalogs);
-            return View("Index", catalogs);
+            return View("Index", pagination);
         }
 
         private List<CatalogVM> Pagination(int pg, List<CatalogVM> catalogs)

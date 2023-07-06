@@ -12,6 +12,7 @@ namespace BeautySalon.Contracts
         [StringLength(50)]
         public string Title { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = Messages.DESCRIPTION_ERROR_MESSAGE)]
+        [StringLength(300)]
         public string Description { get; set; }
         [Required(AllowEmptyStrings = false, ErrorMessage = Messages.TYPE_ERROR_MESSAGE)]
         [StringLength(50)]

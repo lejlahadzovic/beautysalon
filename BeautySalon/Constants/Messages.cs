@@ -32,6 +32,7 @@ namespace BeautySalon.Constants
         public const string REGISTER_NOT_SUCCESSFUL = "User is not registered successfully.";
 
         public const string EMAIL_MESSAGE_SUBJECT = "Your changed password";
+        
         public const string PASSWORD_RESET_EMAIL_SUBJECT = "Password reset request.";
 
         public const string EMAIL_MESSAGE_BODY_1 = "Hi, We got request for reset your account password. Please click on the below link to reset your password";
