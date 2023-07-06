@@ -36,30 +36,20 @@ namespace BeautySalon.Services.Implementations
             return catalogServiceVM;
         }
 
-        public async Task<Service> GetServicesById(int id)
+        public async Task<Service> GetServiceById(int id)
         {
             var service = await _dbContext.Services.FindAsync(id);
             
             return service;
         }
 
-        public List<Catalog> GetCatalogs()
-        {
-            var catalogs = _dbContext.Catalogs.ToList();
 
-            return catalogs;
-        }
-
-        public async Task<List<ServiceVM>> GetAll(string name, int catalogId)
+        public async Task<List<ServiceVM>> Get(string name, int catalogId)
         {
             var list =new List<Service>();
-            if (!string.IsNullOrEmpty(name))
+            if (!string.IsNullOrEmpty(name) || catalogId != 0)
             {
-                list=await _dbContext.Services.Include(c => c.Catalog).Where(x => x.Name.ToLower().Contains(name.ToLower())).ToListAsync();
-            }
-            else if (catalogId != 0)
-            {
-                list = await _dbContext.Services.Include(c => c.Catalog).Where(x => x.CatalogId.Equals(catalogId)).ToListAsync();
+                list=await _dbContext.Services.Include(c => c.Catalog).Where(x => x.Name.ToLower().Contains(name.ToLower()) || x.CatalogId.Equals(catalogId)).ToListAsync();
             }
             else
             {
@@ -83,7 +73,7 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<Service> Update(int id, ServiceVM update, int catalogId)
         {
-            var entity = await GetServicesById(id);
+            var entity = await GetServiceById(id);
             if (entity != null)
             {
                 if (catalogId != 0) {

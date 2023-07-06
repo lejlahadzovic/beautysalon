@@ -30,8 +30,8 @@
                     <div class="mb-4">
 
                         <div class="form-outline">
-                            <input type="text" id="serviceName" name="Name" placeholder="Name" class="form-control form-control-lg" value="@Model.Name" />
                             <label class="form-label" for="Name">@Messages.MANAGE_SERVICES_NAME</label>
+                            <input type="text" id="serviceName" name="Name" placeholder="Name" class="form-control form-control-lg" value="@Model.Name" />
                             <br />
                             @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
                         </div>
@@ -40,8 +40,8 @@
                     <div class="mb-4">
 
                         <div class="form-outline">
-                            <input type="text" id="Price" name="Price" placeholder="Last name" class="form-control form-control-lg" value="@Model.Price" />
                             <label class="form-label" for="Price">@Messages.MANAGE_SERVICES_PRICE</label>
+                            <input type="text" id="Price" name="Price" placeholder="Last name" class="form-control form-control-lg" value="@Model.Price" />
                             <br />
                             @Html.ValidationMessageFor(m => m.Price, "", new { @class = "text-danger" })
                         </div>
@@ -50,8 +50,8 @@
                     <div class="mb-4 d-flex align-items-center">
 
                         <div class="form-outline datepicker w-100">
-                            <input type="text" id="duration" name="Duration" class="form-control form-control-lg" value="@Model.Duration" />
                             <label for="Duration" class="form-label">@Messages.MANAGE_SERVICES_DURATION</label>
+                            <input type="text" id="duration" name="Duration" class="form-control form-control-lg" value="@Model.Duration" />
                             <br />
                             @Html.ValidationMessageFor(m => m.Duration, "", new { @class = "text-danger" })
                         </div>
@@ -60,16 +60,17 @@
                     <div class="mb-4">
 
                         <div class="form-outline">
-                            @Html.DropDownList("Catalogs",(IEnumerable<SelectListItem>)ViewBag.Catalogs, "Please select",new { @class = "form-control"})
                             <label for="Duration" class="form-label">@Messages.MANAGE_SERVICES_CATALOG</label>
+                            @Html.DropDownList("Catalogs",(IEnumerable<SelectListItem>)ViewBag.Catalogs, "Please select",new { @class = "form-control"})
+                            <br />
                         </div>
 
                     </div>
                     <div class="mb-4 pb-2">
 
                         <div class="form-outline">
-                            <input type="text" id="description" name="Description" class="form-control form-control-lg" value="@Model.Description" />
                             <label class="form-label" for="description">@Messages.MANAGE_SERVICES_DECRIPTION</label>
+                            <input type="text" id="description" name="Description" class="form-control form-control-lg" value="@Model.Description" />
                             <br />
                             @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
                         </div>

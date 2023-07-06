@@ -139,7 +139,6 @@ namespace BeautySalon.Controllers
             var claims = new List<Claim>() {
             new Claim(ClaimTypes.NameIdentifier, Convert.ToString(existingUser.Id)),
             new Claim(ClaimTypes.Email, existingUser.Email),
-            new Claim(ClaimTypes.Role, Convert.ToString(existingUser.RoleId)),
             new Claim(ClaimTypes.Role, existingUser.Role.Name)
             };
 
