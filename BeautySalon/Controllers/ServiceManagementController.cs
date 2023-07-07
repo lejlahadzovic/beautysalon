@@ -45,16 +45,14 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(ServiceVM newService, IFormCollection form)
+        public async Task<ActionResult> Create(ServiceVM newService)
         {
             if (!ModelState.IsValid)
             {
                 return View("Edit", newService);
             }
-            int selectedId = Convert.ToInt32(form["Catalogs"]);
+            int selectedId = newService.CatalogId;
             var service = await _serviceService.Insert(newService, selectedId);
-            List<Catalog> catalogsList = await _catalogService.GetCatalogs();
-            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             
             return RedirectToAction("Edit", new { id = service.Id });
 		}
@@ -72,14 +70,14 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Edit(ServiceVM newService, IFormCollection form)
+        public async Task<ActionResult> Edit(ServiceVM newService)
         {
             if (!ModelState.IsValid)
             {
                 return View(newService);
             }
 
-            int selectedId = Convert.ToInt32(form["Catalogs"]);
+            int selectedId = newService.CatalogId;
             var service = await _serviceService.Update(newService.Id,newService,selectedId);
             if (service != null)
             {

@@ -49,7 +49,9 @@ namespace BeautySalon.Services.Implementations
             var list =new List<Service>();
             if (!string.IsNullOrEmpty(name) || catalogId != 0)
             {
-                list=await _dbContext.Services.Include(c => c.Catalog).Where(x => x.Name.ToLower().Contains(name.ToLower()) || x.CatalogId.Equals(catalogId)).ToListAsync();
+                list=await _dbContext.Services.Where(s => s.CatalogId == catalogId
+                && (string.IsNullOrEmpty(name)
+                || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
             }
             else
             {

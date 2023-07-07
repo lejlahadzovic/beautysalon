@@ -7,26 +7,26 @@
 }
 <section class="vh-100 gradient-custom" style="margin-bottom:300px;">
     <form id="edit_service_form" action="@Url.Action(action, "ServiceManagement")" method="post">
-        <div class="row mb-3 mt-3">
-            @if (Model.Id != 0)
-            {
-                <div class="col-md-2 ms-auto">
-                    <input class="btn btn-danger" type="submit" value="Delete" formaction="/servicemanagement/delete/@Model.Id" onclick="return confirm ('Are you sure to delete record?');" />
-                    <input class="btn btn-success" type="submit" value="Save" />
-                </div>
-                <h3>@Messages.MANAGE_SERVICES_EDIT</h3>
-            }
-            else
-            {
-                <div class="col-md-1 ms-auto">
-                    <input class="btn btn-success" type="submit" value="Save" />
-                </div>
-                <h3>@Messages.MANAGE_SERVICES_CREATE</h3>
-            }
-        </div>
 		<div class="row justify-content-center align-items-center h-100">
             <div class="card shadow-2-strong card-registration mt-4" style="border-radius: 15px;">
                 <div class="card-body p-4 p-md-5">
+                    <div class="row mb-3 mt-3">
+                        @if (Model.Id != 0)
+                        {
+                            <div class="col-md-2 ms-auto">
+                                <input class="btn btn-danger" type="submit" value="Delete" formaction="/servicemanagement/delete/@Model.Id" onclick="return confirm ('Are you sure to delete record?');" />
+                                <input class="btn btn-success" type="submit" value="Save" />
+                            </div>
+                            <h3>@Messages.MANAGE_SERVICES_EDIT</h3>
+                        }
+                        else
+                        {
+                            <div class="col-md-1 ms-auto">
+                                <input class="btn btn-success" type="submit" value="Save" />
+                            </div>
+                            <h3>@Messages.MANAGE_SERVICES_CREATE</h3>
+                        }
+                    </div>
                     <div class="mb-4">
 
                         <div class="form-outline">
@@ -61,7 +61,7 @@
 
                         <div class="form-outline">
                             <label for="Duration" class="form-label">@Messages.MANAGE_SERVICES_CATALOG</label>
-                            @Html.DropDownList("Catalogs",(IEnumerable<SelectListItem>)ViewBag.Catalogs, "Please select",new { @class = "form-control"})
+                            @Html.DropDownList("CatalogId",(IEnumerable<SelectListItem>)ViewBag.Catalogs, "Please select",new { @class = "form-control"})
                             <br />
                         </div>
 
