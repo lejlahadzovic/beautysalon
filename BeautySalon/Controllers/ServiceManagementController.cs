@@ -14,7 +14,6 @@ namespace BeautySalon.Controllers
     public class ServiceManagementController : Controller
     {
         protected new readonly IServiceService _serviceService;
-
 		protected new readonly ICatalogService _catalogService;
 		protected IMapper _mapper { get; set; }
 
