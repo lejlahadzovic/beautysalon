@@ -46,17 +46,10 @@ namespace BeautySalon.Services.Implementations
         public async Task<List<ServiceVM>> Get(string name, int catalogId)
         {
             var list =new List<Service>();
-            if (catalogId != 0)
-            {
-                list=await _dbContext.Services.Where(s => s.CatalogId == catalogId
-                && (string.IsNullOrEmpty(name)
-                || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
-            }
-            else
-            {
-                list=await _dbContext.Services.Include(c => c.Catalog).ToListAsync();
-            }
-
+            list=await _dbContext.Services.Where(s => (s.CatalogId == catalogId || catalogId == 0)
+            && (string.IsNullOrEmpty(name)
+            || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
+           
             return _mapper.Map<List<ServiceVM>>(list);
         }
 
