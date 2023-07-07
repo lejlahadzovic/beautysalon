@@ -47,8 +47,7 @@ namespace BeautySalon.Services.Implementations
         {
             var list =new List<Service>();
             list=await _dbContext.Services.Where(s => (s.CatalogId == catalogId || catalogId == 0)
-            && (string.IsNullOrEmpty(name)
-            || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
+            && (string.IsNullOrEmpty(name) || s.Name.ToLower().Contains(name.ToLower()))).ToListAsync();
            
             return _mapper.Map<List<ServiceVM>>(list);
         }
