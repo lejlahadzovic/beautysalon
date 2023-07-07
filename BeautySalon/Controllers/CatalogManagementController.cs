@@ -5,6 +5,7 @@ using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Reflection.Metadata.Ecma335;
 
 namespace BeautySalon.Controllers
 {
@@ -38,20 +39,15 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Create(CatalogVM newCatalog)
         {
             ModelState.Remove("imgfile");
-            if (!ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                return View("Edit", newCatalog);
+                var catalog = await _catalogService.Insert(newCatalog);
+                if (catalog != null) 
+                { 
+                    return RedirectToAction("Edit", new { catalogId = catalog.Id }); 
+                }
             }
-            var catalog = await _catalogService.Insert(newCatalog);
-            newCatalog.Id = catalog.Id;
-            if (catalog != null)
-            {
-                return View("Edit", newCatalog);
-            }
-            else
-            {
-                return View();
-            }
+            return View("Edit", newCatalog);
         }
 
         [HttpGet]
@@ -70,19 +66,13 @@ namespace BeautySalon.Controllers
         public async Task<IActionResult> Edit(CatalogVM editedCatalog)
         {
             ModelState.Remove("imgfile");
-            if (!ModelState.IsValid)
+            if(ModelState.IsValid)
             {
-                return View(editedCatalog);
+                var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
+                var check = catalog != null ? _mapper.Map<CatalogVM>(catalog) : editedCatalog;
+                return View(check);
             }
-            var catalog = await _catalogService.Update(editedCatalog.Id, editedCatalog);
-            if (catalog != null)
-            {
-                return View(editedCatalog);
-            }
-            else
-            {
-                return View();
-            }
+            return View(editedCatalog);
         }
 
         public async Task<IActionResult> Delete(int catalogId)
@@ -94,14 +84,6 @@ namespace BeautySalon.Controllers
                 return RedirectToAction("Index");
             }
             return NotFound();
-        }
-
-        public async Task<IActionResult> Search(string catalogName, int pg = 1)
-        {
-            List<CatalogVM> catalogs;
-            catalogs = await _catalogService.GetCatalogs(catalogName);
-            var pagination = Pagination(pg, catalogs);
-            return View("Index", pagination);
         }
 
         private List<CatalogVM> Pagination(int pg, List<CatalogVM> catalogs)

@@ -26,20 +26,13 @@ namespace BeautySalon.Services.Implementations
             _hostEnvironment = hostEnvironment;
         }
 
-        public async Task<List<CatalogVM>> GetCatalogs(string catalogName = "")
+        public async Task<List<CatalogVM>> GetCatalogs(string catalogName)
         {
-            if (!string.IsNullOrEmpty(catalogName))
-            {
-                List<Catalog> catalogs = await _dbContext.Catalogs.Where(c => c.Title.ToLower().Contains(catalogName.ToLower())).ToListAsync();
-                var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
-                return catalogMap;
-            }
-            else
-            {
-                List<Catalog> catalogs = await _dbContext.Catalogs.ToListAsync();
-                var catalogMap = _mapper.Map<List<CatalogVM>>(catalogs);
-                return catalogMap;
-            }
+            List<Catalog> catalogs = await _dbContext.Catalogs
+                .Where(c=> string.IsNullOrWhiteSpace(catalogName) 
+                || c.Title.ToLower().Contains(catalogName.ToLower()))
+                .ToListAsync();
+            return _mapper.Map<List<CatalogVM>>(catalogs);
         }
 
         public async Task<Catalog> GetById(int catalogId)
@@ -86,15 +79,27 @@ namespace BeautySalon.Services.Implementations
             return entity;
         }
 
-        public async Task Remove(Catalog remove)
+        public async Task<bool> Remove(Catalog remove)
         {
-            if (remove.ImageFileString != null)
+            var serviceIds = await _dbContext.Services
+                .Where(s=>s.CatalogId==remove.Id)
+                .Select(x => x.Id)
+                .ToListAsync();
+            var appointments = await _dbContext.Appointments
+                .Where(a => serviceIds.Contains(a.ServiceId))
+                .ToListAsync();
+            if(!appointments.Any()) 
             {
-                string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", remove.ImageFileString);
-                System.IO.File.Delete(existingImageFile);
+                if (remove.ImageFileString != null)
+                {
+                    string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", remove.ImageFileString);
+                    System.IO.File.Delete(existingImageFile);
+                }
+                _dbContext.Catalogs.Remove(remove); 
+                await _dbContext.SaveChangesAsync();
+                return true;
             }
-            _dbContext.Catalogs.Remove(remove);
-            await _dbContext.SaveChangesAsync();
+            return false;
         }
 
         private string UploadFile(IFormFile imgfile)
