@@ -61,26 +61,24 @@ namespace BeautySalon.Services.Implementations
             return _mapper.Map<List<ServiceVM>>(list);
         }
 
-        public async Task<Service> Insert(ServiceVM insert, int catalogId)
+        public async Task<Service> Insert(ServiceVM insert)
         {
             var set = _dbContext.Services;
             Service entity = _mapper.Map<Service>(insert);
-            entity.CatalogId = catalogId;
-            entity.Catalog = _dbContext.Catalogs.Where(x => x.Id.Equals(catalogId)).First();
+            entity.Catalog = _dbContext.Catalogs.Where(x => x.Id.Equals(insert.CatalogId)).First();
             set.Add(entity);
             await _dbContext.SaveChangesAsync();
 
             return entity;
         }
 
-        public async Task<Service> Update(int id, ServiceVM update, int catalogId)
+        public async Task<Service> Update(ServiceVM update)
         {
-            var entity = await GetServiceById(id);
+            var entity = await GetServiceById(update.Id);
             if (entity != null)
             {
-                if (catalogId != 0) {
-                    update.CatalogId = catalogId;
-                    update.Catalog =_dbContext.Catalogs.Where(x => x.Id.Equals(catalogId)).First();
+                if (update.CatalogId != 0) {
+                    update.Catalog =_dbContext.Catalogs.Where(x => x.Id.Equals(update.CatalogId)).First();
                 }
                 _mapper.Map(update, entity);
                 _dbContext.Services.Update(entity);

@@ -51,8 +51,7 @@ namespace BeautySalon.Controllers
             {
                 return View("Edit", newService);
             }
-            int selectedId = newService.CatalogId;
-            var service = await _serviceService.Insert(newService, selectedId);
+            var service = await _serviceService.Insert(newService);
             
             return RedirectToAction("Edit", new { id = service.Id });
 		}
@@ -76,9 +75,7 @@ namespace BeautySalon.Controllers
             {
                 return View(newService);
             }
-
-            int selectedId = newService.CatalogId;
-            var service = await _serviceService.Update(newService.Id,newService,selectedId);
+            var service = await _serviceService.Update(newService);
             if (service != null)
             {
                 List<Catalog> catalogsList = await _catalogService.GetCatalogs();

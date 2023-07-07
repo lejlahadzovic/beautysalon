@@ -8,8 +8,8 @@ namespace BeautySalon.Services.Interfaces
         Task<CatalogServiceVM> GetServices(int catalogId, string name);
         Task<List<ServiceVM>> Get(string name, int catalogId);
         Task<Service> GetServiceById(int id);
-        Task<Service> Insert(ServiceVM insert, int catalogId);
-        Task<Service> Update(int id, ServiceVM update,int catalogId);
+        Task<Service> Insert(ServiceVM insert);
+        Task<Service> Update(ServiceVM update);
         Task<Service> Delete(int id);
     }
 }
