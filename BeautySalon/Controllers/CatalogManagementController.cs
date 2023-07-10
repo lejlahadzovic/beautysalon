@@ -21,11 +21,10 @@ namespace BeautySalon.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(string catalogName, int pg = 1)
+        public async Task<IActionResult> Index(string catalogName)
         {
             var catalogs = await _catalogService.GetCatalogs(catalogName);
-            var pagination = Pagination(pg, catalogs);
-            return View(pagination);
+            return View(catalogs);
         }
 
         [HttpGet]
@@ -84,18 +83,6 @@ namespace BeautySalon.Controllers
                 return RedirectToAction("Index");
             }
             return NotFound();
-        }
-
-        private List<CatalogVM> Pagination(int pg, List<CatalogVM> catalogs)
-        {
-            const int pageSize = 10;
-            if (pg < 1) { pg = 1; }
-            int recsCount = catalogs.Count();
-            var pager = new Pager(recsCount, pg, pageSize);
-            int recSkip = (pg - 1) * pageSize;
-            var data = catalogs.Skip(recSkip).Take(pager.PageSize).ToList();
-            this.ViewBag.Pager = pager;
-            return data;
         }
     }
 }

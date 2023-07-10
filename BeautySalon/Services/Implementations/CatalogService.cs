@@ -79,7 +79,7 @@ namespace BeautySalon.Services.Implementations
             return entity;
         }
 
-        public async Task<bool> Remove(Catalog remove)
+        public async Task Remove(Catalog remove)
         {
             var serviceIds = await _dbContext.Services
                 .Where(s=>s.CatalogId==remove.Id)
@@ -97,9 +97,7 @@ namespace BeautySalon.Services.Implementations
                 }
                 _dbContext.Catalogs.Remove(remove); 
                 await _dbContext.SaveChangesAsync();
-                return true;
             }
-            return false;
         }
 
         private string UploadFile(IFormFile imgfile)
