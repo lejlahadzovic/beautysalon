@@ -22,14 +22,14 @@ namespace BeautySalon.Services.Implementations
             _mapper = mapper;
         }
 
-        public virtual async Task<User> GetByID(int id)
+        public async Task<User> GetByID(int id)
         {
             var entity = await _dbContext.Users.FindAsync(id);
 
             return _mapper.Map<User>(entity);
         }
 
-        public virtual async Task<User> GetAll()
+        public async Task<User> GetAll()
         {
             var list = await _dbContext.Users.ToListAsync();
 

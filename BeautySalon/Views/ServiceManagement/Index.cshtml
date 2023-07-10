@@ -1,0 +1,58 @@
+﻿@using BeautySalon.Constants
+@model IEnumerable<BeautySalon.Contracts.ServiceVM>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mb-3 mt-3">
+    <div class="col-md-6 form-outline">
+        @using (Html.BeginForm("Index", "ServiceManagement", FormMethod.Get, new { @class = "w-100" }))
+        {
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="form-outline input-group w-100 h-100">
+                        @Html.TextBox("name", null, new {@class="border-1",@style="width:100%;"})
+                    </div>
+
+                </div>
+                <div class="col-md-4">
+
+                    <div class="form-outline input-group w-100">
+                        @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Please select", new { @class = "form-select",@style="width:65%;" })
+                    </div>
+
+                </div>
+                <div class="col-md-2">
+                    <input id="filter_by_name" type="submit" name="submit" class="form-control btn-dark" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-md-2 ms-auto">
+        <a class="btn btn-success" href="@Url.Action("Create", "ServiceManagement")" role="button">New service</a>
+    </div>
+</div>
+<div class="table-responsive" id="tableService">
+    <table class="table table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">@Messages.MANAGE_SERVICES_NAME</th>
+            <th scope="col">@Messages.MANAGE_SERVICES_PRICE</th>
+            <th scope="col">@Messages.MANAGE_SERVICES_DURATION</th>
+            <th scope="col">@Messages.MANAGE_SERVICES_DECRIPTION</th>
+            <th scope="col">@Messages.MANAGE_SERVICES_CATALOG</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model) {
+        <tr>
+            <td><a href="@Url.Action("Edit", "ServiceManagement",new{id=item.Id})">@Html.DisplayFor(modelItem =>item.Name)</a></td>
+            <td>@Html.DisplayFor(modelItem =>item.Price)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Duration)</td>
+            <td class="text-truncate" style="max-width: 50px;">@Html.DisplayFor(modelItem =>item.Description)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Catalog.Title)</td>
+        </tr>
+    }
+    </tbody>
+	</table>
+</div>

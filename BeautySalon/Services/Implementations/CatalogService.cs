@@ -110,5 +110,12 @@ namespace BeautySalon.Services.Implementations
             }
             return uniqueFileName;
         }
-    }
+
+		public async Task<List<Catalog>> GetCatalogs()
+		{
+			var catalogs = await _dbContext.Catalogs.ToListAsync();
+
+			return catalogs;
+		}
+	}
 }

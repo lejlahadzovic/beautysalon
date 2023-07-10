@@ -32,6 +32,7 @@ namespace BeautySalon.Constants
         public const string REGISTER_NOT_SUCCESSFUL = "User is not registered successfully.";
 
         public const string EMAIL_MESSAGE_SUBJECT = "Your changed password";
+
         
         public const string PASSWORD_RESET_EMAIL_SUBJECT = "Password reset request.";
 
@@ -40,6 +41,22 @@ namespace BeautySalon.Constants
         public const string EMAIL_MESSAGE_BODY_2 = "' Reset Password link";
 
         public const string PROFILE_UPDATE_SUCCSESSFUL = "You have successfully updated your profile.";
+
+        public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
+
+        public const string MANAGE_SERVICES = "Manage services";
+
+        public const string MANAGE_SERVICES_NAME = "Name";
+
+        public const string MANAGE_SERVICES_PRICE = "Price";
+
+        public const string MANAGE_SERVICES_DURATION = "Duration";
+
+        public const string MANAGE_SERVICES_DECRIPTION = "Description";
+
+        public const string MANAGE_SERVICES_CATALOG = "Catalog";
+
+        public const string MANAGE_SERVICES_EDIT = "Edit service";
         
         public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
 
@@ -47,6 +64,7 @@ namespace BeautySalon.Constants
 
         public const string SAVE_CHANGES = "Save changes";
 
+        public const string MANAGE_SERVICES_CREATE = "Create service";
         public const string DELETE = "Delete";
 
         public const string CONFIRM_DELETION = "Are you sure you want to proceed with this action?";
@@ -59,6 +77,8 @@ namespace BeautySalon.Constants
 
         public const string DELETE_CONFIRMATION_CATALOG = "Are you sure you want to delete this catalog?";
 
+        public const string EDIT_DELETE_SERVICE = "Service can not be deleted because there are current or future appointments!";
+      
         public const string CANCEL = "Cancel";
         
         #region LABELS
@@ -120,7 +140,6 @@ namespace BeautySalon.Constants
         public const string CATALOG_EDIT_LABEL = "Edit Catalog";
 
         #endregion
-
 
         #region VALIDATION_MESSAGES
 
