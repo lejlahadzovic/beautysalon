@@ -80,6 +80,11 @@ header, footer {
         margin-left: 50px;
     }
 
+.table-responsive {
+    max-height: 200px;
+    overflow: hidden;
+}
+
 #main {
     transition: margin-left .5s;
     padding: 16px;
@@ -91,12 +96,21 @@ header, footer {
     }
 }
 
-@media screen and (max-height: 450px) {
-    .sidenav {
-        padding-top: 15px;
+@media (max-width: 1024px) {
+    .col-md-2 {
+        padding:unset;
     }
-
-        .sidenav a {
-            font-size: 18px;
-        }
 }
+
+@media (max-width: 435px) {
+    .row {
+        margin-left: 5px;
+        --bs-gutter-x:0;
+    }
+    .col-md-2{
+        margin-top:10px;
+    }
+    .table-responsive {
+        overflow: scroll;
+    }
+    }

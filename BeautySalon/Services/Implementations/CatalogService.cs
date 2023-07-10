@@ -27,5 +27,12 @@ namespace BeautySalon.Services.Implementations
 
             return _mapper.Map<List<CatalogVM>>(list);
         }
-    }
+
+		public async Task<List<Catalog>> GetCatalogs()
+		{
+			var catalogs = await _dbContext.Catalogs.ToListAsync();
+
+			return catalogs;
+		}
+	}
 }

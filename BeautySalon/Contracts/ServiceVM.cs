@@ -10,6 +10,6 @@ namespace BeautySalon.Contracts
         public string Description { get; set; }
         public int Duration { get; set; }
         public int CatalogId { get; set; }
-        public Catalog Catalog { get; set; }
+        public Catalog? Catalog { get; set; }
     }
 }
