@@ -35,7 +35,7 @@ namespace BeautySalon.Controllers
         [HttpGet]
         public async Task<IActionResult> Create()
         {
-            List<Catalog> catalogsList = await _catalogService.GetCatalogs();
+            List<CatalogVM> catalogsList = await _catalogService.GetCatalogs();
 
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             ServiceVM service = new ServiceVM();
@@ -58,7 +58,7 @@ namespace BeautySalon.Controllers
         [HttpGet]
         public async Task<ActionResult> Edit(int id)
         {
-            List<Catalog> catalogsList = await _catalogService.GetCatalogs();
+            List<CatalogVM> catalogsList = await _catalogService.GetCatalogs();
 
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
             var existingService = await _serviceService.GetServiceById(id);
@@ -77,7 +77,7 @@ namespace BeautySalon.Controllers
             var service = await _serviceService.Update(newService);
             if (service != null)
             {
-                List<Catalog> catalogsList = await _catalogService.GetCatalogs();
+                List<CatalogVM> catalogsList = await _catalogService.GetCatalogs();
                 ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
                 return View(newService);
             }

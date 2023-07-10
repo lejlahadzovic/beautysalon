@@ -33,7 +33,6 @@ namespace BeautySalon.Constants
 
         public const string EMAIL_MESSAGE_SUBJECT = "Your changed password";
 
-        
         public const string PASSWORD_RESET_EMAIL_SUBJECT = "Password reset request.";
 
         public const string EMAIL_MESSAGE_BODY_1 = "Hi, We got request for reset your account password. Please click on the below link to reset your password";
@@ -57,14 +56,13 @@ namespace BeautySalon.Constants
         public const string MANAGE_SERVICES_CATALOG = "Catalog";
 
         public const string MANAGE_SERVICES_EDIT = "Edit service";
-        
-        public const string PASSWORD_RESET_EMAIL_BODY = "Hi, You've requested a password reset. Please click on the link below to reset your password.";
 
         public const string CATALOG_EDIT_SUCCESSFUL = "You have sucessfully edited the catalog.";
 
         public const string SAVE_CHANGES = "Save changes";
 
         public const string MANAGE_SERVICES_CREATE = "Create service";
+        
         public const string DELETE = "Delete";
 
         public const string CONFIRM_DELETION = "Are you sure you want to proceed with this action?";
