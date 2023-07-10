@@ -57,21 +57,21 @@ namespace BeautySalon.Services.Implementations
         public async Task<Catalog> Update(int catalogId, CatalogVM update)
         {
             var entity = await GetById(catalogId);
-            if (update.UploadFile != null)
-            {
-                if (entity.ImageFileString != null)
-                {
-                    string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", entity.ImageFileString);
-                    System.IO.File.Delete(existingImageFile);
-                }
-                update.ImageFileString = UploadFile(update.UploadFile);
-            }
-            else
-            {
-                update.ImageFileString = entity.ImageFileString;
-            }
             if (entity != null)
             {
+                if (update.UploadFile != null)
+                {
+                    if (entity.ImageFileString != null)
+                    {
+                        string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", entity.ImageFileString);
+                        System.IO.File.Delete(existingImageFile);
+                    }
+                    update.ImageFileString = UploadFile(update.UploadFile);
+                }
+                else
+                {
+                    update.ImageFileString = entity.ImageFileString;
+                }
                 _mapper.Map(update, entity);
                 _dbContext.Catalogs.Update(entity);
                 await _dbContext.SaveChangesAsync();
