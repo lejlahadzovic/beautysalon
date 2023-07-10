@@ -59,6 +59,8 @@ namespace BeautySalon.Constants
 
         public const string MANAGE_SERVICES_CREATE = "Create service";
 
+        public const string EDIT_DELETE_SERVICE = "Service can not be deleted because there are current or future appointments!";
+      
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";

@@ -86,11 +86,19 @@ namespace BeautySalon.Controllers
         }
 
         [HttpPost]
-        public ActionResult Delete(int id)
+        public async Task<ActionResult> Delete(int id)
         {
-            var service = _serviceService.Delete(id);
-            
-            return RedirectToAction("Index");
+            var appointmentsCount = await _serviceService.CheckAppointment(id);
+            if (appointmentsCount > 0)
+            {
+                TempData["message"] = Messages.EDIT_DELETE_SERVICE;
+                return RedirectToAction("Edit", new { id = id });
+            }
+            else 
+            {
+               var service=_serviceService.Delete(id);
+               return RedirectToAction("Index");
+            }
         }
     }
 }

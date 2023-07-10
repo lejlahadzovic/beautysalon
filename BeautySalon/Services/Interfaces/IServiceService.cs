@@ -1,5 +1,6 @@
 ﻿using BeautySalon.Contracts;
 using BeautySalon.Models;
+using System.Threading.Tasks;
 
 namespace BeautySalon.Services.Interfaces
 {
@@ -11,5 +12,6 @@ namespace BeautySalon.Services.Interfaces
         Task<Service> Insert(ServiceVM insert);
         Task<Service> Update(ServiceVM update);
         Task<Service> Delete(int id);
+        Task<int> CheckAppointment(int id);
     }
 }

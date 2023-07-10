@@ -42,6 +42,12 @@ namespace BeautySalon.Services.Implementations
             
             return service;
         }
+        public async Task<int> CheckAppointment(int id)
+        {
+            var appointment = await _dbContext.Appointments.Where(x=>x.ServiceId == id && (x.StartDateTime.Date.Equals(DateTime.Today) || DateTime.Compare(x.StartDateTime,DateTime.Today)>0)).CountAsync();
+
+            return appointment;
+        }
 
         public async Task<List<ServiceVM>> Get(string name, int catalogId)
         {
