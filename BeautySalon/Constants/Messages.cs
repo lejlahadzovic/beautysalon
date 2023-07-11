@@ -80,6 +80,8 @@ namespace BeautySalon.Constants
         public const string EDIT_DELETE_CATALOG = "This catalog can not be deleted because there are current or future appointments on some of the catalog services!";
       
         public const string CANCEL = "Cancel";
+
+        public const string USER = "User";
         
         #region LABELS
 
@@ -125,6 +127,8 @@ namespace BeautySalon.Constants
         
         public const string MANAGE_CATALOGS_LABEL = "Manage Catalogs";
 
+        public const string MANAGE_APPOINTMENTS_LABEL = "Manage Appointments";
+
         public const string SELECT_CATALOG_LABEL = "Select a Catalog to edit";
 
         public const string CATALOG_TITLE_LABEL = "Catalog Title";
@@ -138,6 +142,14 @@ namespace BeautySalon.Constants
         public const string NEW_CATALOG_LABEL = "New Catalog";
         
         public const string CATALOG_EDIT_LABEL = "Edit Catalog";
+
+        public const string APPOINTMENT_APPROVED_LABEL = "Approved";
+
+        public const string APPOINTMENT_CANCELED_LABEL = "Canceled";
+
+        public const string APPOINTMENT_DATE_FROM_LABEL = "Date(FROM)";
+        
+        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";
 
         #endregion
 

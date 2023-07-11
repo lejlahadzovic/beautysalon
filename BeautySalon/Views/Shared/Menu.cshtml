@@ -17,6 +17,10 @@
     {
     <a class="menuLinks" asp-controller="CatalogManagement" asp-action="Index">@Messages.MANAGE_CATALOGS_LABEL</a>    
     }
+    @if (isAdmin)
+    {
+        <a class="menuLinks" asp-controller="AppointmentManagement" asp-action="Index">@Messages.MANAGE_APPOINTMENTS_LABEL</a>
+    }
 </div>
 <span style="font-size:30px;cursor:pointer" onclick="openNav()">&#9776;</span>
 

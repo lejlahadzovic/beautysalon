@@ -1,0 +1,35 @@
+﻿@model IEnumerable<BeautySalon.Contracts.AppointmentVM>
+@using BeautySalon.Constants
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="table-responsive" style="overflow:auto; max-height:70vh;">
+    <table class="table table-hover">
+        <thead class="table-dark" style="position: sticky; top:0;">
+            <tr>
+                <th>@Messages.USER</th>
+                <th>@Messages.CATALOGS_LABEL</th>
+                <th>@Messages.SERVICES_LABEL</th>
+                <th>@Messages.APPOINTMENT_APPROVED_LABEL</th>
+                <th>@Messages.APPOINTMENT_CANCELED_LABEL</th>
+                <th>@Messages.APPOINTMENT_DATE_FROM_LABEL</th>
+                <th>@Messages.APPOINTMENT_DATE_TO_LABEL</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.User.ToString()</td>
+                    <td>@item.Service.Catalog.Title</td>
+                    <td>@item.Approved.ToString()</td>
+                    <td>@item.Canceled.ToString()</td>
+                    <td>@item.StartDateTime.ToShortDateString()</td>
+                    <td>@item.FinishDateTime.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
