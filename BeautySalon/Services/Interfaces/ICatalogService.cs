@@ -10,5 +10,6 @@ namespace BeautySalon.Services.Interfaces
         Task<Catalog> Update(int id, CatalogVM update);
         Task Remove(Catalog remove);
         Task<List<CatalogVM>> GetCatalogs(string catalogName = "");
+        Task<bool> CheckAppointments(int catalogId);
     }
 }

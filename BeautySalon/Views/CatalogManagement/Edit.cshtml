@@ -12,6 +12,12 @@
             <div class="col-12 col-lg-9 col-xl-7">
                 <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
                     <div class="card-body p-4 p-md-4">
+                        @if (TempData["MessageFail"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <h5>@TempData["MessageFail"]</h5>
+                            </div>
+                        }
                         @if (action == "Edit")
                         {
                             <h3 class="pb-2 pb-md-0 mb-md-1 text-center">@Messages.CATALOG_EDIT_LABEL</h3>

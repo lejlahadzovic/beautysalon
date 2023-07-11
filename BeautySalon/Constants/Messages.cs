@@ -76,6 +76,8 @@ namespace BeautySalon.Constants
         public const string DELETE_CONFIRMATION_CATALOG = "Are you sure you want to delete this catalog?";
 
         public const string EDIT_DELETE_SERVICE = "Service can not be deleted because there are current or future appointments!";
+        
+        public const string EDIT_DELETE_CATALOG = "This catalog can not be deleted because there are current or future appointments on some of the catalog services!";
       
         public const string CANCEL = "Cancel";
         

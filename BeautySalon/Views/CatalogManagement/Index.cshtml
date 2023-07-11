@@ -23,9 +23,9 @@
 <div class="mb-2 d-flex justify-content-end">
     <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">@Messages.NEW_CATALOG_LABEL</a>
 </div>
-<div class="table-responsive" id="tableCatalogs">
+<div class="table-responsive" style="overflow:auto; max-height:70vh;">
     <table class="table table-hover">
-        <thead class="table-dark">
+        <thead class="table-dark" style="position: sticky; top:0;">
             <tr>
                 <th>@Messages.CATALOG_TITLE_LABEL </th>
                 <th>@Messages.CATALOG_PHOTO_LABEL</th>
@@ -47,3 +47,6 @@
         </tbody>
     </table>
 </div>
+
+<link rel="stylesheet" href="extensions/sticky-header/bootstrap-table-sticky-header.css">
+<script src="extensions/sticky-header/bootstrap-table-sticky-header.js"></script>

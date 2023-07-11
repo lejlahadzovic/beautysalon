@@ -79,10 +79,17 @@ namespace BeautySalon.Controllers
             var catalog = await _catalogService.GetById(catalogId);
             if (catalog != null)
             {
-                await _catalogService.Remove(catalog);
-                return RedirectToAction("Index");
+                if (await _catalogService.CheckAppointments(catalogId) == true)
+                {
+                    TempData["MessageFail"] = Messages.EDIT_DELETE_CATALOG;
+                }
+                else
+                {
+                    await _catalogService.Remove(catalog);
+                    return RedirectToAction("Index");
+                }
             }
-            return NotFound();
+            return RedirectToAction("Edit", new { catalogId = catalogId });
         }
     }
 }

@@ -81,23 +81,20 @@ namespace BeautySalon.Services.Implementations
 
         public async Task Remove(Catalog remove)
         {
-            var serviceIds = await _dbContext.Services
-                .Where(s=>s.CatalogId==remove.Id)
-                .Select(x => x.Id)
-                .ToListAsync();
-            var appointments = await _dbContext.Appointments
-                .Where(a => serviceIds.Contains(a.ServiceId))
-                .ToListAsync();
-            if(!appointments.Any()) 
+            if (remove.ImageFileString != null)
             {
-                if (remove.ImageFileString != null)
-                {
-                    string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", remove.ImageFileString);
-                    System.IO.File.Delete(existingImageFile);
-                }
-                _dbContext.Catalogs.Remove(remove); 
-                await _dbContext.SaveChangesAsync();
+                string existingImageFile = Path.Combine(_hostEnvironment.WebRootPath, "images", remove.ImageFileString);
+                System.IO.File.Delete(existingImageFile);
             }
+            _dbContext.Catalogs.Remove(remove);
+            await _dbContext.SaveChangesAsync();
+        }
+
+        public async Task<List<Catalog>> GetCatalogs()
+        {
+            var catalogs = await _dbContext.Catalogs.ToListAsync();
+
+            return catalogs;
         }
 
         private string UploadFile(IFormFile imgfile)
@@ -111,11 +108,21 @@ namespace BeautySalon.Services.Implementations
             return uniqueFileName;
         }
 
-		public async Task<List<Catalog>> GetCatalogs()
-		{
-			var catalogs = await _dbContext.Catalogs.ToListAsync();
-
-			return catalogs;
-		}
-	}
+        public async Task<bool> CheckAppointments(int catalogId)
+        {
+            var serviceIds =await _dbContext.Services
+                .Where(s => s.CatalogId == catalogId)
+                .Select(x => x.Id)
+                .ToListAsync();
+            var appointments =await _dbContext.Appointments
+                .Where(a => serviceIds.Contains(a.ServiceId)
+                && a.StartDateTime >= DateTime.Today)
+                .ToListAsync();
+            if (appointments.Any())
+            {
+                return true;
+            }
+            return false;
+        }
+    }
 }
