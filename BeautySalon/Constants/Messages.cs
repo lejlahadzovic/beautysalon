@@ -57,10 +57,30 @@ namespace BeautySalon.Constants
 
         public const string MANAGE_SERVICES_EDIT = "Edit service";
 
+        public const string CATALOG_EDIT_SUCCESSFUL = "You have sucessfully edited the catalog.";
+
+        public const string SAVE_CHANGES = "Save changes";
+
         public const string MANAGE_SERVICES_CREATE = "Create service";
+        
+        public const string DELETE = "Delete";
+
+        public const string CONFIRM_DELETION = "Are you sure you want to proceed with this action?";
+
+        public const string CREATE = "Create";
+
+        public const string BACK = "Back";
+
+        public const string SAVE = "Save";
+
+        public const string DELETE_CONFIRMATION_CATALOG = "Are you sure you want to delete this catalog?";
 
         public const string EDIT_DELETE_SERVICE = "Service can not be deleted because there are current or future appointments!";
+        
+        public const string EDIT_DELETE_CATALOG = "This catalog can not be deleted because there are current or future appointments on some of the catalog services!";
       
+        public const string CANCEL = "Cancel";
+        
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";
@@ -102,6 +122,22 @@ namespace BeautySalon.Constants
         public const string SEARCH_LABEL = "Search";
 
         public const string MY_PROFILE_LABEL = "My profile";
+        
+        public const string MANAGE_CATALOGS_LABEL = "Manage Catalogs";
+
+        public const string SELECT_CATALOG_LABEL = "Select a Catalog to edit";
+
+        public const string CATALOG_TITLE_LABEL = "Catalog Title";
+
+        public const string CATALOG_TYPE_LABEL = "Catalog Type";
+
+        public const string CATALOG_PHOTO_LABEL = "Catalog Photo";
+        
+        public const string CATALOG_DESCRIPTION_LABEL = "Catalog Description";
+
+        public const string NEW_CATALOG_LABEL = "New Catalog";
+        
+        public const string CATALOG_EDIT_LABEL = "Edit Catalog";
 
         #endregion
 
@@ -114,6 +150,12 @@ namespace BeautySalon.Constants
         public const string PASSWORD_ERROR_MESSAGE = "Password not strong enough";
 
         public const string CONFRIM_PASSWORD_ERROR_MESSAGE = "Password Not Matched";
+
+        public const string TITLE_ERROR_MESSAGE = "You must enter the title of this catalog";
+
+        public const string TYPE_ERROR_MESSAGE = "You must enter the type of this catalog";
+
+        public const string DESCRIPTION_ERROR_MESSAGE = "You must enter the description of this catalog";
 
         #endregion
     }
