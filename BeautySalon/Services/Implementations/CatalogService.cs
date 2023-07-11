@@ -110,14 +110,16 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<bool> CheckAppointments(int catalogId)
         {
-            var serviceIds =await _dbContext.Services
+            var serviceIds = await _dbContext.Services
                 .Where(s => s.CatalogId == catalogId)
                 .Select(x => x.Id)
                 .ToListAsync();
-            var appointments =await _dbContext.Appointments
+
+            var appointments = await _dbContext.Appointments
                 .Where(a => serviceIds.Contains(a.ServiceId)
                 && a.StartDateTime >= DateTime.Today)
                 .ToListAsync();
+
             if (appointments.Any())
             {
                 return true;
