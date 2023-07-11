@@ -17,6 +17,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 // Add services to the container.
 builder.Services.AddScoped<ICatalogService, CatalogService>();
 builder.Services.AddScoped<IServiceService, ServiceService>();
+builder.Services.AddScoped<IAppointmentService, AppointmentService>();
 builder.Services.AddScoped<IUserService,UserService>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllersWithViews();

@@ -60,7 +60,29 @@ namespace BeautySalon.Constants
         public const string MANAGE_SERVICES_CREATE = "Create service";
 
         public const string EDIT_DELETE_SERVICE = "Service can not be deleted because there are current or future appointments!";
-      
+
+        public const string MAKE_APPOINTMENT = "Make appointment";
+
+        public const string MY_APPOINTMENTS = "My appointments";
+
+        public const string APPOINTMENT_START_DATE_TIME = "Start";
+
+        public const string APPOINTMENT_FINISH_DATE_TIME = "Finish";
+
+        public const string APPOINTMENT_APPROVED = "Approved";
+
+        public const string APPOINTMENT_CANCELED = "Canceled";
+
+        public const string APPOINTMENT_SERVICE_NAME = "Service";
+
+        public const string APPOINTMENT_CREATED = "Appointment was successfully created.";
+
+        public const string APPOINTMENT_NOT_CREATED = "Appointment was not successfully created.";
+
+        public const string CANCEL = "Cancel";
+
+        public const string SHOW_SERVICE = "Show service";
+
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";

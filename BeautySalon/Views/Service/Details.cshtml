@@ -1,0 +1,36 @@
+﻿@using BeautySalon.Constants
+@model BeautySalon.Models.Service
+@{
+    var service = ViewData.Model;
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card m-auto mt-5 w-75">
+    <h1 class="card-title text-center">@service.Name</h1>
+    <img class="card-img-top m-auto" src="~/images/service.png" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="font-weight-bold">Description:</h5>
+        <p class="card-text">@service.Description</p>
+        <h5 class="font-weight-bold">Price:</h5>
+        <p class="card-text">@service.Price $</p>
+        <h5 class="font-weight-bold">Duration:</h5>
+        <p class="card-text">@service.Duration min</p>
+        @using (Html.BeginForm("Create", "Appointment", new { serviceId = Model.Id },FormMethod.Post))
+        {
+            <div class="row">
+                <div class="col-md-3 mt-3">
+                    @Html.TextBox("dateTime", null , new { @type="datetime-local", @class = "form-control datepicker"})
+                </div>
+                <div class="col-md-3 mt-3">
+                    <input id="create_appointment" type="submit" class="btn btn-success" value="@Messages.MAKE_APPOINTMENT" />
+                </div>
+            </div>
+        }
+        @if (TempData["message"] != null)
+        {
+            <div class="alert alert-warning mt-3" role="alert">
+                <h5>@TempData["message"]</h5>
+            </div>
+        }
+    </div>
+</div>

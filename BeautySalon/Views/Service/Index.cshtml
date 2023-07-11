@@ -15,8 +15,8 @@
             {
                 @Html.Hidden("catalogId")
                 <div class="input-group w-100">
-            @Html.TextBox("name", null, new {@style="width:75%; border:none; background-color:lightgray;"})
-                 <input type="submit" class="form-control" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
+                @Html.TextBox("name", null, new {@style="width:75%; border:none; background-color:lightgray;"})
+                <input type="submit" class="form-control" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
                 </div>
             }
     </div>
@@ -29,6 +29,7 @@
                     <h5 class="card-title">@Html.DisplayFor(modelItem =>item.Name) - @Html.DisplayFor(modelItem =>item.Price)$</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem=>item.Duration) min</p>
                     <p class="card-text"><small>@Html.DisplayFor(modelItem =>item.Description)</small></p>
+                    <a class="btn btn-success" href="@Url.Action("Details", "Service", new {serviceId=item.Id})" role="button">@Messages.SHOW_SERVICE</a>
                 </div>
             </div>
         }
