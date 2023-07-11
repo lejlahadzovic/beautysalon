@@ -90,13 +90,6 @@ namespace BeautySalon.Services.Implementations
             await _dbContext.SaveChangesAsync();
         }
 
-        public async Task<List<Catalog>> GetCatalogs()
-        {
-            var catalogs = await _dbContext.Catalogs.ToListAsync();
-
-            return catalogs;
-        }
-
         private string UploadFile(IFormFile imgfile)
         {
             string uniqueFileName = Guid.NewGuid().ToString() + "-" + imgfile.FileName;
