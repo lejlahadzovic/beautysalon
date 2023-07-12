@@ -7,6 +7,7 @@ namespace BeautySalon.Services.Interfaces
         Task<User> Insert(UserVM insert);
         Task<User> Update(string email, UserUpdateVM update);
         Task<User> GetAll();
+        Task<List<UserVM>> GetUsers();
         Task<User> GetByID(int id);
         Task<User> CheckResetCode(string code);
         Task<User> ResetPassword(ResetPasswordVM model);

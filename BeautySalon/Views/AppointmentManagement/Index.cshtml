@@ -4,8 +4,26 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-<div class="table-responsive" style="overflow:auto; max-height:70vh;">
+<form asp-controller="AppointmentManagement" asp-action="Index">
+<div class="form-row mt-3">
+    <div class="input-group">
+        <div class="form-outline p-2">
+            @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select user", new {@class = "form-select"})
+        </div>
+        <div class="form-outline p-2">
+            @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Select catalog", new {@class = "form-select"})
+        </div>
+            <div class="form-outline p-2">
+            @Html.DropDownList("serviceId", (SelectList)ViewBag.Services, "Select service", new {@class = "form-select"})
+        </div>
+            <div class="form-outline p-2">
+                <input type="checkbox" name="isApproved" value="false"/>
+            </div>
+        <button type="submit" class="btn btn-dark m-2">@Messages.SEARCH_LABEL</button>
+    </div>
+</div>
+</form>
+<div class="table-responsive mt-3" style="overflow:auto; max-height:70vh;">
     <table class="table table-hover">
         <thead class="table-dark" style="position: sticky; top:0;">
             <tr>
@@ -21,9 +39,10 @@
         <tbody>
             @foreach (var item in Model)
             {
-                <tr>
+                <tr onclick="location.href=' @Url.Action("Manage", "AppointmentManagement", new {appointmentId = item.Id})'">
                     <td>@item.User.ToString()</td>
                     <td>@item.Service.Catalog.Title</td>
+                    <td>@item.Service.Name</td>
                     <td>@item.Approved.ToString()</td>
                     <td>@item.Canceled.ToString()</td>
                     <td>@item.StartDateTime.ToShortDateString()</td>

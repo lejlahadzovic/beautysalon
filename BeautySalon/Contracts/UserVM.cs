@@ -38,5 +38,7 @@ namespace BeautySalon.Contracts
         [Required]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = Messages.CONFRIM_PASSWORD_ERROR_MESSAGE)]
         public string ConfirmPassword { get; set; }
+
+        public string FullName { get; set; }
     }
 }
