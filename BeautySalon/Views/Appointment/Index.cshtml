@@ -1,6 +1,56 @@
 ﻿@using BeautySalon.Constants
 @model IEnumerable<BeautySalon.Contracts.AppointmentVM>
-<h3 class="mt-3 mb-3">@Messages.MY_APPOINTMENTS</h3>
+<h3 class="mt-5">@Messages.MY_APPOINTMENTS</h3>
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-warning mt-3" role="alert">
+        <h5>@TempData["message"]</h5>
+    </div>
+}
+@using (Html.BeginForm("Index", "Appointment", FormMethod.Get, new { @class = "w-100" }))
+{
+    <div class="row mb-3">
+        <div class="col-md-2 mt-4">
+
+            <div class="form-outline input-group w-100">
+                @Html.DropDownList("CatalogId", (SelectList)ViewBag.Catalogs, "Select catalog", new { @class = "form-select",@style="width:65%;" })
+            </div>
+
+        </div>
+        <div class="col-md-2 mt-4">
+
+            <div class="form-outline input-group w-100">
+                @Html.DropDownList("ServiceId", (SelectList)ViewBag.Services, "Select service", new { @class = "form-select",@style="width:65%;" })
+            </div>
+
+        </div>
+        <div class="col-md-3">
+            <h6 class="mb-2 pb-1">Approved:</h6>
+            <div class="form-check form-check-inline">
+                @Html.CheckBox("IsApproved",new{@class="form-check-input"})
+                <label class="form-check-label">Approved</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.CheckBox("IsUnapproved",new{@class="form-check-input"})
+                <label class="form-check-label">Unapproved</label>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h6 class="mb-2 pb-1">Date:</h6>
+            <div class="form-check form-check-inline">
+                @Html.CheckBox("IsPastAppointment",new{@class="form-check-input"})
+                <label class="form-check-label">Past appointments</label>
+            </div>
+            <div class="form-check form-check-inline">
+                @Html.CheckBox("IsFutureAppointment",new{@class="form-check-input"})
+                <label class="form-check-label">Future appointments</label>
+            </div>
+        </div>
+        <div class="col-md-1 ms-auto mt-4">
+            <input id="filter_by_name" type="submit" name="submit" class="form-control btn-dark" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
+        </div>
+    </div>
+}
 <div class="table-responsive" id="tableService">
     <table class="table table-hover">
         <thead class="table-dark">

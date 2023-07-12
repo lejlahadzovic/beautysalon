@@ -4,6 +4,7 @@ using BeautySalon.Models;
 using BeautySalon.Services.Implementations;
 using BeautySalon.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Security.Claims;
 
 namespace BeautySalon.Controllers
@@ -12,11 +13,15 @@ namespace BeautySalon.Controllers
     {
         protected new readonly IUserService _userService;
         protected new readonly IAppointmentService _appointmentService;
-        
-        public AppointmentController(IUserService userService, IAppointmentService appointmentService)
+        protected new readonly ICatalogService _catalogService;
+        protected new readonly IServiceService _serviceService;
+
+        public AppointmentController(IUserService userService, IAppointmentService appointmentService, ICatalogService catalogService, IServiceService serviceService)
         {
             _userService = userService;
             _appointmentService = appointmentService;
+            _catalogService = catalogService;
+            _serviceService = serviceService;
         }
         public async Task<User> GetCurrentUser()
         {
@@ -28,10 +33,14 @@ namespace BeautySalon.Controllers
             return user;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(AppointmentSearchVM appointmentSearch)
         {
+            var catalogsList = await _catalogService.GetCatalogs();
+            ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
+            var serviceList = await _serviceService.Get(null,0);
+            ViewBag.Services = new SelectList(serviceList, "Id", "Name");
             var user=await GetCurrentUser();
-            var appointments =await _appointmentService.GetAppointmentsByUser(user);
+            var appointments = await _appointmentService.SearchAppointments(user.Id, appointmentSearch);
             return View(appointments);
         }
 
@@ -39,7 +48,7 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Create(int serviceId, DateTime dateTime)
         {
             var user = await GetCurrentUser();
-            var newAppointment=_appointmentService.Create(user,dateTime,serviceId);
+            var newAppointment=_appointmentService.Create(user.Id,dateTime,serviceId);
             string message;
             if(newAppointment != null)
             {
@@ -54,7 +63,13 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Cancel(int id)
         {
             var service =await _appointmentService.Cancel(id);
-
+            if(service != null) 
+            {
+               TempData["message"] = "Appointment not successfully canceled!";
+               return RedirectToAction("Index");
+            }
+            
+            TempData["message"] = "Appointment not successfully canceled!";
             return RedirectToAction("Index");
         }
     }
