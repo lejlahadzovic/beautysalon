@@ -71,7 +71,7 @@ namespace BeautySalon.Constants
 
         public const string APPOINTMENT_APPROVED = "Approved";
 
-        public const string APPOINTMENT_CANCELED = "Canceled";
+        public const string CANCELED = "Canceled";
 
         public const string APPOINTMENT_SERVICE_NAME = "Service";
 
@@ -83,6 +83,9 @@ namespace BeautySalon.Constants
 
         public const string SHOW_SERVICE = "Show service";
 
+        public const string APPOINTMENT_NOT_CANCELED = "Appointment not successfully canceled!";
+
+        public const string APPOINTMENT_CANCELED = "Appointment successfully canceled!";
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";

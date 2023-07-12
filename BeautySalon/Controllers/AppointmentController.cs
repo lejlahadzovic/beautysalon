@@ -65,11 +65,11 @@ namespace BeautySalon.Controllers
             var service =await _appointmentService.Cancel(id);
             if(service != null) 
             {
-               TempData["message"] = "Appointment not successfully canceled!";
+               TempData["message"] = @Messages.APPOINTMENT_CANCELED;
                return RedirectToAction("Index");
             }
             
-            TempData["message"] = "Appointment not successfully canceled!";
+            TempData["message"] = @Messages.APPOINTMENT_NOT_CANCELED;
             return RedirectToAction("Index");
         }
     }
