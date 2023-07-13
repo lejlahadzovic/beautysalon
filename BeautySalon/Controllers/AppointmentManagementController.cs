@@ -29,7 +29,8 @@ namespace BeautySalon.Controllers
             _mapper = mapper;
         }
 
-        public async Task<IActionResult> Index(int userId, int catalogId, int serviceId, bool isApproved)
+        public async Task<IActionResult> Index(int userId = 0, int catalogId = 0, int serviceId = 0, bool isApproved = false, bool isCanceled = false,
+            DateTime? dateFrom = null, DateTime? dateTo = null)
         {
             var usersList =await _userService.GetUsers();
             ViewBag.Users = new SelectList(usersList, "Id", "FullName");
@@ -40,17 +41,17 @@ namespace BeautySalon.Controllers
             var servicesList = await _serviceService.Get("",0);
             ViewBag.Services = new SelectList(servicesList, "Id", "Name");
             
-            var appointments = await _appointmentService.GetAppointments(userId, catalogId, serviceId, isApproved);
+            var appointments = await _appointmentService.GetAppointments(userId, catalogId, serviceId, isApproved, isCanceled, dateFrom, dateTo);
             return View(appointments);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> Manage(int appointmentId)
+        public async Task<IActionResult> ApproveAppointment(int appointmentId)
         {
             if (appointmentId != 0)
             {
                 var appointment = await _appointmentService.GetById(appointmentId);
-                return View(_mapper.Map<AppointmentVM>(appointment));
+                _appointmentService.Approve(appointment);
+                return RedirectToAction("Index");
             }
             return NotFound();
         }

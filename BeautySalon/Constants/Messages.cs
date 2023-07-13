@@ -82,6 +82,12 @@ namespace BeautySalon.Constants
         public const string CANCEL = "Cancel";
 
         public const string USER = "User";
+
+        public const string APPROVE = "Approve";
+
+        public const string APPROVED_ONLY = "Approved(ONLY)";
+
+        public const string CANCELED_ONLY = "Canceled(ONLY)";
         
         #region LABELS
 
@@ -149,7 +155,7 @@ namespace BeautySalon.Constants
 
         public const string APPOINTMENT_DATE_FROM_LABEL = "Date(FROM)";
         
-        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";
+        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";     
 
         #endregion
 

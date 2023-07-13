@@ -20,7 +20,8 @@ namespace BeautySalon.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved)
+        public async Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved, bool isCanceled, 
+            DateTime? dateFrom, DateTime? dateTo)
         {
             var appointments = await _dbContext.Appointments
                 .Include(u => u.User)
@@ -30,16 +31,23 @@ namespace BeautySalon.Services.Implementations
                     (userId == 0 || a.UserId == userId)
                     && (catalogId == 0 || a.Service.CatalogId == catalogId)
                     && (serviceId == 0 || a.ServiceId == serviceId)
-                    && (a.Approved==isApproved || isApproved==false))
+                    && (a.Approved == isApproved || isApproved == false)
+                    && (a.Canceled == isCanceled || isCanceled == false)
+                    && (a.StartDateTime >= dateFrom || a.FinishDateTime <= dateTo 
+                    || (dateFrom == null && dateTo == null)
+                    || (dateFrom == null && a.FinishDateTime <= dateTo)
+                    || (a.StartDateTime >= dateFrom && dateTo == null)))
                 .ToListAsync();
 
             return _mapper.Map<List<AppointmentVM>>(appointments);
         }
 
-        public async Task<List<AppointmentVM>> GetApprovedAppointments()
+        public Task Approve(Appointment appointment)
         {
-            var appointments = await _dbContext.Appointments.Where(x => x.Approved == true).ToListAsync();
-            return _mapper.Map<List<AppointmentVM>>(appointments);
+            appointment.Approved = true;
+            _dbContext.Update(appointment);
+            _dbContext.SaveChanges();
+            return Task.CompletedTask;
         }
 
         public async Task<Appointment> GetById(int appointmentId)

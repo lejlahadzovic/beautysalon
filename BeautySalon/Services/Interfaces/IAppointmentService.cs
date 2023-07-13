@@ -5,8 +5,9 @@ namespace BeautySalon.Services.Interfaces
 {
     public interface IAppointmentService
     {
-        Task<List<AppointmentVM>> GetAppointments(int userId = 0, int catalogId = 0, int serviceId = 0, bool isApproved=false);
-        Task<List<AppointmentVM>> GetApprovedAppointments();
+        Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved, bool isCanceled, 
+            DateTime? dateFrom, DateTime? dateTo);
+        Task Approve(Appointment appointment);
         Task<Appointment> GetById(int id);
     }
 }
