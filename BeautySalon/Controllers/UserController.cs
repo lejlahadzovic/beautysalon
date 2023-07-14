@@ -119,6 +119,7 @@ namespace BeautySalon.Controllers
                     //Call send email methods.
                     EmailManager.SendEmail(subject, body, To);
                     _userService.ChangeResetPasswordCode(user, resetCode);
+                    ViewBag.Message = Messages.EMAIL_SENT;
                 }
             }
 

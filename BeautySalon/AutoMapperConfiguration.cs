@@ -12,6 +12,7 @@ namespace BeautySalon
             CreateMap<CatalogVM, Catalog>().ReverseMap();
             CreateMap<ServiceVM, Service>().ReverseMap();
             CreateMap<UserUpdateVM, User>().ReverseMap();
+            CreateMap<AppointmentVM, Appointment>().ReverseMap();
         }
     }
 }

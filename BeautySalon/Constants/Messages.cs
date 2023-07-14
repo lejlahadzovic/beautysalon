@@ -33,6 +33,8 @@ namespace BeautySalon.Constants
 
         public const string EMAIL_MESSAGE_SUBJECT = "Your changed password";
 
+        public const string EMAIL_SENT = "Password reset link has been sent to your email!";
+
         public const string PASSWORD_RESET_EMAIL_SUBJECT = "Password reset request.";
 
         public const string EMAIL_MESSAGE_BODY_1 = "Hi, We got request for reset your account password. Please click on the below link to reset your password";
@@ -81,6 +83,30 @@ namespace BeautySalon.Constants
       
         public const string CANCEL = "Cancel";
         
+
+        public const string MAKE_APPOINTMENT = "Make appointment";
+
+        public const string MY_APPOINTMENTS = "My appointments";
+
+        public const string APPOINTMENT_START_DATE_TIME = "Start";
+
+        public const string APPOINTMENT_FINISH_DATE_TIME = "Finish";
+
+        public const string APPOINTMENT_APPROVED = "Approved";
+
+        public const string CANCELED = "Canceled";
+
+        public const string APPOINTMENT_SERVICE_NAME = "Service";
+
+        public const string APPOINTMENT_CREATED = "Appointment was successfully created.";
+
+        public const string APPOINTMENT_NOT_CREATED = "Appointment was not successfully created.";
+
+        public const string SHOW_SERVICE = "Show service";
+
+        public const string APPOINTMENT_NOT_CANCELED = "Appointment not successfully canceled!";
+
+        public const string APPOINTMENT_CANCELED = "Appointment successfully canceled!";
         #region LABELS
 
         public const string WELCOME_LABEL = "Welcome";
@@ -144,6 +170,8 @@ namespace BeautySalon.Constants
         #region VALIDATION_MESSAGES
 
         public const string EMAIL_INVALID_ERROR_MESSAGE = "Invalid Email Address";
+
+        public const string PHONE_INVALID_ERROR_MESSAGE = "Invalid Phone Number";
 
         public const string EMAIL_EXISTS_ERROR_MESSAGE = "User with this email already exists";
 
