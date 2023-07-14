@@ -35,11 +35,11 @@ namespace BeautySalon.Services.Implementations
                 && (x.Service.CatalogId == search.CatalogId || search.CatalogId == 0)
                 && (x.Approved == search.IsApproved || x.Approved != search.IsUnapproved)).ToList();
 
-                if (search.IsFutureAppointment == true && search.IsPastAppointment != true) 
+                if (search.IsFutureAppointment && !search.IsPastAppointment) 
                 {
                     appointments = appointments.Where(x => DateTime.Compare(x.StartDateTime,DateTime.Now) > 0).ToList();
                 }
-                else if(search.IsPastAppointment == true && search.IsFutureAppointment != true)
+                else if(search.IsPastAppointment && !search.IsFutureAppointment)
                 {
                     appointments = appointments.Where(x => DateTime.Compare(x.StartDateTime, DateTime.Now) < 0).ToList();
                 }

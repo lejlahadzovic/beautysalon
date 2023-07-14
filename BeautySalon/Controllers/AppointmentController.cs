@@ -37,7 +37,7 @@ namespace BeautySalon.Controllers
         {
             var catalogsList = await _catalogService.GetCatalogs();
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
-            var serviceList = await _serviceService.Get(null,0);
+            var serviceList = await _serviceService.Get(0, "");
             ViewBag.Services = new SelectList(serviceList, "Id", "Name");
             var user=await GetCurrentUser();
             var appointments = await _appointmentService.SearchAppointments(user.Id, appointmentSearch);
@@ -62,8 +62,8 @@ namespace BeautySalon.Controllers
         [HttpGet]
         public async Task<ActionResult> Cancel(int id)
         {
-            var service =await _appointmentService.Cancel(id);
-            if(service != null) 
+            var canceled = await _appointmentService.Cancel(id);
+            if(canceled != null) 
             {
                TempData["message"] = @Messages.APPOINTMENT_CANCELED;
                return RedirectToAction("Index");

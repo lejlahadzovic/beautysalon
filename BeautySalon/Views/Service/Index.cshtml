@@ -23,8 +23,8 @@
 <div class="column">
     @foreach(var item in Model.Services)
         {
-           <div class="card mb-3 mx-auto" style="max-width: 600px">
-                    <img src="~/images/service.png" class="card-img-top" alt="card-img-top" style="max-height:100px">
+           <div class="card mb-3 mx-auto w-50 h-100">
+                    <img src="~/images/beauty1.jpeg" class="card-img-top" alt="card-img-top">
                 <div class="card-body">
                     <h5 class="card-title">@Html.DisplayFor(modelItem =>item.Name) - @Html.DisplayFor(modelItem =>item.Price)$</h5>
                     <p class="card-text">@Html.DisplayFor(modelItem=>item.Duration) min</p>

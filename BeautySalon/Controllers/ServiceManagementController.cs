@@ -28,7 +28,7 @@ namespace BeautySalon.Controllers
         {
             var catalogsList = await _catalogService.GetCatalogs();
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
-            var services = await _serviceService.Get(name, catalogId);
+            var services = await _serviceService.Get(catalogId, name);
             return View(services);
         }
 
