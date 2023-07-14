@@ -21,22 +21,22 @@ namespace BeautySalon.Services.Implementations
         }
 
         public async Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved, bool isCanceled, 
-            DateTime? dateFrom, DateTime? dateTo)
+            DateTime? dateFrom, DateTime? dateTo, string dateRange)
         {
             var appointments = await _dbContext.Appointments
                 .Include(u => u.User)
                 .Include(s => s.Service)
-                .Include(c => c.Service.Catalog)
                 .Where(a =>
                     (userId == 0 || a.UserId == userId)
                     && (catalogId == 0 || a.Service.CatalogId == catalogId)
                     && (serviceId == 0 || a.ServiceId == serviceId)
                     && (a.Approved == isApproved || isApproved == false)
                     && (a.Canceled == isCanceled || isCanceled == false)
-                    && (a.StartDateTime >= dateFrom || a.FinishDateTime <= dateTo 
-                    || (dateFrom == null && dateTo == null)
-                    || (dateFrom == null && a.FinishDateTime <= dateTo)
-                    || (a.StartDateTime >= dateFrom && dateTo == null)))
+                    && ((a.FinishDateTime < DateTime.Today && dateRange == "past")
+                    || (a.StartDateTime >= DateTime.Today && dateRange == "future")
+                    || (string.IsNullOrEmpty(dateRange)))
+                    && (dateFrom == null || a.StartDateTime >= dateFrom)
+                    && (dateTo == null || a.FinishDateTime <= dateTo))
                 .ToListAsync();
 
             return _mapper.Map<List<AppointmentVM>>(appointments);

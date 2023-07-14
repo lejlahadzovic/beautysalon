@@ -7,43 +7,57 @@
 <form asp-controller="AppointmentManagement" asp-action="Index">
     <div class="form-row mt-2">
         <div class="input-group">
-            <div class="form-inline p-2">
+            <div class="form-inline p-1">
                 @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select user", new {@class = "form-select"})
             </div>
-            <div class="form-inline p-2">
+            <div class="form-inline p-1">
                 @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Select catalog", new {@class = "form-select"})
             </div>
-            <div class="form-inline p-2">
+            <div class="form-inline p-1">
                 @Html.DropDownList("serviceId", (SelectList)ViewBag.Services, "Select service", new {@class = "form-select"})
             </div>
-            <div class="form-inline p-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="isApproved" value="true" />
-                    <label class="form-check-label">@Messages.APPROVED_ONLY</label>
+            <div class="form-inline p-1">
+                @Html.DropDownList("dateRange", new List<SelectListItem>
+                {
+                new SelectListItem { Text = "Past", Value = "past"},
+                new SelectListItem {Text = "Future", Value = "future"}
+                }, "Select date range", new {@class = "form-select"})
+            </div>
+            <div class="form-group">
+                <div class="form-inline p-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="isApproved" value="true" />
+                        <label class="form-check-label">@Messages.APPOINTMENT_APPROVED_LABEL</label>
+                    </div>
+                </div>
+                <div class="form-inline p-1">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" name="isCanceled" value="true" />
+                        <label class="form-check-label">@Messages.APPOINTMENT_CANCELED_LABEL</label>
+                    </div>
                 </div>
             </div>
-            <div class="form-inline p-3">
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="isCanceled" value="true" />
-                    <label class="form-check-label">@Messages.CANCELED_ONLY</label>
-                </div>
+            <div class="form-inline datepicker p-1">
+                <input type="date" name="dateFrom" class="form-control" />
+                <label>@Messages.APPOINTMENT_DATE_FROM_LABEL</label>
             </div>
-            <div class="input-group">
-                <div class="form-inline datepicker p-1">
-                    <input type="date" name="dateFrom" class="form-control" />
-                    <label>@Messages.APPOINTMENT_DATE_FROM_LABEL</label>
-                </div>
-                <div class="form-inline datepicker p-1">
-                    <input type="date" name="dateTo" class="form-control" />
-                    <label>@Messages.APPOINTMENT_DATE_TO_LABEL</label>
-                </div>
+            <div class="form-inline datepicker p-1">
+                <input type="date" name="dateTo" class="form-control" />
+                <label>@Messages.APPOINTMENT_DATE_TO_LABEL</label>
             </div>
+
         </div>
-        <div class="d-flex justify-content-end">
+        <div class="mb-1 d-flex justify-content-end">
             <button type="submit" class="btn btn-dark">@Messages.SEARCH_LABEL</button>
         </div>
     </div>
 </form>
+@if (TempData["ApprovedMessage"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        <h5>@TempData["ApprovedMessage"]</h5>
+    </div>
+}
 <div class="table-responsive mt-2" style="overflow:auto; max-height:70vh;">
     <table class="table table-hover">
         <thead class="table-dark" style="position: sticky; top:0;">
@@ -66,15 +80,22 @@
                     <td>@item.Service.Name</td>
                     <td>@item.StartDateTime.ToShortDateString()</td>
                     <td>@item.FinishDateTime.ToShortDateString()</td>
-                    <td>@item.Canceled.ToString()</td>
+                    @if (item.Canceled != true)
+                    {
+                        <td>@Messages.NO</td>
+                    }
+                    else
+                    {
+                        <td>@Messages.APPOINTMENT_CANCELED_LABEL</td>
+                    }
                     @if (item.Approved != true)
                     {
-                        @if(item.Canceled != true)
+                        @if (item.Canceled != true)
                         {
-                        <td>
-                            <button class="btn btn-success" onclick="location.href=' @Url.Action("ApproveAppointment", "AppointmentManagement", new {appointmentId = item.Id})'">
-                                @Messages.APPROVE
-                            </button>
+                            <td>
+                                <button class="btn btn-success" onclick="location.href=' @Url.Action("ApproveAppointment", "AppointmentManagement", new {appointmentId = item.Id})'">
+                                    @Messages.APPROVE
+                                </button>
                             </td>
                         }
                         else

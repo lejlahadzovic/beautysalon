@@ -85,9 +85,9 @@ namespace BeautySalon.Constants
 
         public const string APPROVE = "Approve";
 
-        public const string APPROVED_ONLY = "Approved(ONLY)";
+        public const string NO = "No";
 
-        public const string CANCELED_ONLY = "Canceled(ONLY)";
+        public const string APPOINTMENT_APPROVED_MESSAGE = "Appointment has been approved";
         
         #region LABELS
 

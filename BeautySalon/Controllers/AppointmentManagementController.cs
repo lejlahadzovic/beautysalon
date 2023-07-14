@@ -30,7 +30,7 @@ namespace BeautySalon.Controllers
         }
 
         public async Task<IActionResult> Index(int userId = 0, int catalogId = 0, int serviceId = 0, bool isApproved = false, bool isCanceled = false,
-            DateTime? dateFrom = null, DateTime? dateTo = null)
+            DateTime? dateFrom = null, DateTime? dateTo = null, string dateRange = "")
         {
             var usersList =await _userService.GetUsers();
             ViewBag.Users = new SelectList(usersList, "Id", "FullName");
@@ -41,7 +41,7 @@ namespace BeautySalon.Controllers
             var servicesList = await _serviceService.Get("",0);
             ViewBag.Services = new SelectList(servicesList, "Id", "Name");
             
-            var appointments = await _appointmentService.GetAppointments(userId, catalogId, serviceId, isApproved, isCanceled, dateFrom, dateTo);
+            var appointments = await _appointmentService.GetAppointments(userId, catalogId, serviceId, isApproved, isCanceled, dateFrom, dateTo, dateRange);
             return View(appointments);
         }
 
@@ -51,6 +51,7 @@ namespace BeautySalon.Controllers
             {
                 var appointment = await _appointmentService.GetById(appointmentId);
                 _appointmentService.Approve(appointment);
+                TempData["ApprovedMessage"] = Messages.APPOINTMENT_APPROVED_MESSAGE;
                 return RedirectToAction("Index");
             }
             return NotFound();
