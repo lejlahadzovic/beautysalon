@@ -48,14 +48,21 @@ namespace BeautySalon.Services.Implementations
             return _mapper.Map<List<AppointmentVM>>(appointments);
         }
 
+        public async Task<int> CountAppointments(DateTime dateTime, int serviceId)
+        {
+            var appointments = await _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime)
+            || (DateTime.Compare(x.StartDateTime, dateTime) < 0 && DateTime.Compare(x.FinishDateTime, dateTime) > 0)
+            || (DateTime.Compare(x.StartDateTime, dateTime.AddMinutes(x.Service.Duration)) < 0
+            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).CountAsync();
+
+            return appointments;
+        }
+
         public async Task<AppointmentVM> Create(int userId,DateTime dateTime,int serviceId)
         {
-            var appointments = await _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime) 
-            || (DateTime.Compare(x.StartDateTime,dateTime)<0 && DateTime.Compare(x.FinishDateTime,dateTime)>0)
-            || (DateTime.Compare(x.StartDateTime, dateTime.AddMinutes(x.Service.Duration)) < 0 
-            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).ToListAsync();
+            int appointments = await CountAppointments(dateTime, serviceId);
 
-            if (appointments.Count == 0)
+            if (appointments == 0)
             {
                 Appointment entity = new Appointment();
                 entity.UserId = userId;
