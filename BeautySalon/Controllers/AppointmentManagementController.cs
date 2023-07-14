@@ -38,7 +38,7 @@ namespace BeautySalon.Controllers
             var catalogsList = await _catalogService.GetCatalogs();
             ViewBag.Catalogs = new SelectList(catalogsList, "Id", "Title");
 
-            var servicesList = await _serviceService.Get("",0);
+            var servicesList = await _serviceService.Get(0, "");
             ViewBag.Services = new SelectList(servicesList, "Id", "Name");
             
             var appointments = await _appointmentService.GetAppointments(userId, catalogId, serviceId, isApproved, isCanceled, dateFrom, dateTo, dateRange);
