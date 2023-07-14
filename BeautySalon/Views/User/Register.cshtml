@@ -97,6 +97,8 @@
                                     <div class="form-outline">
                                         <input type="tel" id="phoneNumber" name="PhoneNumber" placeholder="000 000 000" class="form-control form-control-lg" value="@Model.PhoneNumber" />
                                         <label class="form-label" for="phoneNumber">@Messages.PHONE_NUMBER_LABEL</label>
+                                        <br />
+                                        @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
                                     </div>
 
                                 </div>
