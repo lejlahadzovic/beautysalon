@@ -34,6 +34,7 @@ namespace BeautySalon.Controllers
         [HttpPost]
         public async Task<ActionResult> Register(UserVM newUser)
         {
+            ModelState.Remove("FullName");
             if (!ModelState.IsValid)
             {
                 return View(newUser);
