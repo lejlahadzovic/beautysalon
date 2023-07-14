@@ -48,7 +48,7 @@ namespace BeautySalon.Controllers
         public async Task<ActionResult> Create(int serviceId, DateTime dateTime)
         {
             var user = await GetCurrentUser();
-            var newAppointment=_appointmentService.Create(user.Id,dateTime,serviceId);
+            var newAppointment= await _appointmentService.Create(user.Id,dateTime,serviceId);
             string message;
             if(newAppointment != null)
             {
