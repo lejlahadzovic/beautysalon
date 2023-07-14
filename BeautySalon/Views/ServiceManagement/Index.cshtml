@@ -47,8 +47,8 @@
     @foreach (var item in Model) {
         <tr>
             <td><a href="@Url.Action("Edit", "ServiceManagement",new{id=item.Id})">@Html.DisplayFor(modelItem =>item.Name)</a></td>
-            <td>@Html.DisplayFor(modelItem =>item.Price)</td>
-            <td>@Html.DisplayFor(modelItem =>item.Duration)</td>
+            <td>@Html.DisplayFor(modelItem =>item.Price) $</td>
+            <td>@Html.DisplayFor(modelItem =>item.Duration) min</td>
             <td class="text-truncate" style="max-width: 50px;">@Html.DisplayFor(modelItem =>item.Description)</td>
             <td>@Html.DisplayFor(modelItem =>item.Catalog.Title)</td>
         </tr>
