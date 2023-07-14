@@ -82,6 +82,16 @@ namespace BeautySalon.Constants
         public const string EDIT_DELETE_CATALOG = "This catalog can not be deleted because there are current or future appointments on some of the catalog services!";
       
         public const string CANCEL = "Cancel";
+
+        public const string USER = "User";
+
+        public const string APPROVE = "Approve";
+
+        public const string NO = "No";
+
+        public const string APPOINTMENT_APPROVED_MESSAGE = "Appointment has been approved";
+
+        public const string FILTER = "Filter";
         
 
         public const string MAKE_APPOINTMENT = "Make appointment";
@@ -145,11 +155,17 @@ namespace BeautySalon.Constants
 
         public const string CATALOGS_LABEL = "Catalogs";
 
+        public const string CATALOG_LABEL = "Catalog";
+
+        public const string SERVICE_LABEL = "Service";
+
         public const string SEARCH_LABEL = "Search";
 
         public const string MY_PROFILE_LABEL = "My profile";
         
         public const string MANAGE_CATALOGS_LABEL = "Manage Catalogs";
+
+        public const string MANAGE_APPOINTMENTS_LABEL = "Manage Appointments";
 
         public const string SELECT_CATALOG_LABEL = "Select a Catalog to edit";
 
@@ -164,6 +180,20 @@ namespace BeautySalon.Constants
         public const string NEW_CATALOG_LABEL = "New Catalog";
         
         public const string CATALOG_EDIT_LABEL = "Edit Catalog";
+
+        public const string APPOINTMENT_APPROVED_LABEL = "Approved";
+
+        public const string APPOINTMENT_CANCELED_LABEL = "Canceled";
+
+        public const string APPOINTMENT_DATE_FROM_LABEL = "Date(FROM)";
+        
+        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";
+
+        public const string PAST_FUTURE_APPOINTMENTS_LABEL = "Past/Future Appointments";
+
+        public const string FILTER_APPOINTMENTS_LABEL = "Filter Appointments";
+
+        public const string SEARCH_CATALOGS_LABEL = "Search Catalogs";
 
         #endregion
 

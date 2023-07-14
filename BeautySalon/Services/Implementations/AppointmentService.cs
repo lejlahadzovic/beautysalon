@@ -3,8 +3,10 @@ using BeautySalon.Context;
 using BeautySalon.Contracts;
 using BeautySalon.Models;
 using BeautySalon.Services.Interfaces;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
+using Microsoft.Extensions.Hosting;
 
 namespace BeautySalon.Services.Implementations
 {
@@ -97,6 +99,42 @@ namespace BeautySalon.Services.Implementations
             }
              
             return entity;
+        }
+
+        public async Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved, bool isCanceled, 
+            DateTime? dateFrom, DateTime? dateTo, string dateRange)
+        {
+            var appointments = await _dbContext.Appointments
+                .Include(u => u.User)
+                .Include(s => s.Service)
+                .Where(a =>
+                    (userId == 0 || a.UserId == userId)
+                    && (catalogId == 0 || a.Service.CatalogId == catalogId)
+                    && (serviceId == 0 || a.ServiceId == serviceId)
+                    && (a.Approved == isApproved || isApproved == false)
+                    && (a.Canceled == isCanceled || isCanceled == false)
+                    && ((a.FinishDateTime < DateTime.Today && dateRange == "past")
+                    || (a.StartDateTime >= DateTime.Today && dateRange == "future")
+                    || (string.IsNullOrEmpty(dateRange)))
+                    && (dateFrom == null || a.StartDateTime >= dateFrom)
+                    && (dateTo == null || a.FinishDateTime <= dateTo))
+                .ToListAsync();
+
+            return _mapper.Map<List<AppointmentVM>>(appointments);
+        }
+
+        public Task Approve(Appointment appointment)
+        {
+            appointment.Approved = true;
+            _dbContext.Update(appointment);
+            _dbContext.SaveChanges();
+            return Task.CompletedTask;
+        }
+
+        public async Task<Appointment> GetById(int appointmentId)
+        {
+            var appointment = await _dbContext.Appointments.FindAsync(appointmentId);
+            return appointment;
         }
     }
 }

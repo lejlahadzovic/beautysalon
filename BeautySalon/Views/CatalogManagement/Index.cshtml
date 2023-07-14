@@ -9,6 +9,7 @@
         <div class="row">
             <div class="col-md-6">
                 <form>
+                    <h5>@Messages.SEARCH_CATALOGS_LABEL</h5>
                     <div class="input-group">
                         <input type="text" asp-action="Index" asp-controller="CatalogManagement" class="form-control" name="catalogName" placeholder="Search" aria-label="Search" />
                         <div class="input-group-append">
@@ -22,6 +23,9 @@
 </div>
 <div class="mb-2 d-flex justify-content-end">
     <a class="btn btn-success" href="@Url.Action("Create", "CatalogManagement")" role="button">@Messages.NEW_CATALOG_LABEL</a>
+</div>
+<div class="text-center">
+    <h4>@Messages.MANAGE_CATALOGS_LABEL</h4>
 </div>
 <div class="table-responsive" style="overflow:auto; max-height:70vh;">
     <table class="table table-hover">

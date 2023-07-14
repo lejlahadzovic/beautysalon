@@ -36,6 +36,12 @@ namespace BeautySalon.Services.Implementations
             return _mapper.Map<User>(list);
         }
 
+        public async Task<List<UserVM>> GetUsers()
+        {
+            var users = await _dbContext.Users.ToListAsync();
+            return _mapper.Map<List<UserVM>>(users);
+        }
+
         public async Task<User> Insert(UserVM insert)
         {
             var set = _dbContext.Users;
