@@ -1,0 +1,131 @@
+﻿@model BeautySalon.Contracts.CatalogVM
+@using BeautySalon.Constants
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string action = Model?.Id != 0 ? "Edit" : "Create";
+    string source = string.IsNullOrEmpty(Model.ImageFileString) ? "/beauty.png" : $"/{Model.ImageFileString}";
+}
+
+<section class="vh-100 gradient-custom" style="margin-bottom:300px;">
+    <div class="container py-5 h-100">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-12 col-lg-9 col-xl-7">
+                <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+                    <div class="card-body p-4 p-md-4">
+                        @if (TempData["MessageFail"] != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <h5>@TempData["MessageFail"]</h5>
+                            </div>
+                        }
+                        @if (action == "Edit")
+                        {
+                            <h3 class="pb-2 pb-md-0 mb-md-1 text-center">@Messages.CATALOG_EDIT_LABEL</h3>
+                        }
+                        else
+                        {
+                            <h3 class="pb-2 pb-md-0 mb-md-1 text-center">@Messages.NEW_CATALOG_LABEL</h3>
+                        }
+                        <br />
+                        <form id="edit_service_form" action="@Url.Action(action, "CatalogManagement")" method="post" enctype="multipart/form-data">
+                            <div class="mb-4 d-flex justify-content-end">
+                                <input class="btn btn-success" style="margin-right:5px;" type="submit" value="@Messages.SAVE" />
+                                @if (action == "Edit")
+                                {
+                                    <button class="btn btn-danger" style="margin-right:5px;" type="button" id="deleteItem" data-target="#modalDelete" data-toggle="modal"
+                                            data-path="@Url.Action("Delete", "CatalogManagement", new {catalogId = Model.Id})">
+                                        @Messages.DELETE
+                                    </button>
+                                }
+                                <input class="btn btn-secondary" type="submit" asp-controller="CatalogManagement" asp-action="Index" value="@Messages.BACK" />
+                            </div>
+                            <div class="mb-2">
+                                <center>
+                                    <img src="~/images/@source" id="imgViewer" alt="Catalog Image" class="img-thumbnail mx-auto responsive" />
+                                </center>
+                            </div>
+                            <div class="mb-4">
+                                <div class="form-outline">
+                                    <label class="form-label">@Messages.CATALOG_PHOTO_LABEL</label>
+                                    <input type="file" id="uploadFile" name="UploadFile" placeholder="UploadFile" class="form-control form-control-lg"
+                                           onchange="document.getElementById('imgViewer').src = window.URL.createObjectURL(this.files[0])" />
+                                </div>
+                            </div>
+                            <div class="mb-4" hidden>
+
+                                <input type="text" id="catalogId" name="Id" placeholder="Id" class="form-control form-control-lg" value="@Model.Id" />
+
+                            </div>
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="Title">@Messages.CATALOG_TITLE_LABEL</label>
+                                    <input type="text" id="catalogTitle" name="Title" placeholder="Title" class="form-control form-control-lg" value="@Model.Title" />
+                                    <span asp-validation-for="Title" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="Type">@Messages.CATALOG_TYPE_LABEL</label>
+                                    <input type="text" id="catalogType" name="Type" placeholder="Type" class="form-control form-control-lg" value="@Model.Type" />
+                                    <span asp-validation-for="Type" class="text-danger"></span>
+                                </div>
+
+                            </div>
+                            <div class="mb-4">
+
+                                <div class="form-outline">
+                                    <label class="form-label" for="catalogDescription">@Messages.CATALOG_DESCRIPTION_LABEL</label>
+                                    <textarea id="catalogDescription" name="Description" placeholder="Description" class="form-control form-control-lg" rows="5">@Model.Description</textarea>
+                                    <span asp-validation-for="Description" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script src="~/lib/jquery//dist/jquery.js"></script>
+    <script type="text/javascript">
+        var pathToDelete;
+
+        $('#deleteItem').on('click', function (e) {
+            $('#modalDelete').modal('show');
+            pathToDelete = $(this).data('path');
+        });
+        $('#closeBtn').on('click', function () {
+            $('#modalDelete').modal('toggle');
+        });
+        $('#cancelBtn').on('click', function () {
+            $('#modalDelete').modal('toggle');
+        });
+        $("#btnContinueToDelete").click(function () {
+            window.location = pathToDelete;
+        });
+    </script>
+}
+
+<div class="modal fade" id="modalDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:black; color:white;">
+                <h5 class="modal-title" id="exampleModalLongTitle">@Messages.DELETE_CONFIRMATION_CATALOG</h5>
+                <button type="button" id="closeBtn" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <button type="submit" id="btnContinueToDelete" class="btn btn-danger">@Messages.DELETE</button>
+                <button type="button" id="cancelBtn" class="btn btn-secondary" data-dismiss="modal">@Messages.CANCEL</button>
+            </div>
+        </div>
+    </div>
+</div>

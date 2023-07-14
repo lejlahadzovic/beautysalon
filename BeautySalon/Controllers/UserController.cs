@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 
 namespace BeautySalon.Controllers
 {

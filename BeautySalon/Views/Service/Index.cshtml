@@ -4,22 +4,25 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int catalogId = Model.CatalogId;
 }
 <div class="container text-center p-2">
     <h2 style="text-align:center">@Model.Title</h2>
     <h3 style="text-align:center">@Messages.SERVICES_LABEL</h3>
- </div>
+</div>
 
-    <div class="mb-3 mx-auto">
-            @using (Html.BeginForm("Index", "Service", FormMethod.Get, new {@class="w-50 mx-auto"}))
-            {
-                @Html.Hidden("catalogId")
-                <div class="input-group w-100">
-                @Html.TextBox("name", null, new {@style="width:75%; border:none; background-color:lightgray;"})
-                <input type="submit" class="form-control" placeholder="Search" value="@Messages.SEARCH_LABEL" aria-label="Search" aria-describedby="search-addon" />
-                </div>
-            }
-    </div>
+<div class="mb-3 mx-auto">
+    @using (Html.BeginForm("Index", "Service", FormMethod.Get, new { @class = "w-50 mx-auto" }))
+    {
+        @Html.Hidden("catalogId")
+        <div class="input-group">
+            <input type="text" name="name" class="form-control" placeholder="Search" aria-label="Search" aria-describedby="search-addon" />
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-secondary">@Messages.SEARCH_LABEL</button>
+            </div>
+        </div>
+    }
+</div>
 <div class="column">
     @foreach(var item in Model.Services)
         {
