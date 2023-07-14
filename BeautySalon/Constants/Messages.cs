@@ -88,6 +88,8 @@ namespace BeautySalon.Constants
         public const string NO = "No";
 
         public const string APPOINTMENT_APPROVED_MESSAGE = "Appointment has been approved";
+
+        public const string FILTER = "Filter";
         
         #region LABELS
 
@@ -127,6 +129,10 @@ namespace BeautySalon.Constants
 
         public const string CATALOGS_LABEL = "Catalogs";
 
+        public const string CATALOG_LABEL = "Catalog";
+
+        public const string SERVICE_LABEL = "Service";
+
         public const string SEARCH_LABEL = "Search";
 
         public const string MY_PROFILE_LABEL = "My profile";
@@ -155,7 +161,13 @@ namespace BeautySalon.Constants
 
         public const string APPOINTMENT_DATE_FROM_LABEL = "Date(FROM)";
         
-        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";     
+        public const string APPOINTMENT_DATE_TO_LABEL = "Date(TO)";
+
+        public const string PAST_FUTURE_APPOINTMENTS_LABEL = "Past/Future Appointments";
+
+        public const string FILTER_APPOINTMENTS_LABEL = "Filter Appointments";
+
+        public const string SEARCH_CATALOGS_LABEL = "Search Catalogs";
 
         #endregion
 

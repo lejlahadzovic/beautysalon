@@ -6,24 +6,41 @@
 }
 <form asp-controller="AppointmentManagement" asp-action="Index">
     <div class="form-row mt-2">
+        <h5>@Messages.FILTER_APPOINTMENTS_LABEL</h5>
         <div class="input-group">
             <div class="form-inline p-1">
-                @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select user", new {@class = "form-select"})
+                <label><small>@Messages.USER</small></label>
+                @Html.DropDownList("userId", (SelectList)ViewBag.Users, "Select", new {@class = "form-select"})
             </div>
             <div class="form-inline p-1">
-                @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Select catalog", new {@class = "form-select"})
+                <label><small>@Messages.CATALOG_LABEL</small></label>
+                @Html.DropDownList("catalogId", (SelectList)ViewBag.Catalogs, "Select", new {@class = "form-select"})
             </div>
             <div class="form-inline p-1">
-                @Html.DropDownList("serviceId", (SelectList)ViewBag.Services, "Select service", new {@class = "form-select"})
+                <label><small>@Messages.SERVICE_LABEL</small></label>
+                @Html.DropDownList("serviceId", (SelectList)ViewBag.Services, "Select", new {@class = "form-select"})
             </div>
             <div class="form-inline p-1">
+                <label><small>@Messages.PAST_FUTURE_APPOINTMENTS_LABEL</small></label>
                 @Html.DropDownList("dateRange", new List<SelectListItem>
                 {
                 new SelectListItem { Text = "Past", Value = "past"},
                 new SelectListItem {Text = "Future", Value = "future"}
-                }, "Select date range", new {@class = "form-select"})
+                }, "Select", new {@class = "form-select"})
             </div>
+        </div>
+        <div class="input-group">
             <div class="form-group">
+                <div class="form-inline datepicker p-1">
+                    <label><small>@Messages.APPOINTMENT_DATE_FROM_LABEL</small></label>
+                    <input type="date" name="dateFrom" class="form-control" />
+                </div>
+                <div class="form-inline datepicker p-1">
+                    <label><small>@Messages.APPOINTMENT_DATE_TO_LABEL</small></label>
+                    <input type="date" name="dateTo" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group p-3">
                 <div class="form-inline p-1">
                     <div class="form-check">
                         <input class="form-check-input" type="checkbox" name="isApproved" value="true" />
@@ -36,28 +53,22 @@
                         <label class="form-check-label">@Messages.APPOINTMENT_CANCELED_LABEL</label>
                     </div>
                 </div>
+                <div class="p-2 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-dark">@Messages.FILTER</button>
+                </div>
             </div>
-            <div class="form-inline datepicker p-1">
-                <input type="date" name="dateFrom" class="form-control" />
-                <label>@Messages.APPOINTMENT_DATE_FROM_LABEL</label>
-            </div>
-            <div class="form-inline datepicker p-1">
-                <input type="date" name="dateTo" class="form-control" />
-                <label>@Messages.APPOINTMENT_DATE_TO_LABEL</label>
-            </div>
-
-        </div>
-        <div class="mb-1 d-flex justify-content-end">
-            <button type="submit" class="btn btn-dark">@Messages.SEARCH_LABEL</button>
         </div>
     </div>
 </form>
 @if (TempData["ApprovedMessage"] != null)
 {
-    <div class="alert alert-success" role="alert">
+    <div class="alert alert-success">
         <h5>@TempData["ApprovedMessage"]</h5>
     </div>
 }
+<div class="text-center">
+<h4>@Messages.MANAGE_APPOINTMENTS_LABEL</h4>
+</div>
 <div class="table-responsive mt-2" style="overflow:auto; max-height:70vh;">
     <table class="table table-hover">
         <thead class="table-dark" style="position: sticky; top:0;">
