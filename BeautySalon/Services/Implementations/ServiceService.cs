@@ -49,7 +49,7 @@ namespace BeautySalon.Services.Implementations
             return appointment;
         }
 
-        public async Task<List<ServiceVM>> Get(string name, int catalogId)
+        public async Task<List<ServiceVM>> Get(int catalogId, string name = "")
         {
             var list =new List<Service>();
             list=await _dbContext.Services.Where(s => (s.CatalogId == catalogId || catalogId == 0)
