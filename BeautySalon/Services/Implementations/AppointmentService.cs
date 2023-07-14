@@ -48,12 +48,12 @@ namespace BeautySalon.Services.Implementations
             return _mapper.Map<List<AppointmentVM>>(appointments);
         }
 
-        public async Task<int> CountAppointments(DateTime dateTime, int serviceId)
+        public int CountAppointments(DateTime dateTime, int serviceId)
         {
-            var appointments = await _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime)
+            var appointments = _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime)
             || (DateTime.Compare(x.StartDateTime, dateTime) < 0 && DateTime.Compare(x.FinishDateTime, dateTime) > 0)
             || (DateTime.Compare(x.StartDateTime, dateTime.AddMinutes(x.Service.Duration)) < 0
-            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).CountAsync();
+            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).Count();
 
             return appointments;
         }
@@ -62,12 +62,8 @@ namespace BeautySalon.Services.Implementations
         {
             var service=_dbContext.Services.Where(x=>x.Id== serviceId).FirstOrDefault();
             var user = _dbContext.Users.Where(x => x.Id == userId).FirstOrDefault();
-            var appointments = await _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime)
-            || (DateTime.Compare(x.StartDateTime, dateTime) < 0 && DateTime.Compare(x.FinishDateTime, dateTime) > 0)
-            || (DateTime.Compare(x.StartDateTime, dateTime.AddMinutes(x.Service.Duration)) < 0
-            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).ToListAsync();
-
-            if (appointments.Count == 0)
+            int appointments = CountAppointments(dateTime, serviceId);
+            if (appointments == 0)
             {
                 Appointment entity = new Appointment();
                 entity.UserId = userId;
@@ -75,11 +71,11 @@ namespace BeautySalon.Services.Implementations
                 entity.ServiceId = serviceId;
                 entity.Service = service;
                 entity.StartDateTime = dateTime;
-                entity.FinishDateTime = dateTime;
+                entity.FinishDateTime = dateTime.AddMinutes(service.Duration);
                 entity.Approved = false;
                 entity.Canceled = false;
-                await _dbContext.Appointments.AddAsync(entity);
-                await _dbContext.SaveChangesAsync();
+                _dbContext.Appointments.Add(entity);
+                _dbContext.SaveChanges();
 
                 return _mapper.Map<AppointmentVM>(entity);
             }
