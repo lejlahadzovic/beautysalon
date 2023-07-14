@@ -101,7 +101,6 @@ namespace BeautySalon.Services.Implementations
             return entity;
         }
 
-        
         public async Task<List<AppointmentVM>> GetAppointments(int userId, int catalogId, int serviceId, bool isApproved, bool isCanceled, 
             DateTime? dateFrom, DateTime? dateTo, string dateRange)
         {
