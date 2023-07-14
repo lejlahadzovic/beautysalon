@@ -102,8 +102,6 @@ namespace BeautySalon.Constants
 
         public const string APPOINTMENT_NOT_CREATED = "Appointment was not successfully created.";
 
-        public const string CANCEL = "Cancel";
-
         public const string SHOW_SERVICE = "Show service";
 
         public const string APPOINTMENT_NOT_CANCELED = "Appointment not successfully canceled!";

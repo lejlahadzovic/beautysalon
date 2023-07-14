@@ -60,18 +60,25 @@ namespace BeautySalon.Services.Implementations
 
         public async Task<AppointmentVM> Create(int userId,DateTime dateTime,int serviceId)
         {
-            int appointments = await CountAppointments(dateTime, serviceId);
+            var service=_dbContext.Services.Where(x=>x.Id== serviceId).FirstOrDefault();
+            var user = _dbContext.Users.Where(x => x.Id == userId).FirstOrDefault();
+            var appointments = await _dbContext.Appointments.Where(x => x.ServiceId == serviceId && (x.StartDateTime.Equals(dateTime)
+            || (DateTime.Compare(x.StartDateTime, dateTime) < 0 && DateTime.Compare(x.FinishDateTime, dateTime) > 0)
+            || (DateTime.Compare(x.StartDateTime, dateTime.AddMinutes(x.Service.Duration)) < 0
+            && DateTime.Compare(x.FinishDateTime, dateTime.AddMinutes(x.Service.Duration)) > 0))).ToListAsync();
 
-            if (appointments == 0)
+            if (appointments.Count == 0)
             {
                 Appointment entity = new Appointment();
                 entity.UserId = userId;
+                entity.User = user;
                 entity.ServiceId = serviceId;
+                entity.Service = service;
                 entity.StartDateTime = dateTime;
-                entity.FinishDateTime = dateTime.AddMinutes(entity.Service.Duration);
+                entity.FinishDateTime = dateTime;
                 entity.Approved = false;
-                entity.Service = _dbContext.Services.Where(x => x.Id.Equals(serviceId)).First();
-                _dbContext.Appointments.Add(entity);
+                entity.Canceled = false;
+                await _dbContext.Appointments.AddAsync(entity);
                 await _dbContext.SaveChangesAsync();
 
                 return _mapper.Map<AppointmentVM>(entity);
